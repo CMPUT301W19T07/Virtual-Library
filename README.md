@@ -13,4 +13,4 @@ In general, a user can be both an owner of their own books and a borrower of som
 <br><br>
 _Source: University of Alberta eCLass CMPUT 301 Project Problem Description_
 <br>
-# See our _[Wiki](https://github.com/CMPUT301W19T07/Virtual-Library/wiki)_ for project deliverables
+## See our _[Wiki](https://github.com/CMPUT301W19T07/Virtual-Library/wiki)_ for project deliverables
