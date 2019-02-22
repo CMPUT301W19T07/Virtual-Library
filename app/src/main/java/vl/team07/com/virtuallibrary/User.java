@@ -12,20 +12,14 @@ package vl.team07.com.virtuallibrary;
 
 public class User {
     private String Username;
-    private String Password;
     private String Email;
 
-    public User(String username, String password, String email) {
+    public User(String username, String email) {
         Username=username;
-        Password=password;
         Email=email;
     }
 
     public String getUsername() {
         return Username;
-    }
-
-    public String getPassword() {
-        return Password;
     }
 }

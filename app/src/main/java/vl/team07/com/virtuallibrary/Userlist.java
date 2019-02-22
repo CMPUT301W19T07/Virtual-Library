@@ -29,7 +29,7 @@ public class Userlist {
         }
         return false;
     }
-
+/*
     public boolean checkpassword(String Utest, String Ptest) {
         for (int i = 0; i < data.size(); i++){
             if(data.get(i).getUsername().equals(Utest)){
@@ -40,7 +40,7 @@ public class Userlist {
         }
         return false;
     }
-
+*/
     public boolean UniqueUsername(String test) {
         for (int i = 0; i < data.size(); i++){
             if(data.get(i).getUsername().equals(test)){

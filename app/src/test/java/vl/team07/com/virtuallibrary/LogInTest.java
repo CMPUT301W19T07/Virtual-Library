@@ -10,13 +10,7 @@
 
 package vl.team07.com.virtuallibrary;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import org.junit.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 public class LogInTest {
@@ -26,12 +20,14 @@ public class LogInTest {
         Userlist Tdata = new Userlist();
     String test = "Username";
     boolean found = false;
-    Tdata.addUser(new User("Username","Password","Email@test.com"));
-    Tdata.addUser(new User("Username2","Password2","Email2@test.com"));
+    Tdata.addUser(new User("Username","Email@test.com"));
+    Tdata.addUser(new User("Username2","Email2@test.com"));
     found = Tdata.checkusername(test);
     assertTrue(found);
     }
-
+/*
+    Apparently the accounts do not need passwords
+    Keep this code around just in case that gets changed
     @Test
     public void checkpassword(){
         Userlist Tdata = new Userlist();
@@ -43,4 +39,5 @@ public class LogInTest {
         found = Tdata.checkpassword(Utest,Ptest);
         assertTrue(found);
     }
+*/
 }
