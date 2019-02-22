@@ -1,5 +1,5 @@
 /*
- * Copyright <2019-1-23> <Ronghui Shao>
+ * Copyright <2019-2-22> <Ronghui Shao>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -43,6 +43,10 @@ public class RequestProcessor {
         this.requestors = requestors;
     }
 
+    public void addRequestor(String user) {
+        getRequestors().add(user);
+    }
+
     public String getLender() {
         return lender;
     }
@@ -51,24 +55,12 @@ public class RequestProcessor {
         this.lender = lender;
     }
 
-    public void lendBook() {
+    public void requestSent() {
         getStatus().setBookStatus("available");
-    }
-
-    public void confirmBorrowed() {
-        getStatus().setBookStatus("borrowed");
     }
 
     public void returnBook() {
-        getStatus().setBookStatus("borrowed");
-    }
-
-    public void confirmReturned() {
         getStatus().setBookStatus("available");
-    }
-
-    public void addRequestor(String user) {
-        getRequestors().add(user);
     }
 
     public void acceptRequest(String name) {

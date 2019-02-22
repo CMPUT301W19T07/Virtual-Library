@@ -21,21 +21,12 @@ public class RequestProcessorTest {
     private Status status;
 
     @Test
-    public void testLendBook(){
+    public void testRequestSent(){
         status = new Status();
         requestProcessor = new RequestProcessor(status);
         requestProcessor.getStatus().setBookStatus("available");
-        requestProcessor.lendBook();
+        requestProcessor.requestSent();
         assertEquals(requestProcessor.getStatus().getBookStatus(), "available");
-    }
-
-    @Test
-    public void testConfirmBorrowed(){
-        status = new Status();
-        requestProcessor = new RequestProcessor(status);
-        requestProcessor.getStatus().setBookStatus("available");
-        requestProcessor.confirmBorrowed();
-        assertEquals(requestProcessor.getStatus().getBookStatus(), "borrowed");
     }
 
     @Test
@@ -44,15 +35,6 @@ public class RequestProcessorTest {
         requestProcessor = new RequestProcessor(status);
         requestProcessor.getStatus().setBookStatus("borrowed");
         requestProcessor.returnBook();
-        assertEquals(requestProcessor.getStatus().getBookStatus(), "borrowed");
-    }
-
-    @Test
-    public void testConfirmReturned(){
-        status = new Status();
-        requestProcessor = new RequestProcessor(status);
-        requestProcessor.getStatus().setBookStatus("borrowed");
-        requestProcessor.confirmReturned();
         assertEquals(requestProcessor.getStatus().getBookStatus(), "available");
     }
 
