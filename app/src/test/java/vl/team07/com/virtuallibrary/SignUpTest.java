@@ -20,8 +20,8 @@ public class SignUpTest {
         Userlist Tdata = new Userlist();
         String test = "Username3";
         boolean found = false;
-        Tdata.addUser(new User("Username","Email@test.com"));
-        Tdata.addUser(new User("Username2","Email2@test.com"));
+        Tdata.addUser(new User("Username", "User","Email@test.com"));
+        Tdata.addUser(new User("Username2","User2","Email2@test.com"));
         found = Tdata.UniqueUsername(test);
         assertFalse(found);
     }
