@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VirtualLibrary</string>
+    <string name="title_activity_example">Example</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_add_book">Add Book</string>
 </resources>
