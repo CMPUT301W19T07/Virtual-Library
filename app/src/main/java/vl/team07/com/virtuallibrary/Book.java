@@ -20,8 +20,8 @@ public class Book {
 
     private String Title;
     private String Author;
-    private String ISBN;
-    private String Owner;
+    private int ISBN;
+    private User Owner;
     private BookStatus Status;
     private String Description;
     private String SearchString;
@@ -31,14 +31,14 @@ public class Book {
 
         this.Title = "";
         this.Author = "";
-        this.ISBN = "";
-        this.Owner = "";
+        this.ISBN = 0;
+        this.Owner = null;
         this.Status = BookStatus.AVAILABLE;
         this.Description = "";
         this.SearchString = "";
     }
 
-    public Book(String title, String author, String isbn, String owner, BookStatus status, String description, String searchString){
+    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString){
 
         this.Title = title;
         this.Author = author;
@@ -61,9 +61,9 @@ public class Book {
 
     public void setAuthor(String inputAuthor){this.Author = inputAuthor;}
 
-    public void setISBN(String inputISBN){this.ISBN = inputISBN;}
+    public void setISBN(int inputISBN){this.ISBN = inputISBN;}
 
-    public void setOwner(String inputOwner){this.Owner = inputOwner;}
+    public void setOwner(User inputOwner){this.Owner = inputOwner;}
 
     public void setStatus(BookStatus inputStatus){this.Status = inputStatus;}
 
@@ -75,9 +75,9 @@ public class Book {
 
     public String getAuthor(){return this.Author;}
 
-    public String getISBN(){return this.ISBN;}
+    public int getISBN(){return this.ISBN;}
 
-    public String getOwner(){return this.Owner;}
+    public User getOwner(){return this.Owner;}
 
     public BookStatus getStatus(){return this.Status;}
 
