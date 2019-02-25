@@ -1,7 +1,8 @@
 /*
- * Class Name
+ * Class Name : User
  *
- * Date of Initiation
+ * Date of Initiation: 23rd of February
+ *
  *
  * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
  * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
@@ -25,15 +26,11 @@ public class User {
     private int ContactInfo;    // Phone number
     private String Address;
 
-    public User(){
-        this.UserName = "";
-        this.Name = "";
-        this.Password = 0;
-        this.Email = "";
-        this.Age = 0;
-        this.Nationality = "";
-        this.ContactInfo = 0;
-        this.Address = "";
+    //neccesary attributes to initialize user class are username, name and, email
+    public User(String username, String name, String email) {
+        this.Username=username;
+        this.Name = name;
+        this.Email=email;
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
