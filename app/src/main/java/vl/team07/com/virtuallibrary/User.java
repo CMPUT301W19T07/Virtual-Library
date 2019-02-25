@@ -1,8 +1,7 @@
 /*
- * Class Name : User
+ * User Class
  *
- * Date of Initiation: 23rd of February
- *
+ * February 19, 2019
  *
  * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
  * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
@@ -77,3 +76,4 @@ public class User {
     public String getAddress(){return this.Address;}
 
 }
+
