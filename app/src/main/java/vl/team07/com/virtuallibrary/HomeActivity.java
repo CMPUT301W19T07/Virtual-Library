@@ -21,36 +21,35 @@ import org.w3c.dom.Text;
 
 public class HomeActivity extends AppCompatActivity {
 
-
-    private TextView TextMessage;
-
-    private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    TextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    TextMessage.setText(R.string.title_search);
-                    return true;
-                case R.id.navigation_notifications:
-                    TextMessage.setText(R.string.title_add_book);
-                    return true;
-            }
-            return false;
-        }
-    };
+//
+//    private TextView TextMessage;
+//
+//    private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.navigation_home:
+//                    TextMessage.setText(R.string.title_home);
+//                    return true;
+//                case R.id.navigation_dashboard:
+//                    TextMessage.setText(R.string.title_search);
+//                    return true;
+//                case R.id.navigation_notifications:
+//                    TextMessage.setText(R.string.title_add_book);
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        TextMessage = (TextView) findViewById(R.id.textView);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationView);
-        navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
+//
+//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationView);
+//        navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
     }
 }

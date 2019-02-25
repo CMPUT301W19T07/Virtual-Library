@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class Review {
 
-    private String Reviewer;
+    private User Reviewer;
     private double Rating;
     private String Comment;
     private Book ReviewedBook;
@@ -32,15 +32,15 @@ public class Review {
 
     public Review(Book reviewedBook, User reviewer){
         this.ReviewedBook = reviewedBook;
-        this.Reviewer = reviewer.getName();
+        this.Reviewer = reviewer;
     }
 
     public void setReviewer(User reviewer){
-        this.Reviewer = reviewer.getName();
+        this.Reviewer = reviewer;
     }
 
     public String getReviewer(){
-        return this.Reviewer;
+        return this.Reviewer.getName();
     }
     public void setRating(double rating){
         if(rating >= 0.0 && rating <= 5.0){
