@@ -97,7 +97,6 @@ public class BookInfoTest {
         reviewList.add(review2);
 
         double avgRating = 4.5;
-
         double reviewAvgRating = review.getAverageRating(reviewList);
 
         assertEquals(avgRating, reviewAvgRating, 0.001);
