@@ -1,5 +1,5 @@
 /*
- * Copyright <2019-2-22> <Ronghui Shao>
+ * Copyright <2019-1-23> <Ronghui Shao>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -10,26 +10,25 @@
 
 package vl.team07.com.virtuallibrary;
 
-public class Status {
-    private String bookStatus;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 
-    public Status() {
+public class ReceiveTest {
+    private Receive receive;
+    private User Requester;
+    private Book RequestedBook;
+    private BookStatus Status;
+
+    @Test
+    public void testConfirmReceive(){
+        Status = BookStatus.AVAILABLE;
+        Requester = new User("ronghuishao", "ronghui", 123, "ronghui1@ualberta.ca", 21, "Canada", 780, "hub");
+        RequestedBook = new Book("Times", "jr", 123, Requester, Status, "Good", "Time");
+        receive = new Receive(Requester,RequestedBook);
+        receive.confirmReceive();
+        assertEquals(RequestedBook.getStatus(), Status.AVAILABLE);
+
 
     }
-
-    public Status(String bookStatus){
-        this.bookStatus = bookStatus;
-
-    }
-
-    public String getBookStatus() {
-        return bookStatus;
-    }
-
-    public void setBookStatus(String bookStatus) {
-        this.bookStatus = bookStatus;
-    }
-
-
 }
