@@ -74,6 +74,4 @@ public class User {
     public int getContactInfo(){return this.ContactInfo;}
 
     public String getAddress(){return this.Address;}
-
 }
-

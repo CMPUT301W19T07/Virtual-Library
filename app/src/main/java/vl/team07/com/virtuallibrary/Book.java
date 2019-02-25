@@ -86,4 +86,3 @@ public class Book {
     public String getSearchString(){return this.SearchString;}
 
 }
-
