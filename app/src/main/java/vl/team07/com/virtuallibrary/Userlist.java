@@ -23,7 +23,7 @@ public class Userlist {
 
     public boolean checkusername(String test) {
         for (int i = 0; i < data.size(); i++){
-            if(data.get(i).getUsername().equals(test)){
+            if(data.get(i).getUserName().equals(test)){
                 return true;
             }
         }
@@ -43,7 +43,7 @@ public class Userlist {
 */
     public boolean UniqueUsername(String test) {
         for (int i = 0; i < data.size(); i++){
-            if(data.get(i).getUsername().equals(test)){
+            if(data.get(i).getUserName().equals(test)){
                 return true;
             }
         }
