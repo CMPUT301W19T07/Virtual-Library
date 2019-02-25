@@ -83,7 +83,6 @@ public class BookValidatorTest {
         assertFalse(notOwner);
     }
 
-
     @Test
     public void getReviewer(){
         Review review = new Review(testBook,user);

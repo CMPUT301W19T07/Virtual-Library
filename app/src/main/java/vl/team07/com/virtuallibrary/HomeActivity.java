@@ -48,8 +48,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-//
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationView);
-//        navigation.setOnNavigationItemSelectedListener(OnNavigationItemSelectedListener);
+
     }
 }
