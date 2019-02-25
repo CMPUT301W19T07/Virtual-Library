@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 public class BookTest {
 
-    private User user = new User();
+    private User user = new User("User Name", "Name", "Email@test.com");
     private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN");
 
 

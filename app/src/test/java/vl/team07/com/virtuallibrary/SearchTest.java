@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class SearchTest {
 
-    private User user = new User();
+    private User user = new User("Username", "Name","Email@test.com");
     private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN");
     private Search testSearch = new Search();
     private BookList testBookList = new BookList();
