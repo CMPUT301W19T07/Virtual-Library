@@ -20,8 +20,8 @@ public class UserTest {
     @Test
     public void testSetUsername(){
         String newUsername = "NewUsername";
-        user.setUsername(newUsername);
-        assertEquals(newUsername, user.getUsername());
+        user.setUserName(newUsername);
+        assertEquals(newUsername, user.getUserName());
     }
 
     @Test
