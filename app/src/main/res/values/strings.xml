@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VirtualLibrary</string>
+    <string name="Welcome">Welcome To</string>
 </resources>
