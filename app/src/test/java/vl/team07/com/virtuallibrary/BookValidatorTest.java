@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 public class BookValidatorTest {
 
     private User user = new User();
-    private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN");
+    private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
     private BookValidator bookValidator = new BookValidator();
     private ArrayList<User> users = new ArrayList<>();
 
@@ -81,6 +81,14 @@ public class BookValidatorTest {
         User newOwner = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
         boolean notOwner = bookValidator.isOwned(newOwner,testBook);
         assertFalse(notOwner);
+    }
+
+    @Test
+    public void getReviewer(){
+        Review review = new Review(testBook,user);
+        user.setName("Test Name");
+        String reviewer = review.getReviewer();
+        assertEquals(reviewer, user.getName());
     }
 
 }

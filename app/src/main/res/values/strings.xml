@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">VirtualLibrary</string>
+    <string name="app_name">Virtual Library</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_search">Search</string>
+    <string name="bottom_navigation_add">Add</string>
+    <string name="bottom_navigation_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
