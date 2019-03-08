@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
-public class SignUp extends AppCompatActivity{
+public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     private String username;
     private String password;
@@ -35,10 +35,25 @@ public class SignUp extends AppCompatActivity{
         password = editText2.getText().toString();
         EditText editText3 = (EditText) findViewById(R.id.Email);
         email = editText3.getText().toString();
+        if(uniqueUsername(username)){
+            if(checkEmail(email)){
+
+            }
+        }
 
     }
 
     public void Return(){
         finish();
+    }
+
+    @Override
+    public boolean uniqueUsername(String uname) {
+        return false;
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return false;
     }
 }
