@@ -12,12 +12,33 @@ package vl.team07.com.virtuallibrary;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 
 public class SignUp extends AppCompatActivity{
+
+    private String username;
+    private String password;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+    }
+
+    public void signUp(){
+
+
+        EditText editText = (EditText) findViewById(R.id.Uname);
+        username = editText.getText().toString();
+        EditText editText2 = (EditText) findViewById(R.id.Pword);
+        password = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.Email);
+        email = editText3.getText().toString();
+
+    }
+
+    public void Return(){
+        finish();
     }
 }

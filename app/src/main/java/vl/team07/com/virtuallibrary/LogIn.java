@@ -10,15 +10,30 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 
 public class LogIn extends AppCompatActivity{
+
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+    }
+
+    public void login(){
+
+        EditText editText = (EditText) findViewById(R.id.USERNAME);
+        username = editText.getText().toString();
+    }
+
+    public void signup(){
+        Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
     }
 
 }
