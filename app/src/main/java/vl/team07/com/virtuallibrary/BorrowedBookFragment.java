@@ -29,7 +29,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View BorrowedBookView = inflater.inflate(R.layout.fragment_home, container, false);
+        View BorrowedBookView = inflater.inflate(R.layout.fragment_borrowed_book, container, false);
 
 
 

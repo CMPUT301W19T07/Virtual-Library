@@ -29,7 +29,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View MyBookView = inflater.inflate(R.layout.fragment_home, container, false);
+        View MyBookView = inflater.inflate(R.layout.fragment_my_book, container, false);
 
 
 
