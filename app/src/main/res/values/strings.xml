@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Test</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Virtual Library</string>
     <string name="bottom_navigation_home">Home</string>
     <string name="bottom_navigation_search">Search</string>
     <string name="bottom_navigation_add">Add</string>
