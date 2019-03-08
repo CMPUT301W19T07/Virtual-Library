@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">VirtualLibrary</string>
-    <string name="title_activity_example">Example</string>
+    <string name="app_name">Test</string>
     <string name="title_home">Home</string>
-    <string name="title_search">Search</string>
-    <string name="title_add_book">Add Book</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_search">Search</string>
+    <string name="bottom_navigation_add">Add</string>
+    <string name="bottom_navigation_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
