@@ -10,12 +10,17 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +30,7 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
     private String username;
     private String password;
     private String email;
+    private boolean Unique;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,6 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
     }
 
     public void signUp(){
-
 
         EditText editText = (EditText) findViewById(R.id.Uname);
         username = editText.getText().toString();
@@ -46,7 +51,16 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 myRef.child("Users").child(String.valueOf(new User(username,password,email)));
+                Toast toast3 = Toast.makeText(getApplicationContext(),"Account added. You may now log in.",Toast.LENGTH_SHORT);
+                toast3.show();
+                Return();
+            }else{
+                Toast toast = Toast.makeText(getApplicationContext(),"Email is invalid",Toast.LENGTH_SHORT);
+                toast.show();
             }
+        }else{
+            Toast toast2 = Toast.makeText(getApplicationContext(),"Username is already taken",Toast.LENGTH_SHORT);
+            toast2.show();
         }
 
     }
@@ -56,10 +70,27 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
     }
 
     @Override
-    public boolean uniqueUsername(String uname) {
+    public boolean uniqueUsername(final String uname) {
+        Unique = true;
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        return false;
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    User check = data.getValue(User.class);
+                    if(uname == check.getUsername()){
+                       Unique = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return Unique;
     }
 
     @Override
