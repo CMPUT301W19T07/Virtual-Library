@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.bottom_navigation_search:
-//                    fragment = new SearchFragment();
-//                    loadFragment(fragment);
+                    fragment = new SearchFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.bottom_navigation_add:
                     fragment = new AddBookFragment();

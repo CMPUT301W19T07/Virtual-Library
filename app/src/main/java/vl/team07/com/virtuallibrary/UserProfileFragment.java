@@ -47,6 +47,8 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View UserProfileView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
+        getActivity().setTitle("User Profile");
+
         nameText = (TextView) UserProfileView.findViewById(R.id.nameText);
         usernameText = (TextView) UserProfileView.findViewById(R.id.usernameText);
         ageText = (TextView) UserProfileView.findViewById(R.id.ageText);
