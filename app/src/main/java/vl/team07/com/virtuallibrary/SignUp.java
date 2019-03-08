@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +43,8 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
         email = editText3.getText().toString();
         if(uniqueUsername(username)){
             if(checkEmail(email)){
-
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
             }
         }
 
@@ -52,6 +56,8 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     @Override
     public boolean uniqueUsername(String uname) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
         return false;
     }
 

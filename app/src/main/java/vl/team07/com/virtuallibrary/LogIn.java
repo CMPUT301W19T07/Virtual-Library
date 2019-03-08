@@ -15,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class LogIn extends AppCompatActivity{
 
     private String username;
@@ -29,6 +32,8 @@ public class LogIn extends AppCompatActivity{
 
         EditText editText = (EditText) findViewById(R.id.USERNAME);
         username = editText.getText().toString();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
     }
 
     public void signup(){
