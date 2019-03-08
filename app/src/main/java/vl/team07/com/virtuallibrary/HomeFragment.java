@@ -37,6 +37,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
         View HomeView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        getActivity().setTitle(getResources().getText(R.string.app_name));
+
         viewPager = (ViewPager) HomeView.findViewById(R.id.HomeViewPager);
         tabLayout = (TabLayout) HomeView.findViewById(R.id.HomeTabLayout);
 
