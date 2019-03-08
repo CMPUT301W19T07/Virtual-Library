@@ -27,7 +27,7 @@ public class User {
 
     //neccesary attributes to initialize user class are username, name and, email
     public User(String username, String name, String email) {
-        this.Username=username;
+        this.UserName=username;
         this.Name = name;
         this.Email=email;
     }
