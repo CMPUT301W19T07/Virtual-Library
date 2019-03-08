@@ -22,6 +22,8 @@ public class User {
         this.Username=username;
         this.Name = name;
         this.Email=email;
+        Age = 0;
+        Nationality = null;
     }
 
     public String getUsername() {

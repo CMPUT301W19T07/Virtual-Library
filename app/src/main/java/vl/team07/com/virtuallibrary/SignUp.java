@@ -45,6 +45,7 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
             if(checkEmail(email)){
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
+                myRef.child("Users").child(String.valueOf(new User(username,password,email)));
             }
         }
 
