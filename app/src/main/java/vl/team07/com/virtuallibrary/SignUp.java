@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     private String username;
@@ -54,6 +57,13 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     @Override
     public boolean checkEmail(String email) {
-        return false;
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if(matcher.matches()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
