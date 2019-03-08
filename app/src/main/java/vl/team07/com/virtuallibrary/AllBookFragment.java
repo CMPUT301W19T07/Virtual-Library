@@ -48,9 +48,22 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
         recyclerView.setAdapter(adapter);
 
+        adapter.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.indexOfChild(v);
+                System.out.println("POSITION: "+position);
+            }
+        });
+
         TempList();
 
         return AllBookView;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
     }
 
 

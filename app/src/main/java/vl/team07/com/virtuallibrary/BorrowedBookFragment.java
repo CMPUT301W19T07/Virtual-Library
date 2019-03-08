@@ -47,6 +47,15 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
         recyclerView.setAdapter(adapter);
 
+
+        adapter.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.indexOfChild(v);
+                System.out.println("POSITION: "+position);
+            }
+        });
+
         TempList();
 
 

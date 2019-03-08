@@ -56,6 +56,7 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     private Context context;
     private ArrayList<Book> books;
+    private View.OnClickListener onClickListener;
 
     public BookRecyclerViewAdapter(Context context, ArrayList<Book> books){
         this.context = context;
@@ -66,7 +67,16 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
     @Override
     public BookHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.book_card_view, viewGroup,false);
-        return new BookHolder(view);
+        BookHolder bookHolder = new BookHolder(view);
+
+        bookHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(v);
+            }
+        });
+
+        return bookHolder;
     }
 
     @Override
@@ -79,5 +89,10 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
     public int getItemCount() {
         return books.size();
     }
+
+    public void setClickListener(View.OnClickListener onClickListener){
+        this.onClickListener = onClickListener;
+    }
+
 
 }
