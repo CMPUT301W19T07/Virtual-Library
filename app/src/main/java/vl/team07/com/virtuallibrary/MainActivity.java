@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.bottom_navigation_profile:
+                    fragment = new UserProfileFragment();
+                    loadFragment(fragment);
                     return true;
             }
             return false;

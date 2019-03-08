@@ -14,4 +14,10 @@
     <string name="enter_author">Enter Author</string>
     <string name="enter_isbn">Enter ISBN</string>
     <string name="enter_description">Enter Description (optional)</string>
+    <string name="name">Name</string>
+    <string name="user_name">Username</string>
+    <string name="age">Age</string>
+    <string name="nationality">Nationality</string>
+    <string name="contact_info">Contact Info</string>
+    <string name="address">Address</string>
 </resources>
