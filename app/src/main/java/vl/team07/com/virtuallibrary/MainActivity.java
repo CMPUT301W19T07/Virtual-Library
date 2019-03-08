@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 //                    loadFragment(fragment);
                     return true;
                 case R.id.bottom_navigation_add:
+                    fragment = new AddBookFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.bottom_navigation_profile:
                     return true;
