@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LogIn extends AppCompatActivity{
 
     private String username;
+    private static final String TAG = "LogIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class LogIn extends AppCompatActivity{
         setContentView(R.layout.login);
     }
 
-    public void login(){
+    public void login(View view){
 
         EditText editText = (EditText) findViewById(R.id.USERNAME);
         username = editText.getText().toString();
@@ -45,8 +48,15 @@ public class LogIn extends AppCompatActivity{
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     User user = data.getValue(User.class);
                     if(username == user.getUsername()){
-                        Intent intent = new Intent(this, MainPage.class);
-                        startActivityForResult(intent,0);
+                        Log.d(TAG,"Username found");
+                        CurrentUser u = CurrentUser.getInstance();
+                        u.Username = user.getUsername();
+                        u.Name = user.getName();
+                        u.Email = user.getEmail();
+                        u.Age = user.getAge();
+                        u.Nationality = user.getNationality();
+                        //Intent intent = new Intent(this, MainPage.class);
+                        //startActivityForResult(intent,0);
                     }
                 }
                 Toast toast = Toast.makeText(getApplicationContext(),"User profile not found",Toast.LENGTH_SHORT);
@@ -60,7 +70,7 @@ public class LogIn extends AppCompatActivity{
         });
     }
 
-    public void signup(){
+    public void signup(View view){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }

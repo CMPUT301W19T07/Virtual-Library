@@ -13,6 +13,7 @@ package vl.team07.com.virtuallibrary;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
 public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     private String username;
-    private String password;
+    private String name;
     private String email;
     private boolean Unique;
 
@@ -38,22 +39,22 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
         setContentView(R.layout.signup);
     }
 
-    public void signUp(){
+    public void signUp(View view){
 
         EditText editText = (EditText) findViewById(R.id.Uname);
         username = editText.getText().toString();
-        EditText editText2 = (EditText) findViewById(R.id.Pword);
-        password = editText2.getText().toString();
+        EditText editText2 = (EditText) findViewById(R.id.Name);
+        name = editText2.getText().toString();
         EditText editText3 = (EditText) findViewById(R.id.Email);
         email = editText3.getText().toString();
         if(uniqueUsername(username)){
             if(checkEmail(email)){
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child(String.valueOf(new User(username,password,email)));
+                myRef.child("Users").child(String.valueOf(new User(username,name,email)));
                 Toast toast3 = Toast.makeText(getApplicationContext(),"Account added. You may now log in.",Toast.LENGTH_SHORT);
                 toast3.show();
-                Return();
+                Return(view);
             }else{
                 Toast toast = Toast.makeText(getApplicationContext(),"Email is invalid",Toast.LENGTH_SHORT);
                 toast.show();
@@ -65,7 +66,7 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     }
 
-    public void Return(){
+    public void Return(View view){
         finish();
     }
 

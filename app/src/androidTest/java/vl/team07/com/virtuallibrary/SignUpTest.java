@@ -21,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.TestCase.*;
 
 public class SignUpTest extends ActivityTestRule<SignUp>{
 
@@ -49,8 +50,19 @@ public class SignUpTest extends ActivityTestRule<SignUp>{
 
         solo.assertCurrentActivity("Wrong Activity", SignUp.class);
 
-        
+        solo.enterText((EditText) solo.getView(R.id.Uname), "Craig Miller");
+        solo.enterText((EditText) solo.getView(R.id.Name), "Name");
+        solo.enterText((EditText) solo.getView(R.id.Email), "cjmiller@ualberta.ca");
 
+        assertTrue(activity.uniqueUsername("Test"));
+        assertTrue(activity.uniqueUsername("Craig J Miller"));
+        assertTrue(activity.checkEmail("test123@gmail.com"));
+        assertFalse(activity.checkEmail("test123gmail.com"));
+        assertFalse(activity.checkEmail("test123@gmailcom"));
+
+        solo.clickOnButton("Sign Up");
+
+        solo.assertCurrentActivity("Wrong Activity", LogIn.class);
     }
 
     @After

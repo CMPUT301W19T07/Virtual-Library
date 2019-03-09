@@ -58,11 +58,11 @@ public class User {
         this.Age = age;
     }
 
-    public String setNationality(){
+    public String getNationality(){
         return this.Nationality;
     }
 
-    public void getNationality(String nationality){
+    public void setNationality(String nationality){
         this.Nationality = nationality;
     }
 }
