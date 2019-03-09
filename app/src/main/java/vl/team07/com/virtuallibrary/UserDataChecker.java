@@ -10,8 +10,25 @@
 
 package vl.team07.com.virtuallibrary;
 
+/**
+ * The interface User data checker.
+ * Used to check if a username or email is valid.
+ */
 public interface UserDataChecker {
 
+    /**
+     * Unique username boolean.
+     * Checks if the database already has a user profile with the entered username
+     * @param uname the uname
+     * @return the boolean
+     */
     boolean uniqueUsername(String uname);
+
+    /**
+     * Check email boolean.
+     * Checks to see if a entered email is in a valid format.
+     * @param email the email
+     * @return the boolean
+     */
     boolean checkEmail(String email);
 }

@@ -10,15 +10,36 @@
 
 package vl.team07.com.virtuallibrary;
 
+/**
+ * The type Current user.
+ * Holds the data of the User currently logged in.
+ * Used for displaying the User's profile in addition to finding their books.
+ */
 public class CurrentUser {
 
     private static CurrentUser Cuser = null;
 
+    /**
+     * The Username of the User.
+     */
     public String Username;
+    /**
+     * The Email of the User.
+     */
     public String Email;
+    /**
+     * The Name of the User.
+     */
     public String Name;
+    /**
+     * The Age of the User.
+     */
     public int Age;
+    /**
+     * The Nationality of the User.
+     */
     public String Nationality;
+
 
     private CurrentUser()
     {
@@ -29,6 +50,11 @@ public class CurrentUser {
         Nationality = "";
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance of Currentuser created
+     */
     public static CurrentUser getInstance()
     {
         if (Cuser == null)

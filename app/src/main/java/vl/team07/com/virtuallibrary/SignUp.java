@@ -26,6 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Sign up.
+ * Used to create new accounts.
+ */
 public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     private String username;
@@ -39,6 +43,11 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
         setContentView(R.layout.signup);
     }
 
+    /**
+     * Sign up.
+     * Collects the data entered and after check if it is correct, adds it to the database.
+     * @param view the view
+     */
     public void signUp(View view){
 
         EditText editText = (EditText) findViewById(R.id.Uname);
@@ -49,8 +58,7 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
         email = editText3.getText().toString();
         if(uniqueUsername(username)){
             if(checkEmail(email)){
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
+                //database here
                 myRef.child("Users").child(String.valueOf(new User(username,name,email)));
                 Toast toast3 = Toast.makeText(getApplicationContext(),"Account added. You may now log in.",Toast.LENGTH_SHORT);
                 toast3.show();
@@ -66,34 +74,33 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     }
 
+    /**
+     * Return.
+     * Returns to log In.
+     * @param view the view
+     */
     public void Return(View view){
         finish();
     }
 
+    /**
+     * Implementation of the uniqueUsername method
+     */
     @Override
     public boolean uniqueUsername(final String uname) {
         Unique = true;
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
+                for(DataSnapshot data:){ //get data here
                     User check = data.getValue(User.class);
                     if(uname == check.getUsername()){
                        Unique = false;
                     }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         return Unique;
     }
 
+    /**
+     * Implementation of the checkEmail method
+     */
     @Override
     public boolean checkEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
