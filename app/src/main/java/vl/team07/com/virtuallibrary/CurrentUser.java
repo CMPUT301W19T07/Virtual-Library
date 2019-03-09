@@ -14,6 +14,9 @@ package vl.team07.com.virtuallibrary;
  * The type Current user.
  * Holds the data of the User currently logged in.
  * Used for displaying the User's profile in addition to finding their books.
+ * @author cjmiller
+ * @see SignUp
+ * @version 1.0
  */
 public class CurrentUser {
 
@@ -53,7 +56,7 @@ public class CurrentUser {
     /**
      * Gets instance.
      *
-     * @return the instance of Currentuser created
+     * @return the instance of Currentuser created. This will be the only instance of CurrentUser.
      */
     public static CurrentUser getInstance()
     {

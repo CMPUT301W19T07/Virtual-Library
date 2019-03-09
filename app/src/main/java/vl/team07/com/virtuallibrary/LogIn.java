@@ -28,6 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * The type Log in.
  * Used to enter a user profile and then record it into the system so it can be referenced later.
+ * @author cjmiller
+ * @see SignUp
+ * @version 1.0
  */
 public class LogIn extends AppCompatActivity{
 

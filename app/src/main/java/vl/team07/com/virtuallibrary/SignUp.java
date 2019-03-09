@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 /**
  * The type Sign up.
  * Used to create new accounts.
+ * @author cjmiller
+ * @see LogIn,UserDataChecker
+ * @version 1.0
  */
 public class SignUp extends AppCompatActivity implements UserDataChecker{
 
@@ -85,6 +88,8 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     /**
      * Implementation of the uniqueUsername method
+     * @param uname the string: The username needed to be checked
+     * @return Unique the boolean: True if the username is not present in the darabase
      */
     @Override
     public boolean uniqueUsername(final String uname) {
@@ -100,6 +105,8 @@ public class SignUp extends AppCompatActivity implements UserDataChecker{
 
     /**
      * Implementation of the checkEmail method
+     * @param email the string: The email the user wishes to use
+     * @return True if the email is in a valid format, otherwise false
      */
     @Override
     public boolean checkEmail(String email) {
