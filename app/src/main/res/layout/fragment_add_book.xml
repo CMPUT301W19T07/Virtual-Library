@@ -1,0 +1,114 @@
+<!--
+  ~ Class Name
+  ~
+  ~ Date of Initiation
+  ~
+  ~ Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
+  ~ You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
+  ~ You can find a copy of the license in the github wiki for this project.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="vl.team07.com.virtuallibrary.AddBookFragment">
+
+
+    <TextView
+        android:id="@+id/addTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/book_title" />
+
+    <EditText
+        android:id="@+id/enterTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/enter_title"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/addAuthorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/book_author" />
+
+    <EditText
+        android:id="@+id/enterAuthorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="144dp"
+        android:ems="10"
+        android:hint="@string/enter_author"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/addISBNView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="216dp"
+        android:text="@string/book_ISBN" />
+
+    <EditText
+        android:id="@+id/enterISBNView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="240dp"
+        android:ems="10"
+        android:hint="@string/enter_isbn"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/addDescriptionView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="312dp"
+        android:text="@string/book_description" />
+
+    <EditText
+        android:id="@+id/enterDescriptionView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="336dp"
+        android:ems="10"
+        android:hint="@string/enter_description"
+        android:inputType="textPersonName" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="384dp"
+        android:src="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="216dp"
+        android:layout_marginTop="384dp"
+        android:text="@string/bottom_navigation_add" />
+</FrameLayout>

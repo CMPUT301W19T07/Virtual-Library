@@ -10,6 +10,8 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.media.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -25,6 +27,7 @@ public class Book {
     private BookStatus Status;
     private String Description;
     private String SearchString;
+    private Image Image;
     private ArrayList<User> RequesterList = new ArrayList<>();
 
     public Book(){
@@ -36,9 +39,10 @@ public class Book {
         this.Status = BookStatus.AVAILABLE;
         this.Description = "";
         this.SearchString = "";
+        this.Image = null;
     }
 
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString){
+    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString, Image image){
 
         this.Title = title;
         this.Author = author;
@@ -47,6 +51,7 @@ public class Book {
         this.Status = status;
         this.Description = description;
         this.SearchString = searchString;
+        this.Image = image;
     }
 
     public void addRequester(User requester){
@@ -71,6 +76,8 @@ public class Book {
 
     public void setSearchString(String inputSearchString){this.SearchString = inputSearchString;}
 
+    public void setImage(Image image){this.Image = image;}
+
     public String getTitle(){return this.Title;}
 
     public String getAuthor(){return this.Author;}
@@ -84,5 +91,7 @@ public class Book {
     public String getDescription(){return  this.Description;}
 
     public String getSearchString(){return this.SearchString;}
+
+    public Image getImage(){return this.Image;}
 
 }
