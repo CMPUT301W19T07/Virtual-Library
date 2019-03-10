@@ -33,6 +33,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
@@ -42,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/BookTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/BookTitleTextView" />
 
@@ -51,24 +55,80 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/AuthorTextView"
         app:layout_constraintTop_toBottomOf="@+id/AuthorTextView" />
 
     <TextView
         android:id="@+id/DescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionIndicator" />
+
+    <TextView
+        android:id="@+id/OwnerAddressTextView"
+        android:layout_width="0dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/RequestButton"
+        app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/OwnerAddressIndicator" />
+
+    <Button
+        android:id="@+id/RequestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="REQUEST"
+        android:textColor="@color/iconWhite"
+        app:layout_constraintBaseline_toBaselineOf="@+id/OwnerAddressTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/DescriptionIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Description"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/OwnerAddressTextView"
+        android:id="@+id/OwnerAddressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Owner Address"
+        app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
+
+    <TextView
+        android:id="@+id/TopReviewsIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:text="Top Reviews"
+        app:layout_constraintStart_toStartOf="@+id/OwnerAddressTextView"
+        app:layout_constraintTop_toBottomOf="@+id/OwnerAddressTextView" />
+
+    <TextView
+        android:id="@+id/AverageReviewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
-        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewsIndicator"
+        app:layout_constraintStart_toEndOf="@+id/TopReviewsIndicator" />
+
 </android.support.constraint.ConstraintLayout>
