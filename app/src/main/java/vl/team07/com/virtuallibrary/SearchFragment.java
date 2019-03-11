@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,9 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SearchFragment extends android.support.v4.app.Fragment {
-
+    private BookRecyclerViewAdapter adapter;
+    private ArrayList<Book> allBookList;
+    private RecyclerView recyclerView;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -39,6 +46,31 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         }
 
     }
+    public void TempList(){
+
+        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+
+        Book testBook = new Book("First Book", "First Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Second Book", "Second Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        allBookList.add(testBook);
+        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        allBookList.add(testBook);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +79,12 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         View SearchView = inflater.inflate(R.layout.fragment_search, container, false);
         getActivity().setTitle("Search");
-
+        recyclerView = (RecyclerView) SearchView.findViewById(R.id.SearchRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        allBookList = new ArrayList<>();
+        adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
+        recyclerView.setAdapter(adapter);
+        TempList();
         return SearchView;
     }
 
@@ -70,6 +107,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 System.out.println("tap");
+                adapter.getFilter().filter(s);
                 return false;
             }
         });

@@ -23,13 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by MTX on 2019-03-06.
  */
 
-public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder> {
+public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder> implements Filterable   {
 
     public class BookHolder extends RecyclerView.ViewHolder{
 
@@ -59,11 +60,13 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
     private Context context;
     private ArrayList<Book> books;
+    private ArrayList<Book> booksCopy;
     private View.OnClickListener onClickListener;
 
     public BookRecyclerViewAdapter(Context context, ArrayList<Book> books){
         this.context = context;
         this.books = books;
+        booksCopy = new ArrayList<>(books);
     }
 
     @NonNull
@@ -98,9 +101,41 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
     }
 
     //test
-    public void filterList(ArrayList<Book> filteredList){
-        books = filteredList;
-        notifyDataSetChanged();
+    @Override
+    public Filter getFilter(){
+        return exampleFilter;
     }
+
+    private Filter exampleFilter = new Filter(){
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Book> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(booksCopy);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Book book : booksCopy) {
+                    if (book.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(book);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            books.clear();
+            books.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
 
 }
