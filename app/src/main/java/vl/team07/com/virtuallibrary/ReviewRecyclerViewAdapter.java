@@ -20,9 +20,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Recycler View Adapter for displaying all reviews of a book
+ *
+ * @author Preston Ling
+ * @version 1.0
+ * @since 1.0
+ */
 public class ReviewRecyclerViewAdapter extends
         RecyclerView.Adapter<ReviewRecyclerViewAdapter.ReviewHolder> {
 
+    /**
+     * Review Holder Class that initializes and sets the details of each review
+     */
     public class ReviewHolder extends RecyclerView.ViewHolder{
         private TextView Reviewer, ReviewerRating, ReviewerComment;
 

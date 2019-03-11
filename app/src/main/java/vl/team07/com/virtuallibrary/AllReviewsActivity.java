@@ -19,6 +19,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/**
+ * Activity that displays all the reviews regarding a book
+ *
+ * @author Preston Ling
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class AllReviewsActivity extends AppCompatActivity {
 
     private ArrayList<Review> ReviewList = new ArrayList<>();
@@ -42,6 +50,12 @@ public class AllReviewsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the recycler view that displays all the reviews
+     *
+     * @author Preston Ling
+     * @see ReviewRecyclerViewAdapter
+     */
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.ReviewRecyclerView);
         ReviewRecyclerViewAdapter adapter = new ReviewRecyclerViewAdapter(this, ReviewList);

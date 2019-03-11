@@ -48,7 +48,16 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
 
-
+        /**
+         *Sets the onClickListener for each item in the Recycle View
+         * and opens a book detail activity that recognizes that the clicked
+         * book is owned by the current user
+         *
+         * Initially created by tianxin3 and further developed by pling
+         *
+         * @see OwnerBookDetailsActivity
+         *
+         */
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -21,6 +21,14 @@ import android.widget.Toast;
 
 import org.w3c.dom.Comment;
 
+/**
+ * Activity that adds a review to a book
+ *
+ * @author Preston Ling
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class AddReviewActivity extends AppCompatActivity {
 
     @Override
@@ -37,6 +45,12 @@ public class AddReviewActivity extends AppCompatActivity {
 
         final Button AddReviewButton = findViewById(R.id.AddReviewButton);
 
+        /**
+         * OnClickListener for Add Review button. Checks if input within EditTexts are
+         * valid. If valid, creates a new review.
+         *
+         * @see Review
+         */
         AddReviewButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -67,6 +81,8 @@ public class AddReviewActivity extends AppCompatActivity {
                     User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
                     Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
                     Review newReview = new Review(testBook, user1);
+                    newReview.setComment(comment);
+                    newReview.setRating(Double.parseDouble(rating));
                     //TODO: add review to firebase
 
                     Context context = v.getContext();
