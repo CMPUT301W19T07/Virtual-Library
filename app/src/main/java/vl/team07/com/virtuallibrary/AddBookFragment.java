@@ -95,13 +95,10 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                         "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
 
                 book.setSearchString(SearchStringName);
-                Log.d("TEST: After onClick", book.getTitle() + book.getAuthor() + book.getDescription());
 
                 DatabaseHandler dh = new DatabaseHandler(getActivity());
                 dh.addBook(book);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("Add Book", newBook);
-//                setArguments(bundle);
+
             }
         });
 

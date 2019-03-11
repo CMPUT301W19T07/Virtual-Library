@@ -112,7 +112,7 @@ public class DatabaseHandler {
         System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
         return newBookList;
     }
-}
+
 
 //    public void retrieveAvailableBook() {
 //        databaseReference.addChildEventListener(new ChildEventListener() {
@@ -146,3 +146,13 @@ public class DatabaseHandler {
 //        });
 //    }
 
+    public void addUser(User user) {
+        databaseReference.child("Users").child(user.getUserName()).setValue(user);
+
+        Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
+    }
+
+
+}
