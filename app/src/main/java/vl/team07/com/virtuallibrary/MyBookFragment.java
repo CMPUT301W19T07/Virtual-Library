@@ -45,8 +45,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) MyBookView.findViewById(R.id.MyBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myBookList = new ArrayList<>();
-<<<<<<< HEAD
-=======
+
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
 
@@ -86,7 +85,6 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
             }
         });
->>>>>>> origin/pling
 
         TempList();
 
