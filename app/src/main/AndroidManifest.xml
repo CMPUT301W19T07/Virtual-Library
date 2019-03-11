@@ -18,10 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity"
+            
+        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AllReviewsActivity" />
+        <activity android:name=".EditBookDetailsActivity" />
+        <activity android:name=".OwnerBookDetailsActivity" />
+        <activity android:name=".NonOwnerBookDetailsActivity" />
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        
         <activity android:name=".SignUp" />
     </application>
 

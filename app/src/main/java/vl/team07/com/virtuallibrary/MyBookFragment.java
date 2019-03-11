@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -44,6 +45,48 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) MyBookView.findViewById(R.id.MyBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myBookList = new ArrayList<>();
+<<<<<<< HEAD
+=======
+        adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
+        recyclerView.setAdapter(adapter);
+
+        /**
+         *Sets the onClickListener for each item in the Recycle View
+         * and opens a book detail activity that recognizes that the clicked
+         * book is owned by the current user
+         *
+         * Initially created by tianxin3 and further developed by pling
+         *
+         * @see OwnerBookDetailsActivity
+         *
+         */
+        adapter.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.indexOfChild(v);
+                System.out.println("POSITION: "+position);
+                Book clickedBook = myBookList.get(position);
+
+                Context context = v.getContext();
+                Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                String title = clickedBook.getTitle();
+                String author = clickedBook.getAuthor();
+                int isbn = clickedBook.getISBN();
+                String ownerAddress = clickedBook.getOwner().getAddress();
+                String description = clickedBook.getDescription();
+
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+
+            }
+        });
+>>>>>>> origin/pling
 
         TempList();
 
