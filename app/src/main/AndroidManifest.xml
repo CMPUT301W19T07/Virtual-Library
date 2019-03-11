@@ -9,22 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan">
+
+        <activity
+            android:name=".LogIn" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity" />
 
-=======
-        <activity android:name=".LogIn" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity android:name=".SignUp" />
->>>>>>> origin/cjmiller
     </application>
 
 </manifest>

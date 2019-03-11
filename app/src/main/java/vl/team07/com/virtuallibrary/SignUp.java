@@ -10,6 +10,7 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,18 +48,21 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        EditText editText = (EditText) findViewById(R.id.Uname);
-        username = editText.getText().toString();
-        EditText editText2 = (EditText) findViewById(R.id.Name);
-        name = editText2.getText().toString();
-        EditText editText3 = (EditText) findViewById(R.id.Email);
-        email = editText3.getText().toString();
+
 
 
         Button signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                EditText editText = (EditText) findViewById(R.id.Uname);
+                username = editText.getText().toString();
+                EditText editText2 = (EditText) findViewById(R.id.Name);
+                name = editText2.getText().toString();
+                EditText editText3 = (EditText) findViewById(R.id.Email);
+                email = editText3.getText().toString();
+
                 User user = new User(username, name, email);
 
                 DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
@@ -96,7 +100,7 @@ public class SignUp extends AppCompatActivity {
 //            Toast toast2 = Toast.makeText(getApplicationContext(),"Username is already taken",Toast.LENGTH_SHORT);
 //            toast2.show();
 //        }
-    
+
 
     /**
      * Return.

@@ -16,14 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * The type Log in.
@@ -40,6 +36,14 @@ public class LogIn extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        Button goToSignUpButton = findViewById(R.id.goToSignUp);
+        goToSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signup(v);
+            }
+        });
     }
 
     /**
@@ -53,20 +57,20 @@ public class LogIn extends AppCompatActivity{
         EditText editText = (EditText) findViewById(R.id.USERNAME);
         username = editText.getText().toString();
 
-                for(//get firebase data here){
-                    User user = (User) "data here";
-                    if(username == user.getUsername()){
-                        CurrentUser u = CurrentUser.getInstance();
-                        u.Username = user.getUsername();
-                        u.Name = user.getName();
-                        u.Email = user.getEmail();
-                        u.Age = user.getAge();
-                        u.Nationality = user.getNationality();
-                        Intent intent = new Intent(this, MainPage.class);
-                        startActivityForResult(intent,0);
-                    }
-                Toast toast = Toast.makeText(getApplicationContext(),"User profile not found",Toast.LENGTH_SHORT);
-                toast.show();
+//                for(//get firebase data here){
+//                    User user = (User) "data here";
+//                    if(username == user.getUsername()){
+//                        CurrentUser u = CurrentUser.getInstance();
+//                        u.Username = user.getUsername();
+//                        u.Name = user.getName();
+//                        u.Email = user.getEmail();
+//                        u.Age = user.getAge();
+//                        u.Nationality = user.getNationality();
+//                        Intent intent = new Intent(this, MainPage.class);
+//                        startActivityForResult(intent,0);
+//                    }
+//                Toast toast = Toast.makeText(getApplicationContext(),"User profile not found",Toast.LENGTH_SHORT);
+//                toast.show();
     }
 
     /**
