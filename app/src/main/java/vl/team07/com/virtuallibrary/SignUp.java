@@ -68,6 +68,10 @@ public class SignUp extends AppCompatActivity {
                 DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
                 dh.addUser(user);
 
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                startActivity(intent);
+
+
             }
         });
     }

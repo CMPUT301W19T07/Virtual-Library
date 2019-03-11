@@ -146,12 +146,23 @@ public class DatabaseHandler {
 //        });
 //    }
 
+    /**
+     * This method takes in a User object and adds it to the database using the values provided
+     * during the signUp process
+     *
+     * @param user
+     * @see SignUp
+     */
     public void addUser(User user) {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
 
         Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
         toast.show();
+    }
+
+    public void addReview (Book book, Review review) {
+        databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
     }
 
 

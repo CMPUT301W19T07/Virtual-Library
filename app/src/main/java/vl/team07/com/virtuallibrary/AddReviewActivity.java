@@ -83,10 +83,12 @@ public class AddReviewActivity extends AppCompatActivity {
                     Review newReview = new Review(testBook, user1);
                     newReview.setComment(comment);
                     newReview.setRating(Double.parseDouble(rating));
-                    //TODO: add review to firebase
+                    
+                    DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                    dh.addReview(testBook, newReview);
 
                     Context context = v.getContext();
-                    CharSequence text = "Review Added";
+                    CharSequence text = "Review Added!";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);

@@ -44,6 +44,14 @@ public class LogIn extends AppCompatActivity{
                 signup(v);
             }
         });
+
+        Button logInButton = findViewById(R.id.logInButton);
+        logInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login(v);
+            }
+        });
     }
 
     /**
@@ -56,6 +64,11 @@ public class LogIn extends AppCompatActivity{
 
         EditText editText = (EditText) findViewById(R.id.USERNAME);
         username = editText.getText().toString();
+
+        if (username.equalsIgnoreCase("test")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
 
 //                for(//get firebase data here){
 //                    User user = (User) "data here";
