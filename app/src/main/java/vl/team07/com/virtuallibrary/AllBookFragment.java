@@ -15,11 +15,19 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,7 +38,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> allBookList;
+    private ArrayList<Book> availableBookList;
+    private ArrayList<Book> borrowedBookList;
+    private ArrayAdapter<Book> arrayAdapter;
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    private final String BOOK_PARENT = "All Books";
 
     public AllBookFragment() {
         // Required empty public constructor
@@ -45,6 +60,8 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) AllBookView.findViewById(R.id.AllBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         allBookList = new ArrayList<>();
+        availableBookList = new ArrayList<>();
+        borrowedBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
         recyclerView.setAdapter(adapter);
 
@@ -56,15 +73,49 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
             }
         });
 
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
         TempList();
 
         return AllBookView;
     }
 
-    @Override
+
     public void onStart(){
         super.onStart();
+        loadFromFirebase();
+//        System.out.println("SIZE IS: "+availableBookList.size());
     }
+
+    public void loadFromFirebase(){
+
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).child(BookStatus.AVAILABLE.toString()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook = data.getValue(Book.class);
+                    if(availableBook != null){
+                        System.out.println("Book: "+availableBook);
+                        availableBookList.add(availableBook);
+                    }
+                }
+//                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
 
 
     // Temp for test
