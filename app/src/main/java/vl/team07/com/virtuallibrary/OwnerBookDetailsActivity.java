@@ -10,10 +10,13 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -42,10 +45,12 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         String ownerAddress = extras.getString("OWNERADDRESS");
         String description = extras.getString("DESCRIPTION");
 
-        description = "WE need a long description in here. I should just try to practice my typin " +
-                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
-                "description long enough. What if it is longer? we need to test this quick," +
-                "will this be ok?";
+//        description = "WE need a long description in here. I should just try to practice my typin " +
+//                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
+//                "description long enough. What if it is longer? we need to test this quick," +
+//                "will this be ok?";
+
+        setTitle(title);
 
         //Getting text views from activity
         final TextView bookTitleTextView = findViewById(R.id.BookTitleTextView);
@@ -63,6 +68,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer1Rating = findViewById(R.id.User1Rating);
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
+        final Button EditButton = findViewById(R.id.EditButton);
 
 
 
@@ -85,6 +91,21 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
         Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
         ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
+
+        EditButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EditBookDetailsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+            }
+        });
 
 
     }

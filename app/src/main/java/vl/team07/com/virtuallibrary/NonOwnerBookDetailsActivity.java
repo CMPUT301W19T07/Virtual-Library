@@ -53,6 +53,8 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
                 "description long enough. What if it is longer? we need to test this quick," +
                 "will this be ok?";
 
+
+        setTitle(title);
         //Getting text views from activity
         final TextView bookTitleTextView = findViewById(R.id.BookTitleTextView);
         final TextView authorTextView = findViewById(R.id.AuthorTextView);
@@ -70,6 +72,8 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer1Rating = findViewById(R.id.User1Rating);
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
+
+
 
 
 
