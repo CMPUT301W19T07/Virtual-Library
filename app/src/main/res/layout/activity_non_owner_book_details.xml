@@ -248,6 +248,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="Add Review"
+        android:textColor="@color/iconWhite"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/AverageReviewScore"
         app:layout_constraintEnd_toEndOf="parent" />
