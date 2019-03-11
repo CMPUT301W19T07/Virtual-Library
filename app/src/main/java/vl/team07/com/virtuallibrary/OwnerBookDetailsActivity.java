@@ -113,6 +113,12 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
             public void onClick(View v){
                 Context context = v.getContext();
                 Intent intent = new Intent(context, AllReviewsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
                 context.startActivity(intent);
             }
         });

@@ -52,10 +52,10 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         String ownerAddress = extras.getString("OWNERADDRESS");
         String description = extras.getString("DESCRIPTION");
 
-        description = "WE need a long description in here. I should just try to practice my typin " +
-                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
-                "description long enough. What if it is longer? we need to test this quick," +
-                "will this be ok?";
+//        description = "WE need a long description in here. I should just try to practice my typin " +
+//                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
+//                "description long enough. What if it is longer? we need to test this quick," +
+//                "will this be ok?";
 
 
         setTitle(title);
@@ -77,6 +77,7 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button RequestButton = findViewById(R.id.RequestButton);
+        final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
 
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
@@ -109,6 +110,22 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+            }
+        });
+
+        ViewCommentsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                Intent intent = new Intent(context, AllReviewsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+
             }
         });
 

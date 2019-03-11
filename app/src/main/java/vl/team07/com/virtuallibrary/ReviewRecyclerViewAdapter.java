@@ -34,7 +34,7 @@ public class ReviewRecyclerViewAdapter extends
         }
 
         public void setDetails(Review review){
-            Reviewer.setText(review.getReviewer());
+            Reviewer.setText("@"+ review.getReviewer());
             ReviewerComment.setText(review.getComment());
             ReviewerRating.setText(String.valueOf(review.getRating()));
         }
