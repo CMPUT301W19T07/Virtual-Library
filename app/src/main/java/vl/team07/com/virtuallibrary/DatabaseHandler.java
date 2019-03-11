@@ -12,13 +12,22 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * This is the Firebase Database Handler. This class is designed to handle all the tasks that
@@ -40,6 +49,8 @@ public class DatabaseHandler {
 
     private Context context;
 
+    private ArrayList<Book> newBookList = new ArrayList<>();
+
     /**
      * Constructor for the DatabaseHandler class which takes the context of which class it is in
      * when instantiated.
@@ -54,6 +65,11 @@ public class DatabaseHandler {
         this.context = context;
     }
 
+    /**
+     * This method adds a book to the database using the ISBN as unique child key.
+     * @param book
+     * @see AddBookFragment
+     */
     public void addBook(final Book book) {
         databaseReference.child("Books").child(String.valueOf(book.getISBN())).setValue(book);
 
@@ -61,7 +77,59 @@ public class DatabaseHandler {
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
         toast.show();
 
-
     }
+
+    public ArrayList<Book> retrieveAvailableBook() {
+
+        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot adSnapshot: dataSnapshot.getChildren()) {
+                            Book book = adSnapshot.getValue(Book.class);
+                            Log.d("DH TEST.....", book.getTitle());
+                            newBookList.add(book);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+        return newBookList;
+    }
+
+//    public void retrieveAvailableBook() {
+//        databaseReference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                Book retrievedBook = dataSnapshot.getValue(Book.class);
+//                System.out.println("Author: " + retrievedBook.getAuthor());
+//                System.out.println("Title: " + retrievedBook.getTitle());
+//                System.out.println("Desc: " + retrievedBook.getDescription());
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 }

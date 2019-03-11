@@ -76,5 +76,12 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         myBookList.add(testBook);
         testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
+        testBook = new Book("Eleventh Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        myBookList.add(testBook);
+
+        DatabaseHandler dh = new DatabaseHandler(getActivity());
+        myBookList = dh.retrieveAvailableBook();
+        System.out.println("Size of the List is " + myBookList.size());
     }
+
 }
