@@ -21,13 +21,22 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class NonOwnerBookDetailsActivity extends AppCompatActivity {
+
+    ArrayList<Review> reviewList = new ArrayList<Review>();
+    String title;
+    String author;
+    int isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_non_owner_book_details);
 
+        //test Review List
+        TempList();
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -40,20 +49,71 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
 
         description = "WE need a long description in here. I should just try to practice my typin " +
                 "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
-                "this shit done quick";
+                "description long enough.";
+
+        //Getting text views from activity
         final TextView bookTitleTextView = findViewById(R.id.BookTitleTextView);
         final TextView authorTextView = findViewById(R.id.AuthorTextView);
         final TextView ISBNTextView = findViewById(R.id.ISBNTextView);
         final TextView DescriptionTextView = findViewById(R.id.DescriptionTextView);
         final TextView OwnerAddressTextView = findViewById(R.id.OwnerAddressTextView);
-        final TextView TopReviewsIndicator = findViewById(R.id.AverageReviewScore);
+        final TextView ReviewAverageScore = findViewById(R.id.AverageReviewScore);
+        final TextView TopReviewer1 = findViewById(R.id.TopReviewUser1);
+        final TextView TopReviewer2 = findViewById(R.id.TopReviewUser2);
+        final TextView TopReviewer3 = findViewById(R.id.TopReviewUser3);
+        final TextView Reviewer1Comment = findViewById(R.id.User1Comment);
+        final TextView Reviewer2Comment = findViewById(R.id.User2Comment);
+        final TextView Reviewer3Comment = findViewById(R.id.User3Comment);
+        final TextView Reviewer1Rating = findViewById(R.id.User1Rating);
+        final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
+        final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
 
+
+
+
+        User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+        Review dummyReview = new Review(testBook, user1);
+
+        //Setting appropriate text for text views
         bookTitleTextView.setText(title);
         authorTextView.setText("by " + author);
         ISBNTextView.setText("ISBN: "  +String.valueOf(isbn));
         DescriptionTextView.setText(description);
         OwnerAddressTextView.setText(ownerAddress);
+        TopReviewer1.setText("@"+ reviewList.get(0).getReviewer());
+        TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
+        TopReviewer3.setText("@"+ reviewList.get(2).getReviewer());
+        Reviewer1Comment.setText(reviewList.get(0).getComment());
+        Reviewer2Comment.setText(reviewList.get(1).getComment());
+        Reviewer3Comment.setText(reviewList.get(2).getComment());
+        Reviewer1Rating.setText(String.valueOf(reviewList.get(0).getRating()));
+        Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
+        Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
+        ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
+
 
     }
+    public void TempList(){
+        User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+        Review testReview1 = new Review(testBook, user1);
+        testReview1.setRating(4.9);
+        testReview1.setComment("This is reviewer 1's comment");
+        reviewList.add(testReview1);
+
+        User user2 = new User("Testusername2", "Test name2", 0, "Test email", 0, "Canada", 0, "");
+        Review testReview2 = new Review(testBook, user2);
+        testReview2.setRating(4.4);
+        testReview2.setComment("This is reviewer 2's comment");
+        reviewList.add(testReview2);
+
+        User user3 = new User("Testusername3", "Test name3", 0, "Test email", 0, "Canada", 0, "");
+        Review testReview3 = new Review(testBook, user3);
+        testReview3.setRating(4.7);
+        testReview3.setComment("This is reviewer 3's comment");
+        reviewList.add(testReview3);
+    }
+
 
 }

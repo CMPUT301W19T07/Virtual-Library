@@ -100,6 +100,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Description"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
@@ -109,6 +111,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Owner Address"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
 
@@ -118,6 +122,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Top Reviews"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/OwnerAddressTextView"
         app:layout_constraintTop_toBottomOf="@+id/OwnerAddressTextView" />
 
@@ -128,7 +134,98 @@
         android:layout_marginStart="16dp"
         android:text="TextView"
         android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewsIndicator"
         app:layout_constraintStart_toEndOf="@+id/TopReviewsIndicator" />
+
+    <TextView
+        android:id="@+id/TopReviewUser1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewsIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewsIndicator" />
+
+    <TextView
+        android:id="@+id/TopReviewUser2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/User1Comment"
+        app:layout_constraintTop_toBottomOf="@+id/User1Comment" />
+
+    <TextView
+        android:id="@+id/User2Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser2"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser2" />
+
+    <TextView
+        android:id="@+id/User1Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser1"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser1" />
+
+    <TextView
+        android:id="@+id/User1Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser1"
+        app:layout_constraintStart_toStartOf="@+id/AverageReviewScore" />
+
+    <TextView
+        android:id="@+id/User2Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser2"
+        app:layout_constraintStart_toStartOf="@+id/User1Rating" />
+
+    <TextView
+        android:id="@+id/TopReviewUser3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/User2Comment"
+        app:layout_constraintTop_toBottomOf="@+id/User2Comment" />
+
+    <TextView
+        android:id="@+id/User3Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser3"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser3" />
+
+    <TextView
+        android:id="@+id/User3Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser3"
+        app:layout_constraintStart_toStartOf="@+id/User2Rating" />
 
 </android.support.constraint.ConstraintLayout>
