@@ -46,14 +46,6 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-    }
-
-    /**
-     * Sign up.
-     * Collects the data entered and after check if it is correct, adds it to the database.
-     * @param view the view
-     */
-    public void signUp(View view){
 
         EditText editText = (EditText) findViewById(R.id.Uname);
         username = editText.getText().toString();
@@ -74,6 +66,16 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
+    }
+
+    /**
+     * Sign up.
+     * Collects the data entered and after check if it is correct, adds it to the database.
+     * @param view the view
+     */
+    public void signUp(View view) {
+
+    }
 
 
 
@@ -94,8 +96,7 @@ public class SignUp extends AppCompatActivity {
 //            Toast toast2 = Toast.makeText(getApplicationContext(),"Username is already taken",Toast.LENGTH_SHORT);
 //            toast2.show();
 //        }
-
-    }
+    
 
     /**
      * Return.
