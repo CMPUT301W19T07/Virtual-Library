@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -53,6 +54,25 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
+
+                Book clickedBook = borrowedBookList.get(position);
+
+                Context context = v.getContext();
+                Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                String title = clickedBook.getTitle();
+                String author = clickedBook.getAuthor();
+                int isbn = clickedBook.getISBN();
+                String ownerAddress = clickedBook.getOwner().getAddress();
+                String description = clickedBook.getDescription();
+
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
             }
         });
 

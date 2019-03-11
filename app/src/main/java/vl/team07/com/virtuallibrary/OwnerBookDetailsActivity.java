@@ -10,22 +10,16 @@
 
 package vl.team07.com.virtuallibrary;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.TextView;
+
 
 import java.util.ArrayList;
 
-public class NonOwnerBookDetailsActivity extends AppCompatActivity {
-
+public class OwnerBookDetailsActivity extends AppCompatActivity {
     ArrayList<Review> reviewList = new ArrayList<Review>();
     String title;
     String author;
@@ -34,7 +28,7 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_non_owner_book_details);
+        setContentView(R.layout.activity_owner_book_details);
 
         //test Review List
         TempList();
@@ -59,7 +53,6 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         final TextView ISBNTextView = findViewById(R.id.ISBNTextView);
         final TextView DescriptionTextView = findViewById(R.id.DescriptionTextView);
         DescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-        final TextView OwnerAddressTextView = findViewById(R.id.OwnerAddressTextView);
         final TextView ReviewAverageScore = findViewById(R.id.AverageReviewScore);
         final TextView TopReviewer1 = findViewById(R.id.TopReviewUser1);
         final TextView TopReviewer2 = findViewById(R.id.TopReviewUser2);
@@ -73,7 +66,6 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
 
 
 
-
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
         Review dummyReview = new Review(testBook, user1);
@@ -83,7 +75,6 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         authorTextView.setText("by " + author);
         ISBNTextView.setText("ISBN: "  +String.valueOf(isbn));
         DescriptionTextView.setText(description);
-        OwnerAddressTextView.setText(ownerAddress);
         TopReviewer1.setText("@"+ reviewList.get(0).getReviewer());
         TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
         TopReviewer3.setText("@"+ reviewList.get(2).getReviewer());
@@ -117,6 +108,4 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         testReview3.setComment("This is reviewer 3's comment");
         reviewList.add(testReview3);
     }
-
-
 }
