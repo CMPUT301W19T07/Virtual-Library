@@ -30,6 +30,8 @@ public class User {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
+        Age = 0;
+        Nationality = null;
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
@@ -57,6 +59,7 @@ public class User {
 
     public void setContactInfo(int inputContactInfo){this.ContactInfo = inputContactInfo;}
 
+<<<<<<< HEAD
     public void setAddress(String inputAddress){this.Address = inputAddress;}
 
     public String getUserName(){return this.UserName;}
@@ -74,4 +77,13 @@ public class User {
     public int getContactInfo(){return this.ContactInfo;}
 
     public String getAddress(){return this.Address;}
+=======
+    public String getNationality(){
+        return this.Nationality;
+    }
+
+    public void setNationality(String nationality){
+        this.Nationality = nationality;
+    }
+>>>>>>> origin/cjmiller
 }

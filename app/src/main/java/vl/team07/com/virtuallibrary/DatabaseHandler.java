@@ -12,6 +12,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class DatabaseHandler {
     /**
      * Constructor for the DatabaseHandler class which takes the context of which class it is in
      * when instantiated.
+     *
      * @param context
      */
     public DatabaseHandler(Context context) {
@@ -67,6 +69,7 @@ public class DatabaseHandler {
 
     /**
      * This method adds a book to the database using the ISBN as unique child key.
+     *
      * @param book
      * @see AddBookFragment
      */
@@ -79,26 +82,37 @@ public class DatabaseHandler {
 
     }
 
+    /**
+     * This method retrieves all the books from the database under child Books and returns it as
+     * an arraylist of type Boook
+     *
+     * @return ArrayList
+     * @see MyBookFragment
+     */
+
     public ArrayList<Book> retrieveAvailableBook() {
 
         databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot adSnapshot: dataSnapshot.getChildren()) {
-                            Book book = adSnapshot.getValue(Book.class);
-                            Log.d("DH TEST.....", book.getTitle());
-                            newBookList.add(book);
-                        }
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Book book = adSnapshot.getValue(Book.class);
+                    newBookList.add(book);
+                }
+                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
         return newBookList;
     }
+}
 
 //    public void retrieveAvailableBook() {
 //        databaseReference.addChildEventListener(new ChildEventListener() {
@@ -132,4 +146,3 @@ public class DatabaseHandler {
 //        });
 //    }
 
-}

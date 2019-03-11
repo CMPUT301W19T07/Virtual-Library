@@ -14,6 +14,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 
 
 public class MyBookFragment extends android.support.v4.app.Fragment {
-
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
@@ -44,20 +44,8 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) MyBookView.findViewById(R.id.MyBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myBookList = new ArrayList<>();
-        adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
-        recyclerView.setAdapter(adapter);
-
-
-        adapter.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = recyclerView.indexOfChild(v);
-                System.out.println("POSITION: "+position);
-            }
-        });
 
         TempList();
-
 
         return MyBookView;
     }
@@ -76,12 +64,13 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         myBookList.add(testBook);
         testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
-        testBook = new Book("Eleventh Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        testBook = new Book("Eleventh Book", "Eleventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
 
         DatabaseHandler dh = new DatabaseHandler(getActivity());
         myBookList = dh.retrieveAvailableBook();
-        System.out.println("Size of the List is " + myBookList.size());
+
     }
+
 
 }

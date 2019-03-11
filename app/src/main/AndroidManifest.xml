@@ -17,9 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
 
+=======
+        <activity android:name=".LogIn" />
+        <activity android:name=".SignUp" />
+>>>>>>> origin/cjmiller
     </application>
 
 </manifest>
