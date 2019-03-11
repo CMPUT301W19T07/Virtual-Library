@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,8 +20,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -72,10 +76,7 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer1Rating = findViewById(R.id.User1Rating);
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
-
-
-
-
+        final Button RequestButton = findViewById(R.id.RequestButton);
 
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
@@ -98,6 +99,18 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
         Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
         ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
+
+        RequestButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                CharSequence text = "Request Sent";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
 
 
     }
