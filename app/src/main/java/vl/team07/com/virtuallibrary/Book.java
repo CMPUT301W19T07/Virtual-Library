@@ -35,7 +35,7 @@ public class Book {
         this.Title = "";
         this.Author = "";
         this.ISBN = 0;
-        this.Owner = null;
+        this.Owner = new User();
         this.Status = BookStatus.AVAILABLE;
         this.Description = "";
         this.SearchString = "";

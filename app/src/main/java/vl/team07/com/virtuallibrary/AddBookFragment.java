@@ -96,36 +96,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 addBook();
-//                title = TitleEdit.getText().toString();
-//                System.out.println("TITLE: "+ title);
-//                int ISBN;
-//                // Set new book
-//
-//                author = AuthorEdit.getText().toString();
-//                description = DescriptionEdit.getText().toString();
-//
-//                try {
-//                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-//                }catch (NumberFormatException e){
-//                    ISBN = 0;
-//                }
-//
-//                book = new Book();
-//                book.setTitle(title);
-//                book.setAuthor(author);
-//                book.setDescription(description);
-//                book.setISBN(ISBN);
-
-
-//
-//                gson = new Gson();
-//                String newBook = gson.toJson(book);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("Add Book", newBook);
-//                setArguments(bundle);
-
-
-//                databaseReference.child(BOOK_PARENT).child(book.getStatus().toString()).child(Integer.toString(book.getISBN())).setValue(book);
             }
         });
 

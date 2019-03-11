@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,6 +48,8 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private DatabaseReference databaseReference;
 
     private final String BOOK_PARENT = "All Books";
+    private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
+    private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
 
     public AllBookFragment() {
         // Required empty public constructor
@@ -63,8 +67,13 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         availableBookList = new ArrayList<>();
         borrowedBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
+//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+
+        // int position is index of item clicked in recyclerView
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +87,6 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         databaseReference = firebaseDatabase.getReference();
 
 
-        TempList();
 
         return AllBookView;
     }
@@ -87,24 +95,26 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     public void onStart(){
         super.onStart();
         loadFromFirebase();
-//        System.out.println("SIZE IS: "+availableBookList.size());
+        TempList();
+
     }
 
     public void loadFromFirebase(){
 
         databaseReference.keepSynced(true);
-        databaseReference.child(BOOK_PARENT).child(BookStatus.AVAILABLE.toString()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(BOOK_PARENT).child(BOOK_AVAILABLE).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     Book availableBook = data.getValue(Book.class);
-                    if(availableBook != null){
-                        System.out.println("Book: "+availableBook);
-                        availableBookList.add(availableBook);
+                    if(availableBook!=null){
+                        allBookList.add(availableBook);
+                        System.out.println("BOOK IS: "+availableBook);
                     }
                 }
-//                arrayAdapter.notifyDataSetChanged();
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -114,8 +124,8 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         });
 
 
-    }
 
+    }
 
 
     // Temp for test
@@ -127,21 +137,21 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         allBookList.add(testBook);
         testBook = new Book("Second Book", "Second Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
         allBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
+//        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
     }
 }

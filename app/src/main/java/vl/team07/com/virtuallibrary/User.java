@@ -26,10 +26,13 @@ public class User {
     private String Address;
 
     //neccesary attributes to initialize user class are username, name and, email
-    public User(String username, String name, String email) {
-        this.UserName=username;
-        this.Name = name;
-        this.Email=email;
+//    public User(String username, String name, String email) {
+//        this.UserName=username;
+//        this.Name = name;
+//        this.Email=email;
+//    }
+    public User(){
+        this.Name = "Test Name";
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
