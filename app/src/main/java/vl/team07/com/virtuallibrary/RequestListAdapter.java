@@ -16,25 +16,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class ListAdapter extends ArrayAdapter<Request> {
+public class RequestListAdapter extends ArrayAdapter<Request> {
 
     private int resourceLayout;
     private Context mContext;
 
-    public ListAdapter(Context context, int resource, List<Request> items) {
+    public RequestListAdapter(Context context, int resource, List<Request> items) {
         super(context, resource, items);
         this.resourceLayout = resource;
         this.mContext = context;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
+
+//        Button acceptButton = (Button) findViewById(R.id.acceptButton);
+//
+//
+//        acceptButton.setOnClickListener(myButtonClickListener);
+//        View.OnClickListener myButtonClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                View parentRow = (View) v.getParent();
+//                ListView listView = (ListView) parentRow.getParent();
+//                final int position = listView.getPositionForView(parentRow);
+//            }
+//        };
+//        acceptButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                View parentRow = (View) v.getParent();
+//                ListView listView = (ListView) parentRow.getParent();
+//                final int position = listView.getPositionForView(parentRow);
+//
+//            }
+//        });
 
         if (v == null) {
             LayoutInflater vi;
@@ -51,19 +76,19 @@ public class ListAdapter extends ArrayAdapter<Request> {
             TextView tt4 = (TextView) v.findViewById(R.id.Address);
 
             if (tt1 != null) {
-                tt1.setText(p.getRequestedBookTtile());
+                tt1.setText(p.getRequestedBookTitle());
             }
 
             if (tt2 != null) {
-                tt2.setText(p.getRequesterUsername());
+                tt2.setText("requester Username: " +p.getRequesterUsername());
             }
 
             if (tt3 != null) {
-                tt3.setText(p.getRequesterEmail());
+                tt3.setText("requester Email: " +p.getRequesterEmail());
             }
 
             if (tt4 != null) {
-                tt4.setText(p.getRequesterAddress());
+                tt4.setText("requester Address: " +p.getRequesterAddress());
             }
         }
 

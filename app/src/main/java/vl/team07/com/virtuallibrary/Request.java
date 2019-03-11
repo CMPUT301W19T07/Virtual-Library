@@ -47,7 +47,7 @@ public class Request {
         }
     }
 
-    public String getRequestedBookTtile(){
+    public String getRequestedBookTitle(){
         title = RequestedBook.getTitle();
         return title;
     }
