@@ -57,7 +57,6 @@ public class Request {
         return address;
     }
 
-
     public void acceptRequest(){
         this.RequestedBook.setStatus(BookStatus.BORROWED);
     }

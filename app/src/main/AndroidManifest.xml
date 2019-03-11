@@ -9,17 +9,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+<<<<<<< HEAD
+
+        <activity
+            android:name=".LogIn" >
+=======
+        <activity
+            android:name=".RequestActivity"
+            android:windowSoftInputMode="adjustPan">
+>>>>>>> origin/ronghui1
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+            
+        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AllReviewsActivity" />
+        <activity android:name=".EditBookDetailsActivity" />
+        <activity android:name=".OwnerBookDetailsActivity" />
+        <activity android:name=".NonOwnerBookDetailsActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <activity android:name=".SignUp" />
+=======
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".HomeActivity"></activity>
+        <!-- <activity android:name=".RequestActivity"></activity> -->
+        <activity android:name=".ComfirmRequest"></activity>
+>>>>>>> origin/ronghui1
     </application>
 
 </manifest>

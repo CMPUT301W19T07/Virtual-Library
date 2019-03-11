@@ -83,4 +83,12 @@ public class BookValidatorTest {
         assertFalse(notOwner);
     }
 
+    @Test
+    public void getReviewer(){
+        Review review = new Review(testBook,user);
+        user.setName("Test Name");
+        String reviewer = review.getReviewer();
+        assertEquals(reviewer, user.getName());
+    }
+
 }
