@@ -18,8 +18,6 @@
 
 package vl.team07.com.virtuallibrary;
 
-
-package vl.team07.com.virtuallibrary;
 import java.util.ArrayList;
 import android.media.Image;
 
