@@ -54,12 +54,6 @@ public class SignUpTest extends ActivityTestRule<SignUp>{
         solo.enterText((EditText) solo.getView(R.id.Name), "Name");
         solo.enterText((EditText) solo.getView(R.id.Email), "cjmiller@ualberta.ca");
 
-        assertTrue(activity.uniqueUsername("Test"));
-        assertTrue(activity.uniqueUsername("Craig J Miller"));
-        assertTrue(activity.checkEmail("test123@gmail.com"));
-        assertFalse(activity.checkEmail("test123gmail.com"));
-        assertFalse(activity.checkEmail("test123@gmailcom"));
-
         solo.clickOnButton("Sign Up");
 
         solo.assertCurrentActivity("Wrong Activity", LogIn.class);

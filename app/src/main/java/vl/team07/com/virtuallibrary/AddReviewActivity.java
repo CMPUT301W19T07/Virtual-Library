@@ -83,7 +83,7 @@ public class AddReviewActivity extends AppCompatActivity {
                     Review newReview = new Review(testBook, user1);
                     newReview.setComment(comment);
                     newReview.setRating(Double.parseDouble(rating));
-                    
+
                     DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
                     dh.addReview(testBook, newReview);
 

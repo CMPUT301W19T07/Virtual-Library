@@ -92,6 +92,7 @@ public class DatabaseHandler {
 
     public ArrayList<Book> retrieveAvailableBook() {
 
+        databaseReference.keepSynced(true);
         databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,6 +162,14 @@ public class DatabaseHandler {
         toast.show();
     }
 
+    /**
+     * This method takes in a book object and a review object to add a review to the database under
+     * the ISBN of the of clicked book
+     *
+     * @param book
+     * @param review
+     * @see AddReviewActivity
+     */
     public void addReview (Book book, Review review) {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
     }
