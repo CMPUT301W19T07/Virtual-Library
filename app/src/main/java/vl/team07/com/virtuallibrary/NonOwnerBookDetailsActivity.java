@@ -78,6 +78,7 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button RequestButton = findViewById(R.id.RequestButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
+        final Button AddReviewButton = findViewById(R.id.AddReviewButton);
 
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");

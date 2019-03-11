@@ -43,7 +43,6 @@ public class ReviewRecyclerViewAdapter extends
 
     private Context context;
     private ArrayList<Review> Reviews;
-    private View.OnClickListener onClickListener;
 
     public ReviewRecyclerViewAdapter(Context context, ArrayList<Review> reviews){
         this.context = context;
@@ -56,13 +55,6 @@ public class ReviewRecyclerViewAdapter extends
         View view = LayoutInflater.from(context).inflate(R.layout.review_list_item, viewGroup,false);
         ReviewHolder reviewHolder = new ReviewHolder(view);
 
-        reviewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickListener.onClick(v);
-            }
-        });
-
         return reviewHolder;
     }
 
@@ -71,9 +63,6 @@ public class ReviewRecyclerViewAdapter extends
         return Reviews.size();
     }
 
-    public void setClickListener(View.OnClickListener onClickListener){
-        this.onClickListener = onClickListener;
-    }
 
     @Override
     public void onBindViewHolder(@NonNull ReviewRecyclerViewAdapter.ReviewHolder reviewHolder, int i) {
