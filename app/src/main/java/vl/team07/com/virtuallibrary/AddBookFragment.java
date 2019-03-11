@@ -14,6 +14,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,36 +64,41 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     public void onStart(){
         super.onStart();
 
-        String title, author, description;
-        int ISBN;
-        // Set new book
-
-        title = TitleEdit.getText().toString();
-        author = AuthorEdit.getText().toString();
-        description = DescriptionEdit.getText().toString();
-
-        try {
-            ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-        }catch (NumberFormatException e){
-            ISBN = 0;
-        }
-
-        book = new Book();
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setDescription(description);
-        book.setISBN(ISBN);
-
-
 
         // Put book to 'My Books' Fragment by click ADD button
         // Will be update use firebase later
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gson = new Gson();
-                String newBook = gson.toJson(book);
 
+                String title, author, description;
+                int ISBN;
+                // Set new book
+
+                title = TitleEdit.getText().toString();
+                author = AuthorEdit.getText().toString();
+                description = DescriptionEdit.getText().toString();
+
+                try {
+                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
+                }catch (NumberFormatException e){
+                    ISBN = 0;
+                }
+
+                book = new Book();
+                book.setTitle(title);
+                book.setAuthor(author);
+                book.setDescription(description);
+                book.setISBN(ISBN);
+
+                String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
+                        "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
+
+                book.setSearchString(SearchStringName);
+                Log.d("TEST: After onClick", book.getTitle() + book.getAuthor() + book.getDescription());
+
+                DatabaseHandler dh = new DatabaseHandler(getActivity());
+                dh.addBook(book);
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("Add Book", newBook);
 //                setArguments(bundle);

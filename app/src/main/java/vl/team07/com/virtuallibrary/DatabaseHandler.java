@@ -12,6 +12,8 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
  * This is the Firebase Database Handler. This class is designed to handle all the tasks that
  * are related to the Firebase Realtime Database. The TAG is gotten by getting the class name where
  * DatabaseHandler is instantiated and is converted to a simple string.
+ *
+ * @author Imtiaz Raqib
+ * @version 1.0
+ * @since 1.0
  */
 
 public class DatabaseHandler {
@@ -36,7 +42,7 @@ public class DatabaseHandler {
 
     /**
      * Constructor for the DatabaseHandler class which takes the context of which class it is in
-     * right when instantiated.
+     * when instantiated.
      * @param context
      */
     public DatabaseHandler(Context context) {
@@ -46,6 +52,16 @@ public class DatabaseHandler {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         this.context = context;
+    }
+
+    public void addBook(final Book book) {
+        databaseReference.child("Books").child(String.valueOf(book.getISBN())).setValue(book);
+
+        Toast toast = Toast.makeText(this.context, "Book is added!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
+
+
     }
 
 }
