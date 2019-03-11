@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Class Name
+  ~
+  ~ Date of Initiation
+  ~
+  ~ Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
+  ~ You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
+  ~ You can find a copy of the license in the github wiki for this project.
+  -->
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="8dp">
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        tools:layout_editor_absoluteX="12dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/SearchRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+</android.support.constraint.ConstraintLayout>

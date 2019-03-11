@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -36,6 +37,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
     }
 
     @Override
@@ -73,4 +75,3 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         });
     }
 }
-

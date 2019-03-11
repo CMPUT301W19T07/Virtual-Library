@@ -13,9 +13,12 @@ package vl.team07.com.virtuallibrary;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +29,7 @@ import java.util.Locale;
  * Created by MTX on 2019-03-06.
  */
 
-public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder>{
+public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder> {
 
     public class BookHolder extends RecyclerView.ViewHolder{
 
@@ -94,5 +97,10 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         this.onClickListener = onClickListener;
     }
 
+    //test
+    public void filterList(ArrayList<Book> filteredList){
+        books = filteredList;
+        notifyDataSetChanged();
+    }
 
 }
