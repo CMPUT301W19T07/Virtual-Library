@@ -130,6 +130,21 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
             }
         });
 
+        AddReviewButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                Intent intent = new Intent(context, AddReviewActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putInt("ISBN", isbn);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
     public void TempList(){

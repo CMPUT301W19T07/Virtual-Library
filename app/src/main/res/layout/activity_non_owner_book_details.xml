@@ -234,7 +234,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
-        android:text="View all comments"
+        android:text="View all Reviews"
         android:textColor="@android:color/tertiary_text_light"
         android:textSize="14sp"
         android:textStyle="italic"
