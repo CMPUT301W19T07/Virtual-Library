@@ -10,6 +10,7 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -70,5 +71,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void RequestsButton() {
+        Intent intent = new Intent(this, RequestActivity.class);
+        startActivityForResult(intent, 1);
+
     }
 }

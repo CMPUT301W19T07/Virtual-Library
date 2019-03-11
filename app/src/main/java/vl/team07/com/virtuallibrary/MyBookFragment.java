@@ -10,7 +10,9 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -19,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -47,6 +50,20 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
 
+
+
+        Button requestButton = MyBookView.findViewById(R.id.Requests);
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Context context = v.getContext();
+                Intent intent = new Intent(context, RequestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         TempList();
 
 
@@ -68,4 +85,10 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
     }
+//
+//    private void RequestsButton() {
+//        Intent intent = new Intent(this, RequestActivity.class);
+//        startActivityForResult(intent, 1);
+//
+//    }
 }
