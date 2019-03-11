@@ -69,6 +69,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button EditButton = findViewById(R.id.EditButton);
+        final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
 
 
 
@@ -103,6 +104,15 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
                 extras.putInt("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
+                context.startActivity(intent);
+            }
+        });
+
+        ViewCommentsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                Intent intent = new Intent(context, AllReviewsActivity.class);
                 context.startActivity(intent);
             }
         });
