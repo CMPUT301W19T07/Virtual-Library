@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 
 public class BookValidatorTest {
 
-    private User user = new User();
-    private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+    private User user = new User("Username","Name","Email@test.com");
+    private Book testBook = new Book("Title", "Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN");
     private BookValidator bookValidator = new BookValidator();
     private ArrayList<User> users = new ArrayList<>();
 

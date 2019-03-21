@@ -1,7 +1,7 @@
 /*
- * Class Name
+ * Recieve
  *
- * Date of Initiation
+ * February 19, 2019
  *
  * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
  * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
@@ -27,5 +27,4 @@ public class Receive {
     public void confirmReceive(){
         this.BorrowedBook.setStatus(BookStatus.AVAILABLE);
     }
-
 }

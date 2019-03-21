@@ -20,4 +20,5 @@
     <string name="nationality">Nationality</string>
     <string name="contact_info">Contact Info</string>
     <string name="address">Address</string>
+    <string name="Welcome">Welcome To</string>
 </resources>
