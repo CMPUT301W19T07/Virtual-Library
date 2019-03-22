@@ -61,14 +61,14 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
-                int isbn = clickedBook.getISBN();
+                String isbn = clickedBook.getISBN();
                 String ownerAddress = clickedBook.getOwner().getAddress();
                 String description = clickedBook.getDescription();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("OWNERADDRESS", ownerAddress);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
@@ -88,15 +88,15 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
 
         Book testBook;
-        testBook = new Book("Second Book", "Second Author", 444141231, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Second Book", "Second Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Forth Book", "Forth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
     }
 }

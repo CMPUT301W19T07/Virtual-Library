@@ -11,7 +11,9 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -52,6 +54,14 @@ public class DatabaseHandler {
 
     private ArrayList<Book> newBookList = new ArrayList<>();
 
+
+    private final String BOOK_PARENT = "Books";
+    private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
+    private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
+
+
+
+
     /**
      * Constructor for the DatabaseHandler class which takes the context of which class it is in
      * when instantiated.
@@ -74,12 +84,35 @@ public class DatabaseHandler {
      * @see AddBookFragment
      */
     public void addBook(final Book book) {
-        databaseReference.child("Books").child(String.valueOf(book.getISBN())).setValue(book);
 
-        Toast toast = Toast.makeText(this.context, "Book is added!", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        toast.show();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                final String title = "Error";
+                final String message = "The book has already exist in the library!";
+
+                if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
+                    alertDialog(title, message);
+                }else{
+                    databaseReference.child("Books").child(book.getISBN()).setValue(book);
+
+                    showToast("The book is added!");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+//
+//        databaseReference.child("Books").child(String.valueOf(book.getISBN())).setValue(book);
+//
+//        Toast toast = Toast.makeText(this.context, "Book is added!", Toast.LENGTH_SHORT);
+//        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+//        toast.show();
     }
 
     /**
@@ -115,38 +148,6 @@ public class DatabaseHandler {
     }
 
 
-//    public void retrieveAvailableBook() {
-//        databaseReference.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                Book retrievedBook = dataSnapshot.getValue(Book.class);
-//                System.out.println("Author: " + retrievedBook.getAuthor());
-//                System.out.println("Title: " + retrievedBook.getTitle());
-//                System.out.println("Desc: " + retrievedBook.getDescription());
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-
     /**
      * This method takes in a User object and adds it to the database using the values provided
      * during the signUp process
@@ -172,6 +173,66 @@ public class DatabaseHandler {
      */
     public void addReview (Book book, Review review) {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
+    }
+
+
+    /**
+     * This method takes in a book array list and a book recyclerview adapter to load book from firebase
+     *
+     * @param allBookList
+     * @param adapter
+     * @see AllBookFragment
+     */
+    public void loadAllBook(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook;
+                    availableBook = data.getValue(Book.class);
+
+                    if(availableBook!=null){
+                        allBookList.add(availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    /**
+     * This method is takes in title string and message string to give alert dialog
+     * @param title
+     * @param message
+     */
+    public void alertDialog(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(true);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.show();
+    }
+
+    public void showToast(String message){
+
+        Toast toast = Toast.makeText(this.context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
     }
 
 

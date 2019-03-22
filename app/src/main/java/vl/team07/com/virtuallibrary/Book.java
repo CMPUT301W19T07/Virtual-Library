@@ -31,7 +31,7 @@ public class Book {
 
     private String Title;
     private String Author;
-    private int ISBN;
+    private String ISBN;
     private User Owner;
     private BookStatus Status;
     private String Description;
@@ -41,21 +41,14 @@ public class Book {
 
     public Book(){
 
-        this.Title = "";
-        this.Author = "";
-        this.ISBN = 0;
-        this.Owner = null;
-        this.Status = BookStatus.AVAILABLE;
-        this.Description = "";
-        this.SearchString = "";
-
+        this.Owner = new User("Test", "Test","Test");
     }
 
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString) {
-        this.Image = null;
-    }
+//    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString) {
+//        this.Image = null;
+//    }
 
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString, Image image){
+    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, Image image){
 
         this.Title = title;
         this.Author = author;
@@ -79,7 +72,7 @@ public class Book {
 
     public void setAuthor(String inputAuthor){this.Author = inputAuthor;}
 
-    public void setISBN(int inputISBN){this.ISBN = inputISBN;}
+    public void setISBN(String inputISBN){this.ISBN = inputISBN;}
 
     public void setOwner(User inputOwner){this.Owner = inputOwner;}
 
@@ -95,7 +88,7 @@ public class Book {
 
     public String getAuthor(){return this.Author;}
 
-    public int getISBN(){return this.ISBN;}
+    public String getISBN(){return this.ISBN;}
 
     public User getOwner(){return this.Owner;}
 

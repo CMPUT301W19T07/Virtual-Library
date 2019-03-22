@@ -32,7 +32,7 @@ public class AllReviewsActivity extends AppCompatActivity {
     private ArrayList<Review> ReviewList = new ArrayList<>();
     String title;
     String author;
-    int isbn;
+    String isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class AllReviewsActivity extends AppCompatActivity {
 
         title = extras.getString("TITLE");
         author = extras.getString("AUTHOR");
-        isbn = extras.getInt("ISBN");
+        isbn = extras.getString("ISBN");
         TempList();
 
     }

@@ -72,24 +72,20 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 String title, author, description;
-                int ISBN;
+                String ISBN;
                 // Set new book
 
                 title = TitleEdit.getText().toString();
                 author = AuthorEdit.getText().toString();
                 description = DescriptionEdit.getText().toString();
-
-                try {
-                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-                }catch (NumberFormatException e){
-                    ISBN = 0;
-                }
+                ISBN = ISBNEdit.getText().toString();
 
                 book = new Book();
                 book.setTitle(title);
                 book.setAuthor(author);
                 book.setDescription(description);
                 book.setISBN(ISBN);
+                book.setStatus(BookStatus.AVAILABLE);
 
                 String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
                         "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
