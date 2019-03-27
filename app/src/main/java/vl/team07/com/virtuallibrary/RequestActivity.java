@@ -17,21 +17,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class RequestActivity extends AppCompatActivity {
     private ListView RequestListView;
@@ -86,7 +76,7 @@ public class RequestActivity extends AppCompatActivity {
                 String sendPosition = Integer.toString(position);
                 Gson gson = new Gson();
                 String type = gson.toJson(request);
-                Intent intent = new Intent(RequestActivity.this,ComfirmRequest.class);
+                Intent intent = new Intent(RequestActivity.this, ConfirmRequest.class);
                 intent.putExtra("GiveObject", type);
                 intent.putExtra("position", sendPosition);
                 startActivityForResult(intent, 1);

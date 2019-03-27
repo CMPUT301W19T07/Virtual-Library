@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-public class ComfirmRequest extends AppCompatActivity {
+public class ConfirmRequest extends AppCompatActivity {
     private String result1;
     private String result2;
     private Request request;
