@@ -12,6 +12,11 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -28,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -102,6 +109,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
                 String title, author, description;
                 int ISBN;
+
                 // Set new book
 
                 title = TitleEdit.getText().toString();
@@ -114,16 +122,30 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     ISBN = 0;
                 }
 
-                book = new Book();
-                book.setTitle(title);
-                book.setAuthor(author);
-                book.setDescription(description);
-                book.setISBN(ISBN);
+                /**
+                 * Getting the image uploaded and storing it in book data
+                 */
+                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-                String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
-                        "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
+                if (bmp != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
 
-                book.setSearchString(SearchStringName);
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                    book.setImage(byteArray);
+
+                } else {
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                }
 
                 DatabaseHandler dh = new DatabaseHandler(getActivity());
                 dh.addBook(book);

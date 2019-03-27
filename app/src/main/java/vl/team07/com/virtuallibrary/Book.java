@@ -12,6 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import java.util.ArrayList;
 import android.media.Image;
+import android.widget.ImageView;
 
 /**
  * Created by MTX on 2019-02-24.
@@ -26,7 +27,7 @@ public class Book {
     private BookStatus Status;
     private String Description;
     private String SearchString;
-    private Image Image;
+    private byte[] Image;
     private ArrayList<User> RequesterList = new ArrayList<>();
 
     public Book(){
@@ -45,7 +46,7 @@ public class Book {
         this.Image = null;
     }
 
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString, Image image){
+    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString, byte[] image){
 
         this.Title = title;
         this.Author = author;
@@ -79,7 +80,7 @@ public class Book {
 
     public void setSearchString(String inputSearchString){this.SearchString = inputSearchString;}
 
-    public void setImage(Image image){this.Image = image;}
+    public void setImage(byte[] image){this.Image = image;}
 
     public String getTitle(){return this.Title;}
 
@@ -95,6 +96,6 @@ public class Book {
 
     public String getSearchString(){return this.SearchString;}
 
-    public Image getImage(){return this.Image;}
+    public byte[] getImage(){return this.Image;}
 
 }
