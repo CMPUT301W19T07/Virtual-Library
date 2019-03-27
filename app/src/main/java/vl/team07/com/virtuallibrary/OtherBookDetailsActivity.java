@@ -1,11 +1,11 @@
 /*
- * Class Name
+ * Copyright <2019-1-23> <Ronghui Shao>
  *
- * Date of Initiation
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
- * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
- * You can find a copy of the license in the github wiki for this project.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package vl.team07.com.virtuallibrary;
@@ -18,11 +18,12 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class OwnerBookDetailsActivity extends AppCompatActivity {
+public class OtherBookDetailsActivity extends AppCompatActivity {
+
     ArrayList<Review> reviewList = new ArrayList<Review>();
     String title;
     String author;
@@ -31,7 +32,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_owner_book_details);
+        setContentView(R.layout.activity_other_book_details);
 
         //test Review List
         TempList();
@@ -68,9 +69,8 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer1Rating = findViewById(R.id.User1Rating);
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
-        final Button EditButton = findViewById(R.id.EditButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
-
+        final Button RequestButton = findViewById(R.id.RequestButton);
 
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
@@ -93,18 +93,16 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
         ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
 
-        EditButton.setOnClickListener(new View.OnClickListener(){
+
+        RequestButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
-                Intent intent = new Intent(context, EditBookDetailsActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("TITLE", title);
-                extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
-                extras.putString("DESCRIPTION", description);
-                intent.putExtras(extras);
-                context.startActivity(intent);
+                CharSequence text = "Request Sent";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         });
 

@@ -14,14 +14,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NonOwnerBookDetailsActivity">
+    tools:context=".MyBookDetailsActivity">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dashboard_black_24dp" />
@@ -72,29 +72,6 @@
         app:layout_constraintTop_toBottomOf="@+id/DescriptionIndicator" />
 
     <TextView
-        android:id="@+id/OwnerAddressTextView"
-        android:layout_width="0dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/RequestButton"
-        app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
-        app:layout_constraintTop_toBottomOf="@+id/OwnerAddressIndicator" />
-
-    <Button
-        android:id="@+id/RequestButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="REQUEST"
-        android:textColor="@color/iconWhite"
-        app:layout_constraintBaseline_toBaselineOf="@+id/OwnerAddressTextView"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
         android:id="@+id/DescriptionIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,26 +83,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/OwnerAddressIndicator"
+        android:id="@+id/TopReviewsIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Owner Address"
+        android:layout_marginTop="8dp"
+        android:text="Top Reviews"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
-
-    <TextView
-        android:id="@+id/TopReviewsIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Top Reviews"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/OwnerAddressTextView"
-        app:layout_constraintTop_toBottomOf="@+id/OwnerAddressTextView" />
 
     <TextView
         android:id="@+id/AverageReviewScore"
@@ -242,15 +208,24 @@
         app:layout_constraintTop_toBottomOf="@+id/User3Comment" />
 
     <Button
-        android:id="@+id/AddReviewButton"
+        android:id="@+id/EditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Add Review"
-        android:textColor="@color/iconWhite"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/AverageReviewScore"
+        android:layout_marginEnd="8dp"
+        android:text="Edit Book Details"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/RequestsButton"
+        android:layout_width="111dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/Requests_Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintStart_toEndOf="@+id/User1Rating"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
 </android.support.constraint.ConstraintLayout>

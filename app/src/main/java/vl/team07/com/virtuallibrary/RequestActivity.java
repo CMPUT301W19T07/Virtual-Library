@@ -17,26 +17,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class RequestActivity extends AppCompatActivity {
     private ListView RequestListView;
     private ArrayList<Request> RequestList;
     private ArrayAdapter<Request> adapter;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +35,11 @@ public class RequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_request);
         RequestListView = (ListView) findViewById(R.id.RequestListView);
         RequestList = new ArrayList<Request>();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+        title = extras.getString("TITLE");
         TempList();
-//        saveInFile();
-//        loadFromFile();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -56,13 +49,12 @@ public class RequestActivity extends AppCompatActivity {
                 RequestList.get(0).acceptRequest();
                 RequestList.clear();
                 adapter.notifyDataSetChanged();
-//                saveInFile();
+                finish();
             }
             if(resultCode == Activity.RESULT_CANCELED) {
                 int result = Integer.parseInt(data.getStringExtra("PositionBack"));
                 RequestList.remove(RequestList.get(result));
                 adapter.notifyDataSetChanged();
-//                saveInFile();
             }
         }
     }
@@ -86,7 +78,7 @@ public class RequestActivity extends AppCompatActivity {
                 String sendPosition = Integer.toString(position);
                 Gson gson = new Gson();
                 String type = gson.toJson(request);
-                Intent intent = new Intent(RequestActivity.this,ComfirmRequest.class);
+                Intent intent = new Intent(RequestActivity.this,ConfirmRequest.class);
                 intent.putExtra("GiveObject", type);
                 intent.putExtra("position", sendPosition);
                 startActivityForResult(intent, 1);
@@ -104,7 +96,7 @@ public class RequestActivity extends AppCompatActivity {
         User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");
         User user3 = new User("user3", "Test name", 0, "email3", 0, "Canada", 0, "address3");
 
-        Book testBook1 = new Book("First Book", "Second Author", 1234567890, user2, BookStatus.BORROWED, "Description","SSN",null);
+        Book testBook1 = new Book(title, "Second Author", 1234567890, user2, BookStatus.BORROWED, "Description","SSN",null);
         Request request1 = new Request(user1, testBook1);
         RequestList.add(request1);
 
@@ -115,58 +107,4 @@ public class RequestActivity extends AppCompatActivity {
         RequestList.add(request3);
     }
 
-//    public void RejectClick(View view) {
-//
-//        RequestList.get(0).rejectRequest();
-//        RequestList.remove(RequestList.get(0));
-//        adapter.notifyDataSetChanged();
-////        finish();
-////        startActivity(getIntent());
-//
-//    }
-
-//    private void loadFromFile() {
-//
-//        try {
-//
-//            FileReader in = new FileReader(new File(getFilesDir(),FILENAME));
-//
-//            Gson gson = new Gson();
-//
-//            // taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt on date 16th - Jan 2019
-//
-//            Type type = new TypeToken<ArrayList<Request>>(){}.getType();
-//
-//            RequestList = gson.fromJson(in, type);
-//
-//
-//
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    //taken from lonelyTwitter of the lab
-//    private void saveInFile() {
-//        try {
-//
-//            FileWriter out = new FileWriter(new File(getFilesDir(),FILENAME));
-//
-//            Gson gson = new Gson();
-//
-//            gson.toJson(RequestList, out);
-//            out.close();
-//
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
 }

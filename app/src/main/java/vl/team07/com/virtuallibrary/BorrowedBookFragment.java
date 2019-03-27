@@ -12,9 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,11 +52,10 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
-
                 Book clickedBook = borrowedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 int isbn = clickedBook.getISBN();

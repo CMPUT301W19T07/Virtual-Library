@@ -12,10 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,7 +53,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
          *
          * Initially created by tianxin3 and further developed by pling
          *
-         * @see OwnerBookDetailsActivity
+         * @see MyBookDetailsActivity
          *
          */
         adapter.setClickListener(new View.OnClickListener() {
@@ -67,9 +64,11 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = myBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, MyBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
+                BookStatus status_enum = clickedBook.getStatus();
+                String status = status_enum.name();
                 int isbn = clickedBook.getISBN();
                 String ownerAddress = clickedBook.getOwner().getAddress();
                 String description = clickedBook.getDescription();
@@ -80,9 +79,9 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 extras.putInt("ISBN", isbn);
                 extras.putString("OWNERADDRESS", ownerAddress);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
                 intent.putExtras(extras);
                 context.startActivity(intent);
-
             }
         });
 
@@ -95,9 +94,9 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
         User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
 
-        Book testBook = new Book("First Book", "First Author", 22222222, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        Book testBook = new Book("First Book", "First Author", 22222222, user, BookStatus.BORROWED, "Description","SSN",null);
         myBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
         myBookList.add(testBook);
         testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
@@ -108,8 +107,6 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         testBook = new Book("Eleventh Book", "Eleventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
 
-        DatabaseHandler dh = new DatabaseHandler(getActivity());
-        myBookList = dh.retrieveAvailableBook();
 
     }
 
