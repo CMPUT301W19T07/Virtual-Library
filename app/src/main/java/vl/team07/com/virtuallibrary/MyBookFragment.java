@@ -67,9 +67,11 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = myBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, MyBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
+                BookStatus status_enum = clickedBook.getStatus();
+                String status = status_enum.name();
                 int isbn = clickedBook.getISBN();
                 String ownerAddress = clickedBook.getOwner().getAddress();
                 String description = clickedBook.getDescription();
