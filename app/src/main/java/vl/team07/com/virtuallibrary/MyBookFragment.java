@@ -82,6 +82,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 extras.putInt("ISBN", isbn);
                 extras.putString("OWNERADDRESS", ownerAddress);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
                 intent.putExtras(extras);
                 context.startActivity(intent);
 
@@ -110,8 +111,8 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         testBook = new Book("Eleventh Book", "Eleventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);
 
-        DatabaseHandler dh = new DatabaseHandler(getActivity());
-        myBookList = dh.retrieveAvailableBook();
+//        DatabaseHandler dh = new DatabaseHandler(getActivity());
+//        myBookList = dh.retrieveAvailableBook();
 
     }
 

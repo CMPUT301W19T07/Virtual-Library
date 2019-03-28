@@ -90,29 +90,29 @@ public class DatabaseHandler {
      * @see MyBookFragment
      */
 
-    public ArrayList<Book> retrieveAvailableBook() {
-
-        databaseReference.keepSynced(true);
-        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Book book = adSnapshot.getValue(Book.class);
-                    newBookList.add(book);
-                }
-                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
-        return newBookList;
-    }
+//    public ArrayList<Book> retrieveAvailableBook() {
+//
+//        databaseReference.keepSynced(true);
+//        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+//                    Book book = adSnapshot.getValue(Book.class);
+//                    newBookList.add(book);
+//                }
+//                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
+//
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
+//        return newBookList;
+//    }
 
 
 //    public void retrieveAvailableBook() {
