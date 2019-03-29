@@ -44,6 +44,8 @@ import java.util.ArrayList;
 
 public class DatabaseHandler {
 
+
+    private static DatabaseHandler instance;
     private final String TAG = getClass().getSimpleName();
     private FirebaseDatabase myDatabase;
     private DatabaseReference databaseReference;
@@ -68,13 +70,20 @@ public class DatabaseHandler {
      *
      * @param context
      */
-    public DatabaseHandler(Context context) {
+    private DatabaseHandler(Context context) {
         firebaseAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance();
         databaseReference = myDatabase.getReference();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         this.context = context;
+    }
+
+    public static DatabaseHandler getInstance(Context context){
+        if(instance == null){
+            instance = new DatabaseHandler(context);
+        }
+        return instance;
     }
 
     /**
@@ -134,6 +143,8 @@ public class DatabaseHandler {
                     newBookList.add(book);
                 }
                 System.out.println("Size of the list in onDataChange is: " + newBookList.size());
+                DatabaseHandler db = getInstance(context);
+                db.setNewBookList(newBookList);
 
             }
 
@@ -147,6 +158,10 @@ public class DatabaseHandler {
         return newBookList;
     }
 
+    //Add newArrayList to database's newBookList
+    public void setNewBookList(ArrayList<Book> bookList){
+        this.newBookList = bookList;
+    }
 
     /**
      * This method takes in a User object and adds it to the database using the values provided
@@ -172,7 +187,7 @@ public class DatabaseHandler {
      * @see AddReviewActivity
      */
     public void addReview (Book book, Review review) {
-        databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
+        databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).child(review.getReviewer()).setValue(review);
     }
 
 

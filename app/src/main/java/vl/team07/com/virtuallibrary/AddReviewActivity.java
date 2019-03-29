@@ -78,13 +78,13 @@ public class AddReviewActivity extends AppCompatActivity {
                 }
 
                 if (errorFlag == false){
-                    User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+                    User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "   ");
                     Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
-                    Review newReview = new Review(testBook, user1);
-                    newReview.setComment(comment);
-                    newReview.setRating(Double.parseDouble(rating));
+                    Review newReview = new Review(user1.getUserName());
+                    newReview.setComment("new comment");
+                    newReview.setRating(4.3);
 
-                    DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                     dh.addReview(testBook, newReview);
 
                     Context context = v.getContext();

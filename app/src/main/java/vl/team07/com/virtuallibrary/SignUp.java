@@ -65,7 +65,7 @@ public class SignUp extends AppCompatActivity {
 
                 User user = new User(username, name, email);
 
-                DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.addUser(user);
 
                 Intent intent = new Intent(SignUp.this, MainActivity.class);

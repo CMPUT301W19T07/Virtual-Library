@@ -64,7 +64,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        databaseHandler = new DatabaseHandler(getActivity());
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
 
         TempList();
 //        loadAllBook();

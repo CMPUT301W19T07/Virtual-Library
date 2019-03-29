@@ -92,7 +92,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
                 book.setSearchString(SearchStringName);
 
-                DatabaseHandler dh = new DatabaseHandler(getActivity());
+                DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
                 dh.addBook(book);
 
             }
