@@ -108,20 +108,20 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
                 ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(currentReviewList)));
 
                 if(currentReviewList.size() >= 1){
-                    TopReviewer1.setText("@"+ reviewList.get(0).getReviewer());
-                    Reviewer1Comment.setText(reviewList.get(0).getComment());
-                    Reviewer1Rating.setText(String.valueOf(reviewList.get(0).getRating()));
+                    TopReviewer1.setText("@"+ currentReviewList.get(0).getReviewer());
+                    Reviewer1Comment.setText(currentReviewList.get(0).getComment());
+                    Reviewer1Rating.setText(String.valueOf(currentReviewList.get(0).getRating()));
                 }
 
                 if(currentReviewList.size() >= 2){
-                    TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
-                    Reviewer2Comment.setText(reviewList.get(1).getComment());
-                    Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
+                    TopReviewer2.setText("@" + currentReviewList.get(1).getReviewer());
+                    Reviewer2Comment.setText(currentReviewList.get(1).getComment());
+                    Reviewer2Rating.setText(String.valueOf(currentReviewList.get(1).getRating()));
                 }
                 if(currentReviewList.size() >= 3){
-                    TopReviewer3.setText("@"+ reviewList.get(2).getReviewer());
-                    Reviewer3Comment.setText(reviewList.get(2).getComment());
-                    Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
+                    TopReviewer3.setText("@"+ currentReviewList.get(2).getReviewer());
+                    Reviewer3Comment.setText(currentReviewList.get(2).getComment());
+                    Reviewer3Rating.setText(String.valueOf(currentReviewList.get(2).getRating()));
                 }
 
             }
