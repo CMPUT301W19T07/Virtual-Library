@@ -12,6 +12,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ public class DatabaseHandler {
 
     private final String TAG = getClass().getSimpleName();
     private FirebaseDatabase myDatabase;
+    private FirebaseStorage myDbStorage;
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -172,6 +174,10 @@ public class DatabaseHandler {
      */
     public void addReview (Book book, Review review) {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
+    }
+
+    public void uploadImageToFirebase (Bitmap bmp) {
+        FirebaseStorage storage = FirebaseStorage.get
     }
 
 
