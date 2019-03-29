@@ -39,14 +39,15 @@ public class AllReviewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reviews);
         setTitle("Reviews");
-        initRecyclerView();
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
         title = extras.getString("TITLE");
         author = extras.getString("AUTHOR");
         isbn = extras.getString("ISBN");
-        TempList();
+
+        initRecyclerView();
 
     }
 
@@ -61,6 +62,8 @@ public class AllReviewsActivity extends AppCompatActivity {
         ReviewRecyclerViewAdapter adapter = new ReviewRecyclerViewAdapter(this, ReviewList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DatabaseHandler db = DatabaseHandler.getInstance(AllReviewsActivity.this);
+        db.loadReviews(ReviewList, adapter, isbn);
     }
 
     public void TempList(){

@@ -55,7 +55,7 @@ public class DatabaseHandler {
     private Context context;
 
     private ArrayList<Book> newBookList = new ArrayList<>();
-
+    private ArrayList<Review> newReviewList = new ArrayList<>();
 
     private final String BOOK_PARENT = "Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
@@ -158,10 +158,46 @@ public class DatabaseHandler {
         return newBookList;
     }
 
+
+
     //Add newArrayList to database's newBookList
     public void setNewBookList(ArrayList<Book> bookList){
         this.newBookList = bookList;
     }
+
+    public ArrayList<Review> retrieveBookReviews(String ISBN) {
+
+        databaseReference.keepSynced(true);
+        DatabaseReference reviewref = databaseReference.child("Reviews");
+        reviewref.child(ISBN).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Review> currentReviewList = new ArrayList<Review>();
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Review review = adSnapshot.getValue(Review.class);
+                    System.out.println("Comment of review is "+ review.getComment());
+                    currentReviewList.add(review);
+                }
+                System.out.println("Size of the list in onDataChange is: " + currentReviewList.size());
+                DatabaseHandler db = getInstance(context);
+                db.setReviewList(currentReviewList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        System.out.println("Size of the list outside onDataChange is: " + newReviewList.size());
+        return this.newReviewList;
+    }
+
+
+    public void setReviewList(ArrayList<Review> reviewList){
+        this.newReviewList = reviewList;
+    }
+
 
     /**
      * This method takes in a User object and adds it to the database using the values provided
@@ -210,6 +246,32 @@ public class DatabaseHandler {
 
                     if(availableBook!=null){
                         allBookList.add(availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void loadReviews(ArrayList<Review> reviewList, ReviewRecyclerViewAdapter adapter, String ISBN){
+        databaseReference.keepSynced(true);
+        DatabaseReference reviewref = databaseReference.child("Reviews");
+        reviewref.child(ISBN).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Review review = data.getValue(Review.class);
+
+                    if(review!=null){
+                        reviewList.add(review);
                     }
                 }
 //                adapter.setBookList(allBookList);

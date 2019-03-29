@@ -27,6 +27,9 @@ public class Review {
         this.ReviewerUsername = reviewerUsername;
     }
 
+    public Review(){
+    }
+
     public void setReviewer(String reviewer){
         this.ReviewerUsername = reviewer;
     }
