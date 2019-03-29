@@ -26,6 +26,12 @@ import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class NonOwnerBookDetailsActivity extends AppCompatActivity {
@@ -34,6 +40,9 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
     String title;
     String author;
     String isbn;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference =  database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +100,46 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         ISBNTextView.setText("ISBN: "  +String.valueOf(isbn));
         DescriptionTextView.setText(description);
         OwnerAddressTextView.setText(ownerAddress);
-        TopReviewer1.setText("@"+ reviewList.get(0).getReviewer());
-        TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
-        TopReviewer3.setText("@"+ reviewList.get(2).getReviewer());
-        Reviewer1Comment.setText(reviewList.get(0).getComment());
-        Reviewer2Comment.setText(reviewList.get(1).getComment());
-        Reviewer3Comment.setText(reviewList.get(2).getComment());
-        Reviewer1Rating.setText(String.valueOf(reviewList.get(0).getRating()));
-        Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
-        Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
-        ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
+
+        DatabaseReference reviewReference = databaseReference.child("Reviews");
+        reviewReference.child(isbn).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Review> currentReviewList = new ArrayList<Review>();
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Review review = adSnapshot.getValue(Review.class);
+                    System.out.println("Comment of review is "+ review.getComment());
+                    currentReviewList.add(review);
+                }
+
+                System.out.println("Size of the list in onDataChange is: " + currentReviewList.size());
+                ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(currentReviewList)));
+
+                if(currentReviewList.size() >= 1){
+                    TopReviewer1.setText("@"+ reviewList.get(0).getReviewer());
+                    Reviewer1Comment.setText(reviewList.get(0).getComment());
+                    Reviewer1Rating.setText(String.valueOf(reviewList.get(0).getRating()));
+                }
+
+                if(currentReviewList.size() >= 2){
+                    TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
+                    Reviewer2Comment.setText(reviewList.get(1).getComment());
+                    Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
+                }
+                if(currentReviewList.size() >= 3){
+                    TopReviewer3.setText("@"+ reviewList.get(2).getReviewer());
+                    Reviewer3Comment.setText(reviewList.get(2).getComment());
+                    Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         RequestButton.setOnClickListener(new View.OnClickListener(){
             @Override

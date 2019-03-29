@@ -155,6 +155,7 @@ public class DatabaseHandler {
             }
         });
         System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
+        System.out.println("Title of the third book is " + newBookList.get(2));
         return newBookList;
     }
 

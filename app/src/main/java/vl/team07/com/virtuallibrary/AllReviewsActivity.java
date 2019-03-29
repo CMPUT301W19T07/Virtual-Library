@@ -49,6 +49,9 @@ public class AllReviewsActivity extends AppCompatActivity {
 
         initRecyclerView();
 
+        DatabaseHandler db = DatabaseHandler.getInstance(AllReviewsActivity.this);
+        db.retrieveBookReviews(isbn);
+
     }
 
     /**
