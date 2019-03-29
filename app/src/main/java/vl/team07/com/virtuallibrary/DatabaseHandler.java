@@ -13,6 +13,8 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.Uri;
 import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +22,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,7 +35,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -45,8 +57,11 @@ public class DatabaseHandler {
 
     private final String TAG = getClass().getSimpleName();
     private FirebaseDatabase myDatabase;
-    private FirebaseStorage myDbStorage;
     private DatabaseReference databaseReference;
+
+    private FirebaseStorage myDbStorage;
+    private StorageReference myDbStorageRef;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -176,8 +191,58 @@ public class DatabaseHandler {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
     }
 
-    public void uploadImageToFirebase (Bitmap bmp) {
-        FirebaseStorage storage = FirebaseStorage.get
+    public void uploadImageToFirebase (Bitmap bmp, Book book) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.getReference();
+
+        final StorageReference ImagesRef = myDbStorageRef.child("images/"+book.getISBN()+".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        final UploadTask uploadTask = ImagesRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                createToast("Failed to add image");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.i("problem", task.getException().toString());
+                        }
+
+                        return ImagesRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri imageURI = task.getResult();
+                            DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference()
+                                    .child("Books").child(String.valueOf(book.getISBN()));
+
+                            bookRef.child("image").setValue(imageURI.toString());
+                        }
+                        else {
+                            createToast("Failed!");
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    public void createToast(String toastText) {
+        Toast toast = Toast.makeText(this.context, toastText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
     }
 
 
