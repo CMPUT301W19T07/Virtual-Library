@@ -75,7 +75,7 @@ public class LogIn extends AppCompatActivity {
     public void logIn(View view){
 
         EditText editText = (EditText) findViewById(R.id.userEmail);
-        EditText editText2 = findViewById(R.id.passWord);
+        EditText editText2 = findViewById(R.id.passWordSU);
         progressBar = findViewById(R.id.progressBar);
 
         userEmail = editText.getText().toString();
