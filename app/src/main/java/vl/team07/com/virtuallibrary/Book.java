@@ -39,7 +39,7 @@ public class Book {
 //        this.Image = null;
 //    }
 
-    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, Image image){
+    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString,byte[] image){
 
         this.Title = title;
         this.Author = author;

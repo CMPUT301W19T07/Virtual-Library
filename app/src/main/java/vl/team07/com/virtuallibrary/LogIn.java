@@ -11,6 +11,8 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,11 +34,19 @@ import android.widget.TextView;
 public class LogIn extends AppCompatActivity{
 
     private String username;
+    SharedPreferences preferences;
+    SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        edit = preferences.edit();
+
+        edit.putString("current_userName", "null");
+        edit.commit();
 
         Button goToSignUpButton = findViewById(R.id.goToSignUp);
         goToSignUpButton.setOnClickListener(new OnClickListener() {

@@ -33,7 +33,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
     ArrayList<Review> reviewList = new ArrayList<Review>();
     String title;
     String author;
-    int isbn;
+    String isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
         String ownerAddress = extras.getString("OWNERADDRESS");
         String description = extras.getString("DESCRIPTION");
 
@@ -83,7 +83,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
-        Review dummyReview = new Review(testBook, user1);
+        Review dummyReview = new Review(user1.getUserName());
 
         //Setting appropriate text for text views
         bookTitleTextView.setText(title);
@@ -122,7 +122,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);
@@ -138,7 +138,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);
@@ -150,19 +150,19 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
     public void TempList(){
         User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
-        Review testReview1 = new Review(testBook, user1);
+        Review testReview1 = new Review(user1.getUserName());
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");
         reviewList.add(testReview1);
 
         User user2 = new User("Testusername2", "Test name2", 0, "Test email", 0, "Canada", 0, "");
-        Review testReview2 = new Review(testBook, user2);
+        Review testReview2 = new Review(user2.getUserName());
         testReview2.setRating(4.4);
         testReview2.setComment("This is reviewer 2's comment");
         reviewList.add(testReview2);
 
         User user3 = new User("Testusername3", "Test name3", 0, "Test email", 0, "Canada", 0, "");
-        Review testReview3 = new Review(testBook, user3);
+        Review testReview3 = new Review(user3.getUserName());
         testReview3.setRating(4.7);
         testReview3.setComment("This is reviewer 3's comment");
         reviewList.add(testReview3);
