@@ -73,7 +73,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
 
 
 
-        User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+        User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
         Review dummyReview = new Review(testBook, user1);
 
@@ -125,24 +125,25 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
 
 
     }
-    public void TempList(){
-        User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+    public void TempList() {
+        User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
+        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description", "SSN", null);
         Review testReview1 = new Review(testBook, user1);
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");
         reviewList.add(testReview1);
 
-        User user2 = new User("Testusername2", "Test name2", 0, "Test email", 0, "Canada", 0, "");
+        User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
         Review testReview2 = new Review(testBook, user2);
         testReview2.setRating(4.4);
         testReview2.setComment("This is reviewer 2's comment");
         reviewList.add(testReview2);
 
-        User user3 = new User("Testusername3", "Test name3", 0, "Test email", 0, "Canada", 0, "");
+        User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
         Review testReview3 = new Review(testBook, user3);
         testReview3.setRating(4.7);
         testReview3.setComment("This is reviewer 3's comment");
         reviewList.add(testReview3);
+
     }
 }
