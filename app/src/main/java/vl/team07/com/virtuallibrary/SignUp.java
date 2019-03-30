@@ -41,6 +41,8 @@ public class SignUp extends AppCompatActivity {
     private String password;
     private ProgressBar progressBar;
     private boolean Unique;
+    private int age;
+    private String nationality;
 
     FirebaseAuth firebaseAuth;
 
@@ -65,6 +67,10 @@ public class SignUp extends AppCompatActivity {
                 EditText editText4 = findViewById(R.id.passWordSU);
                 password = editText4.getText().toString();
 
+                age = 18;
+                nationality = "Canada";
+
+
                 /**
                  * Signing up a new user using Firebase Authentication
                  *
@@ -86,7 +92,7 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
-                User user = new User(username, name, email);
+                User user = new User(username, name, email, password);
 
                 DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
                 dh.addUser(user);
