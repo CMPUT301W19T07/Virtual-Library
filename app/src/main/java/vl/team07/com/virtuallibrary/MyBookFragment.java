@@ -1,7 +1,7 @@
 /*
- * Class Name
+ * MyBookFragment
  *
- * Date of Initiation
+ * February 27, 2019
  *
  * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
  * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
@@ -67,9 +67,11 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = myBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, MyBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
+                BookStatus status_enum = clickedBook.getStatus();
+                String status = status_enum.name();
                 String isbn = clickedBook.getISBN();
                 String ownerAddress = clickedBook.getOwner().getAddress();
                 String description = clickedBook.getDescription();
@@ -80,6 +82,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 extras.putString("ISBN", isbn);
                 extras.putString("OWNERADDRESS", ownerAddress);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
                 intent.putExtras(extras);
                 context.startActivity(intent);
 

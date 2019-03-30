@@ -20,27 +20,28 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SignUp" />
-            
         <activity
             android:name=".RequestActivity"
             android:windowSoftInputMode="adjustPan">
-
-            
         </activity>
             
-        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AddReviewActivity" />
         <activity android:name=".AllReviewsActivity" />
         <activity android:name=".EditBookDetailsActivity" />
-        <activity android:name=".OwnerBookDetailsActivity" />
-        <activity android:name=".NonOwnerBookDetailsActivity" />
+        <activity android:name=".MyBookDetailsActivity" />
+        <activity android:name=".BorrowedBookDetailsActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
 
+        <activity android:name=".SignUp" />
+        <activity android:name=".ConfirmRequest" />
+        <activity android:name=".OtherBookDetailsActivity" />
 
-        <activity android:name=".ComfirmRequest"></activity>
     </application>
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

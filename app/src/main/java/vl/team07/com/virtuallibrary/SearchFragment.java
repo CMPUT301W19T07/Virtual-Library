@@ -16,12 +16,14 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener;
 
 
 public class SearchFragment extends android.support.v4.app.Fragment {
@@ -61,13 +63,13 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                System.out.println("search query submit");
+                Log.d("TEST....", "Search Query Submitted");
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                System.out.println("tap");
+                Log.d("TEST 2....", "tap");
                 return false;
             }
         });

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "619361212997-kvvub16q29ecjeeu9818uuv69s2eqt2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vl.team07.com.virtuallibrary",
+            "certificate_hash": "ec00670522a5ee32235c02e9c642e6ee5bf37a0e"
+          }
+        },
+        {
           "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

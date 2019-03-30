@@ -58,7 +58,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = borrowedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
