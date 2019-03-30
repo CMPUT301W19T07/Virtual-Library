@@ -96,7 +96,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
     public void TempList(){
 
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
 
         Book testBook = new Book("First Book", "First Author", 22222222, user, BookStatus.AVAILABLE, "Description","SSN",null);
         myBookList.add(testBook);

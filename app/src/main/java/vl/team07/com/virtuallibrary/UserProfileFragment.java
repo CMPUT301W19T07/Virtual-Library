@@ -99,7 +99,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         // User should be replaced by load from firebase
-        User user = new User("Test username", "Test name", 0, "Test email", 18, "Canada", 0, "Edmonton");
+        User user = new User("Test username", "Test name", "0", "Test email", 18, "Canada", 0, "Edmonton");
 
         nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
         usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
