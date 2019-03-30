@@ -174,9 +174,7 @@ public class DatabaseHandler {
     public void addUser(User user) {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
 
-        Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        toast.show();
+        createToast("You are registered");
     }
 
     /**
@@ -190,6 +188,15 @@ public class DatabaseHandler {
     public void addReview (Book book, Review review) {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
     }
+
+    /**
+     * This method takes the image uploaded while adding a book to the Firebase storage. It then
+     * takes the URL related to the stored image and stores it in the Book Database
+     *
+     * @param bmp
+     * @param book
+     * @see AddBookFragment
+     */
 
     public void uploadImageToFirebase (Bitmap bmp, Book book) {
         myDbStorage = FirebaseStorage.getInstance();
@@ -238,6 +245,11 @@ public class DatabaseHandler {
         });
 
     }
+
+    /**
+     * Simple method to generate Toast in Android
+     * @param toastText
+     */
 
     public void createToast(String toastText) {
         Toast toast = Toast.makeText(this.context, toastText, Toast.LENGTH_SHORT);
