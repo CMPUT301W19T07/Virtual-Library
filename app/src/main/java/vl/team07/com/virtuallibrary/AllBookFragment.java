@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,11 +49,59 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
         recyclerView.setAdapter(adapter);
 
+        /**
+         *Sets the onClickListener for each item in the Recycle View
+         * and opens a book detail activity depending on if the clicked book
+         * is owned by the current user or is owned by someone else.
+         *
+         * Initially created by tianxin3 and further developed by pling
+         *
+         * @see OwnerBookDetailsActivity
+         * @see NonOwnerBookDetailsActivity
+         */
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
+                Book clickedBook = allBookList.get(position);
+
+                Context context = v.getContext();
+                if (clickedBook.getStatus() == BookStatus.AVAILABLE){
+                    Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                    String title = clickedBook.getTitle();
+                    String author = clickedBook.getAuthor();
+                    int isbn = clickedBook.getISBN();
+                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String description = clickedBook.getDescription();
+
+                    Bundle extras = new Bundle();
+                    extras.putString("TITLE", title);
+                    extras.putString("AUTHOR", author);
+                    extras.putInt("ISBN", isbn);
+                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("DESCRIPTION", description);
+                    intent.putExtras(extras);
+                    context.startActivity(intent);
+                }
+                else if(clickedBook.getStatus()== BookStatus.BORROWED){
+                    Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                    String title = clickedBook.getTitle();
+                    String author = clickedBook.getAuthor();
+                    int isbn = clickedBook.getISBN();
+                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String description = clickedBook.getDescription();
+
+                    Bundle extras = new Bundle();
+                    extras.putString("TITLE", title);
+                    extras.putString("AUTHOR", author);
+                    extras.putInt("ISBN", isbn);
+                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("DESCRIPTION", description);
+                    intent.putExtras(extras);
+                    context.startActivity(intent);
+                }
+
             }
         });
 

@@ -11,27 +11,47 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+
+import static android.app.Activity.RESULT_OK;
+
 
 public class AddBookFragment extends android.support.v4.app.Fragment {
 
+    private static final int RESULT_LOAD_IMAGE = 1;
 
     private TextView TitleView, AuthorView, ISBNView, DescriptionView;
     private EditText TitleEdit, AuthorEdit, ISBNEdit, DescriptionEdit;
     private Button addButton;
     private Book book;
     private Gson gson;
+
+    private ImageView imageView;
+
 
     public AddBookFragment() {
         // Required empty public constructor
@@ -54,35 +74,32 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         AuthorEdit = (EditText) AddBookView.findViewById(R.id.enterAuthorView);
         ISBNEdit = (EditText) AddBookView.findViewById(R.id.enterISBNView);
         DescriptionEdit = (EditText) AddBookView.findViewById(R.id.enterDescriptionView);
+        imageView = AddBookView.findViewById(R.id.imageView);
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
 
         return AddBookView;
     }
 
+    /**
+     * Starting the activity of the gallery, to pick the book image
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            imageView.setImageURI(selectedImage);
+
+        }
+    }
+
     public void onStart(){
         super.onStart();
-
-        String title, author, description;
-        int ISBN;
-        // Set new book
-
-        title = TitleEdit.getText().toString();
-        author = AuthorEdit.getText().toString();
-        description = DescriptionEdit.getText().toString();
-
-        try {
-            ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-        }catch (NumberFormatException e){
-            ISBN = 0;
-        }
-
-        book = new Book();
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setDescription(description);
-        book.setISBN(ISBN);
-
 
 
         // Put book to 'My Books' Fragment by click ADD button
@@ -90,15 +107,64 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gson = new Gson();
-                String newBook = gson.toJson(book);
 
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("Add Book", newBook);
-//                setArguments(bundle);
+                String title, author, description;
+                int ISBN;
+
+                // Set new book
+
+                title = TitleEdit.getText().toString();
+                author = AuthorEdit.getText().toString();
+                description = DescriptionEdit.getText().toString();
+
+                try {
+                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
+                }catch (NumberFormatException e){
+                    ISBN = 0;
+                }
+
+                /**
+                 * Getting the image uploaded and storing it in book data
+                 */
+                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+                if (bmp != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                    book.setImage(byteArray);
+
+                } else {
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                }
+
+                DatabaseHandler dh = new DatabaseHandler(getActivity());
+                dh.addBook(book);
+
             }
         });
 
+        /**
+         * Adding an image from gallery once the imageView is clicked. It will launch the gallery,
+         * and allow the user to select an upload a photo.
+         */
+        imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+            }
+        });
 
     }
 

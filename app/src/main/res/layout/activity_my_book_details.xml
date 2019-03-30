@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Class Name
+  ~
+  ~ Date of Initiation
+  ~
+  ~ Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
+  ~ You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
+  ~ You can find a copy of the license in the github wiki for this project.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyBookDetailsActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+
+    <TextView
+        android:id="@+id/BookTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/AuthorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/BookTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/BookTitleTextView" />
+
+    <TextView
+        android:id="@+id/ISBNTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/AuthorTextView"
+        app:layout_constraintTop_toBottomOf="@+id/AuthorTextView" />
+
+    <TextView
+        android:id="@+id/DescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionIndicator" />
+
+    <TextView
+        android:id="@+id/DescriptionIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Description"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/TopReviewsIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Top Reviews"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
+
+    <TextView
+        android:id="@+id/AverageReviewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewsIndicator"
+        app:layout_constraintStart_toEndOf="@+id/TopReviewsIndicator" />
+
+    <TextView
+        android:id="@+id/TopReviewUser1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewsIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewsIndicator" />
+
+    <TextView
+        android:id="@+id/TopReviewUser2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/User1Comment"
+        app:layout_constraintTop_toBottomOf="@+id/User1Comment" />
+
+    <TextView
+        android:id="@+id/User2Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser2"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser2" />
+
+    <TextView
+        android:id="@+id/User1Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser1"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser1" />
+
+    <TextView
+        android:id="@+id/User1Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser1"
+        app:layout_constraintStart_toStartOf="@+id/AverageReviewScore" />
+
+    <TextView
+        android:id="@+id/User2Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser2"
+        app:layout_constraintStart_toStartOf="@+id/User1Rating" />
+
+    <TextView
+        android:id="@+id/TopReviewUser3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/User2Comment"
+        app:layout_constraintTop_toBottomOf="@+id/User2Comment" />
+
+    <TextView
+        android:id="@+id/User3Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/TopReviewUser3"
+        app:layout_constraintTop_toBottomOf="@+id/TopReviewUser3" />
+
+    <TextView
+        android:id="@+id/User3Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser3"
+        app:layout_constraintStart_toStartOf="@+id/User2Rating" />
+
+    <Button
+        android:id="@+id/ViewAllComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:text="View all Reviews"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/User3Comment"
+        app:layout_constraintTop_toBottomOf="@+id/User3Comment" />
+
+    <Button
+        android:id="@+id/EditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Edit Book Details"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/RequestsButton"
+        android:layout_width="111dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/Requests_Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintStart_toEndOf="@+id/User1Rating"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
+</android.support.constraint.ConstraintLayout>

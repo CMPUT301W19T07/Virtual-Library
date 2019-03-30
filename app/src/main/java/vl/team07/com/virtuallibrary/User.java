@@ -30,6 +30,8 @@ public class User {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
+        Age = 0;
+        Nationality = null;
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
@@ -76,4 +78,3 @@ public class User {
     public String getAddress(){return this.Address;}
 
 }
-

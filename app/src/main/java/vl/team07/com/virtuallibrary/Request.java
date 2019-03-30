@@ -20,6 +20,10 @@ public class Request {
 
     private User Requester;
     private Book RequestedBook;
+    private String title;
+    private String username;
+    private String email;
+    private String address;
 
     public Request(User requester, Book requestedBook){
         this.Requester = requester;
@@ -30,6 +34,26 @@ public class Request {
         else{
             this.RequestedBook.addRequester(requester);
         }
+    }
+
+    public String getRequestedBookTitle(){
+        title = RequestedBook.getTitle();
+        return title;
+    }
+
+    public String getRequesterUsername(){
+        username = Requester.getUserName();
+        return username;
+    }
+
+    public String getRequesterEmail(){
+        email = Requester.getEmail();
+        return email;
+    }
+
+    public String getRequesterAddress(){
+        address = Requester.getAddress();
+        return address;
     }
 
     public void acceptRequest(){

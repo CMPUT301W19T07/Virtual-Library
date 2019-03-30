@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Class Name
   ~
@@ -13,7 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vl.team07.com.virtuallibrary.AddBookFragment">
+    tools:context=".EditBookDetailsActivity">
 
 
     <TextView
@@ -30,8 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="48dp"
+        android:layout_marginRight="24dp"
         android:ems="10"
         android:hint="@string/enter_title"
         android:inputType="textPersonName" />
@@ -98,17 +99,17 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="144dp"
-        android:layout_height="172dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="384dp"
         android:src="@android:drawable/ic_menu_gallery" />
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="240dp"
-        android:layout_marginTop="450dp"
-        android:text="@string/bottom_navigation_add" />
+        android:layout_marginLeft="216dp"
+        android:layout_marginTop="384dp"
+        android:text="APPLY CHANGES" />
 </FrameLayout>

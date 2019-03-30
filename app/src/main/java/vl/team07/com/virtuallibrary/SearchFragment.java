@@ -19,14 +19,14 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
+import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,14 +102,13 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         @Override
             public boolean onQueryTextSubmit(String s) {
-                System.out.println("sub");
+                Log.d("TEST....", "Search Query Submitted");
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                System.out.println("txt");
-                adapter.getFilter().filter(s);
+                Log.d("TEST 2....", "tap");
                 return false;
             }
         });

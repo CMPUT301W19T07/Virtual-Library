@@ -29,8 +29,7 @@ import java.util.Locale;
 /**
  * Created by MTX on 2019-03-06.
  */
-
-public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder> implements Filterable   {
+public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder>{
 
     public class BookHolder extends RecyclerView.ViewHolder{
 
