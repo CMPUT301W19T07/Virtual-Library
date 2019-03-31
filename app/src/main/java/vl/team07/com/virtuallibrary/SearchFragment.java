@@ -61,7 +61,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        //getActivity().setTitle("Search");
+        getActivity().setTitle("Search");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.SearchRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -88,14 +88,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 filter(s.toString());
             }
         });
-        /**
-        RecyclerView mRecycler = view.findViewById(R.id.SearchRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //tempList();
-        editTextSearch = (EditText) view.findViewById(R.id.searchText);
-        recyclerView.setHasFixedSize(true);
-        mAdapter = new BookRecyclerViewAdapter(getContext(),allBookList);
-        recyclerView.setAdapter(mAdapter);**/
+
         return view;
     }
 
