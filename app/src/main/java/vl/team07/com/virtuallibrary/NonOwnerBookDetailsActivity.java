@@ -28,13 +28,33 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * The type Non owner book details activity.
+ * Creates a display of a book that the user is not the owner of
+ * @version 1.0
+ * @since 1.0
+ */
 public class NonOwnerBookDetailsActivity extends AppCompatActivity {
 
+    /**
+     * The Review list.
+     */
     ArrayList<Review> reviewList = new ArrayList<Review>();
+    /**
+     * The Title.
+     */
     String title;
+    /**
+     * The Author.
+     */
     String author;
+    /**
+     * The Isbn.
+     */
     int isbn;
-
+    /**
+     * Creates and displays the books information to the user
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +123,9 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
 
         RequestButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             *Send a request to the owner for the book
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -115,6 +138,9 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         });
 
         ViewCommentsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             *Display reviews
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -131,6 +157,9 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
         });
 
         AddReviewButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Adds a review to the book
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -147,6 +176,10 @@ public class NonOwnerBookDetailsActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Temp list of test data
+     */
     public void TempList(){
         User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);

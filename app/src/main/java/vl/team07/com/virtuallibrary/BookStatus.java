@@ -18,7 +18,13 @@
 package vl.team07.com.virtuallibrary;
 
 /**
+ *
+ * Stores the status of a given Book
+ *
  * Created by MTX on 2019-02-24.
+ *
+ * @version 1.0
+ * @since 1.0
  */
 
 public enum BookStatus {

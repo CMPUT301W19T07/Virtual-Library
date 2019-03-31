@@ -24,7 +24,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-
+/**
+ * Displays all books fragments in addition to letting the user select a book
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class AllBookFragment extends android.support.v4.app.Fragment {
 
 

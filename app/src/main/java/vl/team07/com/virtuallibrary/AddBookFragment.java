@@ -24,7 +24,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-
+/**
+ *
+ * Creates the display of the AddBook screen
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddBookFragment extends android.support.v4.app.Fragment {
 
 
@@ -37,7 +43,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     public AddBookFragment() {
         // Required empty public constructor
     }
-
+/**
+ * Creates the layout
+ */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +68,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         return AddBookView;
     }
-
+/**
+ *  Collects the inputs and stores it into a Book type
+ */
     public void onStart(){
         super.onStart();
 

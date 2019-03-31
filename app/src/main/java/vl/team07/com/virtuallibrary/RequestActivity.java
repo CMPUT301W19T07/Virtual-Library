@@ -33,6 +33,12 @@ import java.util.ArrayList;
 
 import static android.provider.Telephony.Mms.Part.FILENAME;
 
+/**
+ * The type Request activity.
+ * Shows a display of the requests
+ * @version 1.0
+ * @since 1.0
+ */
 public class RequestActivity extends AppCompatActivity {
     private ListView RequestListView;
     private ArrayList<Request> RequestList;
@@ -48,7 +54,9 @@ public class RequestActivity extends AppCompatActivity {
 //        saveInFile();
 //        loadFromFile();
     }
-
+    /**
+     * Modifies the request list upon a request being accepted or denied
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
@@ -96,9 +104,10 @@ public class RequestActivity extends AppCompatActivity {
     }
 
 
-
-
-        public void TempList(){
+    /**
+     * Temp list of test data
+     */
+    public void TempList(){
 
         User user1 = new User("user1", "Test name", 0, "email1", 0, "Canada", 0, "address1");
         User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");

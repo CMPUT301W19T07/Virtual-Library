@@ -18,12 +18,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+        /**
+         * Creates the bottom navigation bar
+         */
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -52,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * Creates display
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new HomeFragment());
 }
 
-
+    /**
+     * Load fragments into the display
+     */
     private void loadFragment(Fragment fragment) {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

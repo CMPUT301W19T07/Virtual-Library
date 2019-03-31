@@ -33,7 +33,8 @@ import java.util.regex.Pattern;
  * The type Sign up.
  * Used to create new accounts.
  * @author cjmiller
- * @see LogIn,UserDataChecker
+ * @see LogIn
+ * @see UserDataChecker
  * @version 1.0
  */
 public class SignUp extends AppCompatActivity {

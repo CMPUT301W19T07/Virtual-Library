@@ -18,12 +18,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-
+/**
+ * Displays the Requests for a given book
+ */
 public class ComfirmRequest extends AppCompatActivity {
     private String result1;
     private String result2;
     private Request request;
 
+    /**
+     * Displays the requester's data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,9 @@ public class ComfirmRequest extends AppCompatActivity {
         }
 
     }
-
+    /**
+     *  Request has been accepted
+     */
     public void AcceptRequest(View view){
 
         Intent returnIntent = new Intent();
@@ -63,7 +70,9 @@ public class ComfirmRequest extends AppCompatActivity {
         finish();
 
     }
-
+    /**
+     *  Request has been rejected
+     */
     public void RejectRequest(View view){
 
         Intent returnIntent = new Intent();

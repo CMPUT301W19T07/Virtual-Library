@@ -24,20 +24,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+/**
+ * Holds the data that should be displayed while searching for books or users
+ * @version 1.0
+ * @since 1.0
+ */
 public class SearchFragment extends android.support.v4.app.Fragment {
 
 
+    /**
+     * Instantiates a new Search fragment.
+     */
     public SearchFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Creates fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
     }
-
+    /**
+     * Creates UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +60,9 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         return SearchView;
     }
-
+    /**
+     *  Allows the user to enter an input and get results that match the keywords
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.search, menu);
