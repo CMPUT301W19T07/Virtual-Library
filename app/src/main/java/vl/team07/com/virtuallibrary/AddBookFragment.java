@@ -138,6 +138,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setAuthor(author);
                     book.setDescription(description);
                     book.setISBN(ISBN);
+                    book.setStatus(BookStatus.AVAILABLE);
                     //book.setImage(byteArray);
 
 
@@ -147,13 +148,14 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setAuthor(author);
                     book.setDescription(description);
                     book.setISBN(ISBN);
+                    book.setStatus(BookStatus.AVAILABLE);
                 }
 
                 preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                 String current_userName = preferences.getString("current_userName", "n/a");
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());
-                dh.addBookToOwnedBookList(ISBN, current_userName);
+                dh.addBookToOwnedBookList(book, current_userName);
                 dh.addBook(book);
 
             }

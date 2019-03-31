@@ -28,8 +28,8 @@ public class User {
     private int ContactInfo;    // Phone number
     private String Address;
 
-    private List<String> OwnedBookList;
-    private List<String> BorrowedBookList;
+    private List<Book> OwnedBookList;
+    private List<Book> BorrowedBookList;
 
     public User(){
         this.UserName = "Test Username";
@@ -42,8 +42,8 @@ public class User {
         this.Email=email;
         Age = 0;
         Nationality = null;
-        OwnedBookList = new ArrayList<String>();
-        BorrowedBookList = new ArrayList<String>();
+        OwnedBookList = new ArrayList<Book>();
+        BorrowedBookList = new ArrayList<Book>();
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
@@ -55,8 +55,8 @@ public class User {
         this.Nationality = nationality;
         this.ContactInfo = contactInfo;
         this.Address = address;
-        OwnedBookList = new ArrayList<String>();
-        BorrowedBookList = new ArrayList<String>();
+        this.OwnedBookList = new ArrayList<Book>();
+        this.BorrowedBookList = new ArrayList<Book>();
     }
 
     public void setUserName(String inputUserName){this.UserName = inputUserName;}
@@ -91,29 +91,29 @@ public class User {
 
     public String getAddress(){return this.Address;}
 
-    public void setOwnedBookList(ArrayList<String> bookList){
+    public void setOwnedBookList(ArrayList<Book> bookList){
         this.OwnedBookList = bookList;
     }
 
-    public ArrayList<String> getOwnedBookList(){
-        ArrayList<String> convertedBookList = new ArrayList<String>();
+    public ArrayList<Book> getOwnedBookList(){
+        ArrayList<Book> convertedBookList = new ArrayList<>();
         if (OwnedBookList != null) {
-            for (String bookISBN : OwnedBookList) {
-                convertedBookList.add(bookISBN);
+            for (Book book : OwnedBookList) {
+                convertedBookList.add(book);
             }
         }
         return convertedBookList;
     }
 
-    public void setBorrowedBookList(ArrayList<String> bookList){
+    public void setBorrowedBookList(ArrayList<Book> bookList){
         this.BorrowedBookList = bookList;
     }
 
-    public ArrayList<String> getBorrowedBookList() {
-        ArrayList<String> convertedBookList = new ArrayList<String>();
+    public ArrayList<Book> getBorrowedBookList() {
+        ArrayList<Book> convertedBookList = new ArrayList<>();
         if (BorrowedBookList != null){
-            for (String bookISBN : BorrowedBookList) {
-                convertedBookList.add(bookISBN);
+            for (Book book : BorrowedBookList) {
+                convertedBookList.add(book);
             }
         }
         return convertedBookList;

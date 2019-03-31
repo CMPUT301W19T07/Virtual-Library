@@ -279,7 +279,7 @@ public class DatabaseHandler {
 
     }
 
-    public void loadBooksIntoRecyclerView(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
+    public void loadBooksIntoRecyclerView(ArrayList<Book> myBookList, BookRecyclerViewAdapter adapter){
         databaseReference.keepSynced(true);
         databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
             @Override
@@ -290,11 +290,12 @@ public class DatabaseHandler {
                     availableBook = data.getValue(Book.class);
 
                     if(availableBook!=null){
-                        allBookList.add(availableBook);
+                        myBookList.add(availableBook);
                     }
                 }
 //                adapter.setBookList(allBookList);
                 adapter.notifyDataSetChanged();
+                System.out.println("Size of myBookList after adapter update: "+ myBookList.size());
             }
 
             @Override
@@ -305,23 +306,26 @@ public class DatabaseHandler {
 
     }
 
-//    public void displayOwnedBooks(String current_userName ,BookRecyclerViewAdapter adapter){
-//        DatabaseReference userRef = databaseReference.child("Users");
-//        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                User user = dataSnapshot.getValue(User.class);
-//                ArrayList<String> bookList = user.getOwnedBookList();
-//                DatabaseReference bookRef= databaseReference.child("Books");
-//                for
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    public void displayOwnedBooks(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> myBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> bookList = user.getOwnedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    myBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 
@@ -431,14 +435,14 @@ public class DatabaseHandler {
         toast.show();
     }
 
-    public void addBookToOwnedBookList(String newBookISBN, String current_userName){
+    public void addBookToOwnedBookList(Book newBook, String current_userName){
         DatabaseReference userRef =  databaseReference.child("Users");
         userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                ArrayList<String> oldBookList = user.getOwnedBookList();
-                oldBookList.add(newBookISBN);
+                ArrayList<Book> oldBookList = user.getOwnedBookList();
+                oldBookList.add(newBook);
                 user.setOwnedBookList(oldBookList);
                 addUser(user);
             }
