@@ -43,6 +43,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -119,7 +120,7 @@ public class DatabaseHandler {
                 final String message = "The book has already exist in the library!";
 
                 if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
-                    alertDialog(title, message);
+//                    alertDialog(title, message);
                 }else{
                     databaseReference.child("Books").child(book.getISBN()).setValue(book);
 
@@ -227,9 +228,9 @@ public class DatabaseHandler {
     public void addUser(User user) {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
 
-        Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        toast.show();
+        //Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
+        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        //toast.show();
     }
 
     /**
@@ -277,6 +278,52 @@ public class DatabaseHandler {
         });
 
     }
+
+    public void loadBooksIntoRecyclerView(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook;
+                    availableBook = data.getValue(Book.class);
+
+                    if(availableBook!=null){
+                        allBookList.add(availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+//    public void displayOwnedBooks(String current_userName ,BookRecyclerViewAdapter adapter){
+//        DatabaseReference userRef = databaseReference.child("Users");
+//        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                User user = dataSnapshot.getValue(User.class);
+//                ArrayList<String> bookList = user.getOwnedBookList();
+//                DatabaseReference bookRef= databaseReference.child("Books");
+//                for
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
+
 
     public void loadReviews(ArrayList<Review> reviewList, ReviewRecyclerViewAdapter adapter, String ISBN){
         databaseReference.keepSynced(true);
@@ -382,6 +429,25 @@ public class DatabaseHandler {
         Toast toast = Toast.makeText(this.context, toastText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
         toast.show();
+    }
+
+    public void addBookToOwnedBookList(String newBookISBN, String current_userName){
+        DatabaseReference userRef =  databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<String> oldBookList = user.getOwnedBookList();
+                oldBookList.add(newBookISBN);
+                user.setOwnedBookList(oldBookList);
+                addUser(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

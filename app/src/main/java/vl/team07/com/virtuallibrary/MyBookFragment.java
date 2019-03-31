@@ -30,7 +30,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> myBookList;
-
+    private ArrayList<Book> newBookList;
 
     public MyBookFragment() {
         // Required empty public constructor
@@ -48,6 +48,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
+
 
         /**
          *Sets the onClickListener for each item in the Recycle View

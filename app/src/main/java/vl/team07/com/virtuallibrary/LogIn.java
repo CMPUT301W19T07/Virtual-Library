@@ -45,9 +45,6 @@ public class LogIn extends AppCompatActivity{
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = preferences.edit();
 
-        edit.putString("current_userName", "null");
-        edit.commit();
-
         Button goToSignUpButton = findViewById(R.id.goToSignUp);
         goToSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -74,14 +71,14 @@ public class LogIn extends AppCompatActivity{
     public void login(View view){
 
         EditText editText = (EditText) findViewById(R.id.USERNAME);
-        String test = "test";
-        editText.setText(test);
         username = editText.getText().toString();
 
-        if (username.equalsIgnoreCase("test")) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
+        edit.putString("current_userName", username);
+        edit.commit();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
 
 //                for(//get firebase data here){
 //                    User user = (User) "data here";

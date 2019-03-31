@@ -10,6 +10,9 @@
 
 package vl.team07.com.virtuallibrary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by MTX on 2019-02-24.
  */
@@ -25,6 +28,9 @@ public class User {
     private int ContactInfo;    // Phone number
     private String Address;
 
+    private List<String> OwnedBookList;
+    private List<String> BorrowedBookList;
+
     public User(){
         this.UserName = "Test Username";
         this.Name = "Test Name";
@@ -36,6 +42,8 @@ public class User {
         this.Email=email;
         Age = 0;
         Nationality = null;
+        OwnedBookList = new ArrayList<String>();
+        BorrowedBookList = new ArrayList<String>();
     }
 
     public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
@@ -47,6 +55,8 @@ public class User {
         this.Nationality = nationality;
         this.ContactInfo = contactInfo;
         this.Address = address;
+        OwnedBookList = new ArrayList<String>();
+        BorrowedBookList = new ArrayList<String>();
     }
 
     public void setUserName(String inputUserName){this.UserName = inputUserName;}
@@ -80,4 +90,32 @@ public class User {
     public int getContactInfo(){return this.ContactInfo;}
 
     public String getAddress(){return this.Address;}
+
+    public void setOwnedBookList(ArrayList<String> bookList){
+        this.OwnedBookList = bookList;
+    }
+
+    public ArrayList<String> getOwnedBookList(){
+        ArrayList<String> convertedBookList = new ArrayList<String>();
+        if (OwnedBookList != null) {
+            for (String bookISBN : OwnedBookList) {
+                convertedBookList.add(bookISBN);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public void setBorrowedBookList(ArrayList<String> bookList){
+        this.BorrowedBookList = bookList;
+    }
+
+    public ArrayList<String> getBorrowedBookList() {
+        ArrayList<String> convertedBookList = new ArrayList<String>();
+        if (BorrowedBookList != null){
+            for (String bookISBN : BorrowedBookList) {
+                convertedBookList.add(bookISBN);
+            }
+        }
+        return convertedBookList;
+    }
 }
