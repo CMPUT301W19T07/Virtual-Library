@@ -86,14 +86,14 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 BookStatus status_enum = clickedBook.getStatus();
                 String status = status_enum.name();
                 String isbn = clickedBook.getISBN();
-                String ownerAddress = clickedBook.getOwner().getAddress();
+                String pickupLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
-                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
                 extras.putString("STATUS", status);
                 intent.putExtras(extras);
@@ -107,24 +107,24 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         return MyBookView;
     }
 
-    public void TempList(){
-
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
-
-        Book testBook = new Book("First Book", "First Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Fifth Book", "Fifth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Seventh Book", "Seventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Eleventh Book", "Eleventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-
-    }
+//    public void TempList(){
+//
+//        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+//
+//        Book testBook = new Book("First Book", "First Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Third Book", "Third Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Eleventh Book", "Eleventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//
+//    }
 
 
 }

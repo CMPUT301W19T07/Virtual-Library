@@ -91,7 +91,7 @@ public class RequestActivity extends AppCompatActivity {
         User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");
         User user3 = new User("user3", "Test name", 0, "email3", 0, "Canada", 0, "address3");
 
-        Book testBook1 = new Book("First Book", "Second Author", "1234567890", user2, BookStatus.BORROWED, "Description","SSN",null);
+        Book testBook1 = new Book("First Book", "Second Author", "1234567890", "user2", BookStatus.BORROWED, "Description","SSN",null);
         Request request1 = new Request(user1, testBook1);
         RequestList.add(request1);
 

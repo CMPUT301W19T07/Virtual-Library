@@ -454,5 +454,30 @@ public class DatabaseHandler {
         });
     }
 
+    public void displayAvailableBooks(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList){
+        DatabaseReference bookRef = databaseReference.child("Books");
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Book book = data.getValue(Book.class);
+
+
+                    if(book.getStatus() == BookStatus.AVAILABLE && book.getOwner() != current_userName){
+                        availableBookList.add(book);
+                    }
+
+                }
+                System.out.println("Size of the Book list is: " + availableBookList.size());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 }

@@ -123,6 +123,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 description = DescriptionEdit.getText().toString();
                 ISBN = ISBNEdit.getText().toString();
 
+                preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
+
                 /**
                  * Getting the image uploaded and storing it in book data
                  */
@@ -139,6 +142,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setDescription(description);
                     book.setISBN(ISBN);
                     book.setStatus(BookStatus.AVAILABLE);
+                    book.setOwner(current_userName);
                     //book.setImage(byteArray);
 
 
@@ -149,10 +153,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setDescription(description);
                     book.setISBN(ISBN);
                     book.setStatus(BookStatus.AVAILABLE);
+                    book.setOwner(current_userName);
                 }
 
-                preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                String current_userName = preferences.getString("current_userName", "n/a");
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());
                 dh.addBookToOwnedBookList(book, current_userName);

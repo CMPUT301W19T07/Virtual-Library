@@ -84,7 +84,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
 
 
         User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+        Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description","SSN",null);
         Review dummyReview = new Review(user1.getUserName());
 
         //Setting appropriate text for text views
@@ -167,7 +167,7 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
     }
     public void TempList(){
         User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+        Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);
         Review testReview1 = new Review(user1.getUserName());
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");

@@ -94,14 +94,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
                     String title = clickedBook.getTitle();
                     String author = clickedBook.getAuthor();
                     String isbn = clickedBook.getISBN();
-                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String pickupLocation = clickedBook.getPickupLocation();
                     String description = clickedBook.getDescription();
 
                     Bundle extras = new Bundle();
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
                     extras.putString("ISBN", isbn);
-                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
                     intent.putExtras(extras);
                     context.startActivity(intent);
@@ -111,14 +111,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
                     String title = clickedBook.getTitle();
                     String author = clickedBook.getAuthor();
                     String isbn = clickedBook.getISBN();
-                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String pickupLocation = clickedBook.getPickupLocation();
                     String description = clickedBook.getDescription();
 
                     Bundle extras = new Bundle();
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
                     extras.putString("ISBN", isbn);
-                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
                     intent.putExtras(extras);
                     context.startActivity(intent);
@@ -143,9 +143,9 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
         User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
 
-        Book testBook = new Book("First Book", "First Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+        Book testBook = new Book("First Book", "First Author", "1234567890", "Test User", BookStatus.AVAILABLE, "Description","SSN",null);
         allBookList.add(testBook);
-        testBook = new Book("Second Book", "Second Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Second Book", "Second Author", "1234567890", "Test User", BookStatus.BORROWED, "Description","SSN",null);
         allBookList.add(testBook);
 //        testBook = new Book("Third Book", "Third Author","1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
 //        allBookList.add(testBook);

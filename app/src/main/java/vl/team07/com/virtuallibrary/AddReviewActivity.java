@@ -86,7 +86,7 @@ public class AddReviewActivity extends AppCompatActivity {
                 if (errorFlag == false){
                     String current_userName = preferences.getString("current_userName", "n/a");
                     User user1 = new User(current_userName, "Test name1", 0, "Test email", 0, "Canada", 0, "   ");
-                    Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
+                    Book testBook = new Book(title, author, isbn, current_userName, BookStatus.AVAILABLE, "Description","SSN",null);
                     Review newReview = new Review(user1.getUserName());
                     newReview.setComment(comment);
                     newReview.setRating(Double.parseDouble(rating));

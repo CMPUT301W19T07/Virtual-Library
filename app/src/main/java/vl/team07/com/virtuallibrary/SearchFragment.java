@@ -11,10 +11,14 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,9 +29,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener;
 
+import java.util.ArrayList;
+
 
 public class SearchFragment extends android.support.v4.app.Fragment {
 
+    private RecyclerView recyclerView;
+    private BookRecyclerViewAdapter adapter;
+    private ArrayList<Book> availableBookList;
+
+    SharedPreferences preferences;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -46,33 +57,45 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
 
         View SearchView = inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = (RecyclerView) SearchView.findViewById(R.id.SearchRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        availableBookList = new ArrayList<>();
+        adapter = new BookRecyclerViewAdapter(getContext(), availableBookList);
+        recyclerView.setAdapter(adapter);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+        dh.displayAvailableBooks(current_userName, adapter, availableBookList);
+
         getActivity().setTitle("Search");
 
         return SearchView;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        inflater.inflate(R.menu.search, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM); item.setActionView(searchView);
-//        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-//        MenuItemCompat.setActionView(item, sv);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Log.d("TEST....", "Search Query Submitted");
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Log.d("TEST 2....", "tap");
-                return false;
-            }
-        });
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+//        inflater.inflate(R.menu.search, menu);
+//        MenuItem item = menu.findItem(R.id.action_search);
+//        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM); item.setActionView(searchView);
+////        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+////        MenuItemCompat.setActionView(item, sv);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                Log.d("TEST....", "Search Query Submitted");
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                Log.d("TEST 2....", "tap");
+//                return true;
+//            }
+//        });
+//    }
 }
 
