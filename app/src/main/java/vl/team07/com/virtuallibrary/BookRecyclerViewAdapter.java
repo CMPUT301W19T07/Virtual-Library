@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -88,6 +89,13 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
     public int getItemCount() {
         return books.size();
     }
+
+    //test kev
+    public void filterList(ArrayList<Book> filteredList){
+        books = filteredList;
+        notifyDataSetChanged();
+    }
+
 
     public void setClickListener(View.OnClickListener onClickListener){
         this.onClickListener = onClickListener;
