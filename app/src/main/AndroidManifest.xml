@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vl.team07.com.virtuallibrary">
 
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -11,10 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/tianxin3-test
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
 
         <activity
             android:name=".LogIn" >
@@ -24,21 +31,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<<<<<<< HEAD
         <activity
             android:name=".RequestActivity"
             android:windowSoftInputMode="adjustPan">
-=======
+
         <activity android:name=".SignUp" />
-            
-        <activity
-            android:name=".RequestActivity"
-            android:windowSoftInputMode="adjustPan">
-
-            
->>>>>>> origin/tianxin3-test
-        </activity>
+     
             
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".AllReviewsActivity" />
@@ -47,21 +45,18 @@
         <activity android:name=".BorrowedBookDetailsActivity" />
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ComfirmRequest" />
+        <activity android:name=".BarcodeCaptureActivity"></activity>
+
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-<<<<<<< HEAD
-        <activity android:name=".SignUp" />
-        <activity android:name=".ConfirmRequest" />
+
+        
         <activity android:name=".OtherBookDetailsActivity" />
-
-=======
-
-        <activity android:name=".ComfirmRequest"></activity>
->>>>>>> origin/tianxin3-test
     </application>
     
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

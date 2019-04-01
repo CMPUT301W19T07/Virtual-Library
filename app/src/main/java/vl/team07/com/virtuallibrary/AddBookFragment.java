@@ -12,6 +12,13 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.support.annotation.NonNull;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -76,6 +83,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     private ImageView imageView;
 
 
+
     public AddBookFragment() {
         // Required empty public constructor
     }
@@ -100,6 +108,17 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         imageView = AddBookView.findViewById(R.id.imageView);
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addBook();
+            }
+        });
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -135,33 +154,20 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
 
-                addBook();
-            }
-        });
-
-
-    }
-
-
-    public void addBook(){
-
-        title = TitleEdit.getText().toString();
-        author = AuthorEdit.getText().toString();
-        ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-        description = DescriptionEdit.getText().toString();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onClick(View v) {
-
                 String title, author, description;
-                String ISBN;
+                int ISBN;
+
                 // Set new book
 
                 title = TitleEdit.getText().toString();
                 author = AuthorEdit.getText().toString();
                 description = DescriptionEdit.getText().toString();
-                ISBN = ISBNEdit.getText().toString();
+
+                try {
+                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
+                }catch (NumberFormatException e){
+                    ISBN = 0;
+                }
 
                 /**
                  * Getting the image uploaded and storing it in book data
@@ -191,25 +197,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 DatabaseHandler dh = new DatabaseHandler(getActivity());
                 dh.addBook(book);
 
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(BOOK_PARENT).child(BookStatus.AVAILABLE.toString()).child(ISBNEdit.getText().toString()).exists()){
-                    System.out.println("ISBN HAS ALREADY EXISTED");
-                    alertDialog();
-                }else if(dataSnapshot.child(BOOK_PARENT).child(BookStatus.BORROWED.toString()).child(ISBNEdit.getText().toString()).exists()){
-                    alertDialog();
-                }else{
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setISBN(ISBN);
-                    book.setDescription(description);
-                    databaseReference.child(BOOK_PARENT).child(book.getStatus().toString()).child(Integer.toString(book.getISBN())).setValue(book);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -225,21 +212,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             }
         });
 
-    }
-
-
-
-    public void alertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Error");
-        builder.setMessage("The book has already exists in the Firebase.");
-        builder.setCancelable(true);
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        builder.show();
     }
 
 }

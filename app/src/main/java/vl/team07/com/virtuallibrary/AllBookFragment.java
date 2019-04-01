@@ -51,6 +51,8 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private ArrayList<Book> allBookList;
     private DatabaseHandler databaseHandler;
 
+    private ArrayList<Book> availableBookList;
+    private ArrayList<Book> borrowedBookList;
 
     private final String BOOK_PARENT = "Books";
     private ArrayList<Book> availableBookList;
@@ -63,6 +65,9 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private final String BOOK_PARENT = "All Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
     private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
+
+    private FirebaseDatabase myDatabase;
+    private DatabaseReference databaseReference;
 
     public AllBookFragment() {
         // Required empty public constructor
@@ -85,6 +90,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         databaseHandler = new DatabaseHandler(getActivity());
 
