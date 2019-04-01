@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -88,6 +90,11 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         final Button EditButton = findViewById(R.id.EditButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
         final Button RequestsButton = findViewById(R.id.RequestsButton);
+        final ImageView bookCover = findViewById(R.id.bookCover);
+
+        //Loading the images from Firebase Storage
+        DatabaseHandler dh = DatabaseHandler.getInstance(this);
+        dh.retrieveImageFromFirebase(isbn, bookCover);
 
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");

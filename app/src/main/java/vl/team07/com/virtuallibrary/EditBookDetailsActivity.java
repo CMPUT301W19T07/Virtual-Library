@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class EditBookDetailsActivity extends AppCompatActivity {
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
         String description = extras.getString("DESCRIPTION");
 
         TextView TitleView = (TextView) findViewById(R.id.addTitleView);
@@ -54,6 +55,12 @@ public class EditBookDetailsActivity extends AppCompatActivity {
         AuthorEdit.setText(author);
         ISBNEdit.setText(String.valueOf(isbn));
         DescriptionEdit.setText(description);
+
+        final ImageView bookCover = findViewById(R.id.bookCover);
+
+        //Loading the images from Firebase Storage
+        DatabaseHandler dh = DatabaseHandler.getInstance(this);
+        dh.retrieveImageFromFirebase(isbn, bookCover);
 
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override

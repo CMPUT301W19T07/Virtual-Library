@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.content.DialogInterface;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -45,12 +47,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -424,6 +429,49 @@ public class DatabaseHandler {
         });
 
 
+    }
+
+    /**
+     * This method will take the images from the firebase storage and set the image in various
+     * activities.
+     * @param ISBN
+     * @param bookCover
+     */
+
+    public void retrieveImageFromFirebase(String ISBN, ImageView bookCover) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.
+                getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
+                child("images/"+ ISBN + ".png");
+
+//        myDbStorageRef.child("images/"+ISBN+".png").getDownloadUrl().
+//                addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        bookCover.setImageURI(uri);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                createToast("Failed to load image");
+//            }
+//        });
+
+        try {
+            final File localFile = File.createTempFile("images", "png");
+            myDbStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    bookCover.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        } catch (IOException e ) {}
     }
 
     /**

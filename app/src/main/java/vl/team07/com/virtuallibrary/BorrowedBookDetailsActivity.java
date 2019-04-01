@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Toast;
@@ -88,6 +89,11 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         final Button ReturnButton = findViewById(R.id.ReturnButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
         final Button AddReviewButton = findViewById(R.id.AddReviewButton);
+        final ImageView bookCover = findViewById(R.id.bookCover);
+
+        //Loading the images from Firebase Storage
+        DatabaseHandler dh = DatabaseHandler.getInstance(this);
+        dh.retrieveImageFromFirebase(isbn, bookCover);
 
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");

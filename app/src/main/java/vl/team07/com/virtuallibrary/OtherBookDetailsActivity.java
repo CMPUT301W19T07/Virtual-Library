@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +92,12 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
         final Button RequestButton = findViewById(R.id.RequestButton);
+
+        final ImageView bookCover = findViewById(R.id.bookCover);
+
+        //Loading the images from Firebase Storage
+        DatabaseHandler dh = DatabaseHandler.getInstance(this);
+        dh.retrieveImageFromFirebase(isbn, bookCover);
 
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
