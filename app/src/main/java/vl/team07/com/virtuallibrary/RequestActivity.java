@@ -21,10 +21,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.location.places.ui.PlacePicker.IntentBuilder;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -61,26 +57,6 @@ public class RequestActivity extends AppCompatActivity {
 //        saveInFile();
 //        loadFromFile();
 
-
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
-            if(resultCode == Activity.RESULT_OK){
-                RequestList.get(0).acceptRequest();
-                RequestList.clear();
-                adapter.notifyDataSetChanged();
-//                saveInFile();
-            }
-            if(resultCode == Activity.RESULT_CANCELED) {
-                int result = Integer.parseInt(data.getStringExtra("PositionBack"));
-                RequestList.remove(RequestList.get(result));
-                adapter.notifyDataSetChanged();
-//                saveInFile();
-            }
-        }
-    }
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();

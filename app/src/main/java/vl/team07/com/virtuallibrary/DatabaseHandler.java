@@ -13,6 +13,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -233,11 +234,6 @@ public class DatabaseHandler {
      */
     public void addUser(User user) {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
-
-        createToast("You are registered");
-        //Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
-        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        //toast.show();
     }
 
     /**
@@ -440,6 +436,29 @@ public class DatabaseHandler {
                         }
                     }
                 });
+            }
+        });
+
+    }
+
+    public void getUsernameToPref (String email, SharedPreferences preferences, SharedPreferences.Editor edit) {
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    User user = data.getValue(User.class);
+                    if (email.equals(user.getEmail())){
+                        edit.putString("current_userName", user.getUserName());
+                        edit.commit();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 

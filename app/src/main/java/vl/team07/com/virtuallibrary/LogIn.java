@@ -102,10 +102,11 @@ public class LogIn extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-
+                    DatabaseHandler dh = DatabaseHandler.getInstance(LogIn.this);
+                    dh.getUsernameToPref(userEmail, preferences, edit);
                     // Save username into PreferenceManager
-                    edit.putString("current_userName", username);
-                    edit.commit();
+//                    edit.putString("current_userName", username);
+//                    edit.commit();
 
                     Intent intent = new Intent(LogIn.this, MainActivity.class);
                     startActivity(intent);

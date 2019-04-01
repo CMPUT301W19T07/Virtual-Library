@@ -171,35 +171,46 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                  */
                 Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-                if (bmp != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bmp.compress(CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                    book.setStatus(BookStatus.AVAILABLE);
-                    book.setOwner(current_userName);
-                    //book.setImage(byteArray);
+                book = new Book();
+                book.setTitle(title);
+                book.setAuthor(author);
+                book.setDescription(description);
+                book.setISBN(ISBN);
+                book.setStatus(BookStatus.AVAILABLE);
+                book.setOwner(current_userName);
 
 
-                } else {
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                    book.setStatus(BookStatus.AVAILABLE);
-                    book.setOwner(current_userName);
-                }
+
+//                if (bmp != null) {
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bmp.compress(CompressFormat.PNG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+//
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                    book.setStatus(BookStatus.AVAILABLE);
+//                    book.setOwner(current_userName);
+//                    //book.setImage(byteArray);
+//
+//
+//                } else {
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                    book.setStatus(BookStatus.AVAILABLE);
+//                    book.setOwner(current_userName);
+//                }
 
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());
                 dh.addBookToOwnedBookList(book, current_userName);
                 dh.addBook(book);
+                dh.uploadImageToFirebase(bmp, book);
 
             }
         });
