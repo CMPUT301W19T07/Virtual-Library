@@ -15,7 +15,6 @@
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
           "client_id": "619361212997-kvvub16q29ecjeeu9818uuv69s2eqt2s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -25,7 +24,6 @@
         },
         {
           "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
-=======
           "client_id": "676743268924-oq6dv8bo0v91for42otj9s4g0a5r8big.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -35,7 +33,6 @@
         },
         {
           "client_id": "676743268924-l65o0n1mbi045gccca5c1itejgp3vgea.apps.googleusercontent.com",
->>>>>>> origin/tianxin3-test
           "client_type": 3
         }
       ],
@@ -52,11 +49,10 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-<<<<<<< HEAD
               "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
-=======
               "client_id": "676743268924-l65o0n1mbi045gccca5c1itejgp3vgea.apps.googleusercontent.com",
->>>>>>> origin/tianxin3-test
+              "client_id": "676743268924-l65o0n1mbi045gccca5c1itejgp3vgea.apps.googleusercontent.com",
+
               "client_type": 3
             }
           ]

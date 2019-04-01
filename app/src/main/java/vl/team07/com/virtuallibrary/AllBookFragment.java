@@ -17,11 +17,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +53,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
 
     private final String BOOK_PARENT = "Books";
+    private ArrayList<Book> availableBookList;
+    private ArrayList<Book> borrowedBookList;
+    private ArrayAdapter<Book> arrayAdapter;
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    private final String BOOK_PARENT = "All Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
     private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
 
@@ -60,7 +77,12 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         recyclerView = (RecyclerView) AllBookView.findViewById(R.id.AllBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         allBookList = new ArrayList<>();
+        availableBookList = new ArrayList<>();
+        borrowedBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
+//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
 
@@ -81,6 +103,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
          * @see OwnerBookDetailsActivity
          * @see NonOwnerBookDetailsActivity
          */
+        // int position is index of item clicked in recyclerView
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,13 +151,48 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         });
 
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
 
         return AllBookView;
     }
 
-    @Override
+
     public void onStart(){
         super.onStart();
+        loadFromFirebase();
+        TempList();
+
+    }
+
+    public void loadFromFirebase(){
+
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).child(BOOK_AVAILABLE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook = data.getValue(Book.class);
+                    if(availableBook!=null){
+                        allBookList.add(availableBook);
+                        System.out.println("BOOK IS: "+availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
 
@@ -162,6 +220,21 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 //        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
 //        allBookList.add(testBook);
 //        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
 //        allBookList.add(testBook);
     }
 

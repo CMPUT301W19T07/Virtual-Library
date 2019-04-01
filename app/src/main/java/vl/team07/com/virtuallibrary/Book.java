@@ -32,7 +32,14 @@ public class Book {
 
     public Book(){
 
-        this.Owner = new User("Test", "Test","Test");
+        this.Title = "";
+        this.Author = "";
+        this.ISBN = 0;
+        this.Owner = new User();
+        this.Status = BookStatus.AVAILABLE;
+        this.Description = "";
+        this.SearchString = "";
+        this.Image = null;
     }
 
 //    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString) {

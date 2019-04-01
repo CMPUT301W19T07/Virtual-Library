@@ -93,5 +93,8 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         this.onClickListener = onClickListener;
     }
 
+    public void setBookList(ArrayList<Book> books){
+        this.books = books;
+    }
 
 }
