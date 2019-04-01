@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,11 +34,13 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.DriverManager.println;
+
 
 public class SearchFragment extends android.support.v4.app.Fragment {
 
     RecyclerView recyclerView;
-    public ArrayList<Book> allBookList;
+    public ArrayList<Book> availBookList; //Books that are available and not yours.
     public BookRecyclerViewAdapter mAdapter;
     EditText search;
 
@@ -59,17 +62,14 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         getActivity().setTitle("Search");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.SearchRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        allBookList = new ArrayList<>();
-        mAdapter = new BookRecyclerViewAdapter(getContext(), allBookList);
+        availBookList = new ArrayList<>();
+        mAdapter = new BookRecyclerViewAdapter(getContext(), availBookList);
         recyclerView.setAdapter(mAdapter);
-
-        tempList();
 
         search = view.findViewById(R.id.searchText);
         search.addTextChangedListener(new TextWatcher() {
@@ -89,14 +89,49 @@ public class SearchFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        mAdapter.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.indexOfChild(v);
+                System.out.println("POSITION: " + position);
+                Book clickedBook = availBookList.get(position);
+
+                Context context = v.getContext();
+
+                if(clickedBook.getStatus()== BookStatus.AVAILABLE){
+                    System.out.println("please " + position);
+                    Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                    String title = clickedBook.getTitle();
+                    String author = clickedBook.getAuthor();
+                    int isbn = clickedBook.getISBN();
+                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String description = clickedBook.getDescription();
+
+                    Bundle extras = new Bundle();
+                    extras.putString("TITLE", title);
+                    extras.putString("AUTHOR", author);
+                    extras.putInt("ISBN", isbn);
+                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("DESCRIPTION", description);
+                    intent.putExtras(extras);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
+        tempList();
         return view;
+    }
+
+    public boolean isMatch(String search, String subject){
+        return subject.toLowerCase().contains(search.toLowerCase());
     }
 
     private void filter(String text){
         ArrayList<Book> filteredList = new ArrayList<>();
 
-        for (Book books : allBookList){
-            if (books.getTitle().toLowerCase().contains(text.toLowerCase())){
+        for (Book books : availBookList){
+            if (isMatch(text, books.getTitle()) || isMatch(text, books.getDescription()) || isMatch(text,books.getAuthor())){
                 filteredList.add(books);
             }
         }
@@ -107,26 +142,15 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
 
-        Book testBook = new Book("First Book", "First Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Second Book", "Second Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
+        Book testBook = new Book("First Book", "First Author", 1234567890, user, BookStatus.AVAILABLE, "Description1","SSN",null);
+        availBookList.add(testBook);
+        testBook = new Book("Second Book", "Second Author", 1234567890, user, BookStatus.AVAILABLE, "Description2","SSN",null);
+        availBookList.add(testBook);
+        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Book","SSN",null);
+        availBookList.add(testBook);
+        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.AVAILABLE, "Test","SSN",null);
+        availBookList.add(testBook);
+
     }
 
 }

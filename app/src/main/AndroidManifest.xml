@@ -29,6 +29,8 @@
         <activity android:name=".EditBookDetailsActivity" />
         <activity android:name=".MyBookDetailsActivity" />
         <activity android:name=".BorrowedBookDetailsActivity" />
+        <activity android:name=".OwnerBookDetailsActivity" />
+        <activity android:name=".NonOwnerBookDetailsActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">

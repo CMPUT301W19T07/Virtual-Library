@@ -90,12 +90,11 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         return books.size();
     }
 
-    //test kev
+    //for search frag
     public void filterList(ArrayList<Book> filteredList){
         books = filteredList;
         notifyDataSetChanged();
     }
-
 
     public void setClickListener(View.OnClickListener onClickListener){
         this.onClickListener = onClickListener;
