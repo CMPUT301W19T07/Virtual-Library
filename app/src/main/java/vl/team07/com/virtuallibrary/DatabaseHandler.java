@@ -126,7 +126,7 @@ public class DatabaseHandler {
      */
     public void addBook(final Book book) {
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -134,12 +134,13 @@ public class DatabaseHandler {
                 final String message = "The book has already exist in the library!";
 
                 if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
-//                    alertDialog(title, message);
+                    alertDialog(title, message);
                 }else{
                     databaseReference.child("Books").child(book.getISBN()).setValue(book);
 
                     showToast("The book is added!");
                 }
+                System.out.println("Currently running addBook");
             }
 
             @Override
@@ -546,9 +547,11 @@ public class DatabaseHandler {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     User user = data.getValue(User.class);
+                    System.out.println("Gotten username is : "+ user.getUserName());
                     if (email.equals(user.getEmail())){
                         edit.putString("current_userName", user.getUserName());
                         edit.commit();
+
                         break;
                     }
                 }
@@ -580,9 +583,24 @@ public class DatabaseHandler {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 ArrayList<Book> oldBookList = user.getOwnedBookList();
-                oldBookList.add(newBook);
-                user.setOwnedBookList(oldBookList);
-                addUser(user);
+
+//                boolean isExisted = UserArrayList.stream().anyMatch(user->user.getUserName().equals(username));
+//                boolean isExisted = oldBookList.stream().anyMatch()
+                boolean listContainsBook = false;
+                for(Book book : oldBookList){
+                    if (book.getISBN().equals(newBook.getISBN())){
+                        listContainsBook = true;
+                    }
+                }
+                if(listContainsBook) {
+                    System.out.println("Book is already in owned list");
+                    alertDialog("Book Already Exists", "Book Already ");
+                }else {
+                    oldBookList.add(newBook);
+
+                    user.setOwnedBookList(oldBookList);
+                    addUser(user);
+                }
             }
 
             @Override
@@ -783,6 +801,27 @@ public class DatabaseHandler {
                 }
                 System.out.println("Size of the Book list is: " + availableBookList.size());
                 adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    public void loadBookByISBN(String ISBN, BookCallBack bookCallBack){
+
+
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).child(ISBN).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Book resultBook = dataSnapshot.getValue(Book.class);
+                if(resultBook!=null){
+                    bookCallBack.onCallback(resultBook);
+                }
             }
 
             @Override

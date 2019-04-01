@@ -104,6 +104,7 @@ public class LogIn extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DatabaseHandler dh = DatabaseHandler.getInstance(LogIn.this);
                     dh.getUsernameToPref(userEmail, preferences, edit);
+                    System.out.println("Current Email : "+ userEmail);
                     // Save username into PreferenceManager
 //                    edit.putString("current_userName", username);
 //                    edit.commit();

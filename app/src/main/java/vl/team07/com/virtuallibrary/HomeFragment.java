@@ -48,6 +48,30 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         return HomeView;
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        String ISBN;
+
+        if(MainActivity.SCAN_ISBN != null){
+            ISBN = MainActivity.SCAN_ISBN;
+
+            DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
+            databaseHandler.loadBookByISBN(ISBN, new BookCallBack() {
+                @Override
+                public void onCallback(Book book) {
+                    System.out.println("BOOK IS " + book.getTitle());
+                    ScanBookInfo scanBookInfo = new ScanBookInfo(book);
+                    scanBookInfo.showDialog(getActivity());
+                }
+            });
+        }
+
+
+
+
+    }
     public void setViewPager(ViewPager viewPager){
         TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager());
 
