@@ -39,14 +39,18 @@ public class AllReviewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reviews);
         setTitle("Reviews");
-        initRecyclerView();
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
         title = extras.getString("TITLE");
         author = extras.getString("AUTHOR");
         isbn = extras.getString("ISBN");
-        TempList();
+
+        initRecyclerView();
+
+        DatabaseHandler db = DatabaseHandler.getInstance(AllReviewsActivity.this);
+        db.retrieveBookReviews(isbn);
 
     }
 
@@ -61,24 +65,26 @@ public class AllReviewsActivity extends AppCompatActivity {
         ReviewRecyclerViewAdapter adapter = new ReviewRecyclerViewAdapter(this, ReviewList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DatabaseHandler db = DatabaseHandler.getInstance(AllReviewsActivity.this);
+        db.loadReviews(ReviewList, adapter, isbn);
     }
 
     public void TempList(){
         User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
-        Review testReview1 = new Review(testBook, user1);
+        Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);
+        Review testReview1 = new Review(user1.getUserName());
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");
         ReviewList.add(testReview1);
 
         User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview2 = new Review(testBook, user2);
+        Review testReview2 = new Review(user2.getUserName());
         testReview2.setRating(4.4);
         testReview2.setComment("This is reviewer 2's comment");
         ReviewList.add(testReview2);
 
         User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview3 = new Review(testBook, user3);
+        Review testReview3 = new Review(user3.getUserName());
         testReview3.setRating(4.7);
         testReview3.setComment("This is reviewer 3's comment");
         ReviewList.add(testReview3);

@@ -11,6 +11,8 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,11 +44,17 @@ public class LogIn extends AppCompatActivity {
     ProgressBar progressBar;
 
     FirebaseAuth firebaseAuth;
+    private String username;
+    SharedPreferences preferences;
+    SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        edit = preferences.edit();
 
         Button goToSignUpButton = findViewById(R.id.goToSignUp);
         goToSignUpButton.setOnClickListener(new OnClickListener() {
@@ -94,6 +102,13 @@ public class LogIn extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+                    DatabaseHandler dh = DatabaseHandler.getInstance(LogIn.this);
+                    dh.getUsernameToPref(userEmail, preferences, edit);
+                    System.out.println("Current Email : "+ userEmail);
+                    // Save username into PreferenceManager
+//                    edit.putString("current_userName", username);
+//                    edit.commit();
+
                     Intent intent = new Intent(LogIn.this, MainActivity.class);
                     startActivity(intent);
                 } else {

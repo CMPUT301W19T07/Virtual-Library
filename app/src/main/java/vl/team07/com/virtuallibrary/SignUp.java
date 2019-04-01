@@ -11,6 +11,8 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +47,8 @@ public class SignUp extends AppCompatActivity {
     private String nationality;
 
     FirebaseAuth firebaseAuth;
+    SharedPreferences preferences;
+    SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class SignUp extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.progressBar);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        edit = preferences.edit();
+
 
         Button signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new OnClickListener() {
@@ -96,8 +103,11 @@ public class SignUp extends AppCompatActivity {
 
                 User user = new User(username, name, email, password);
 
-                DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.addUser(user);
+
+                edit.putString("current_userName", username);
+                edit.commit();
 
                 Intent intent = new Intent(SignUp.this, MainActivity.class);
                 startActivity(intent);

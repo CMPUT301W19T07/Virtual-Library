@@ -57,7 +57,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         if(MainActivity.SCAN_ISBN != null){
             ISBN = MainActivity.SCAN_ISBN;
 
-            DatabaseHandler databaseHandler = new DatabaseHandler(getContext());
+            DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
             databaseHandler.loadBookByISBN(ISBN, new BookCallBack() {
                 @Override
                 public void onCallback(Book book) {

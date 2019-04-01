@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Top Reviews"
+        android:text="Reviews"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
@@ -109,7 +109,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/TopReviewsIndicator"
@@ -120,7 +119,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/User1Comment"
@@ -130,7 +128,6 @@
         android:id="@+id/User2Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/TopReviewUser2"
@@ -140,7 +137,6 @@
         android:id="@+id/User1Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/TopReviewUser1"
@@ -150,26 +146,25 @@
         android:id="@+id/User1Rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser1"
-        app:layout_constraintStart_toStartOf="@+id/AverageReviewScore" />
+        app:layout_constraintStart_toEndOf="@+id/TopReviewUser1" />
 
     <TextView
         android:id="@+id/User2Rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser2"
-        app:layout_constraintStart_toStartOf="@+id/User1Rating" />
+        app:layout_constraintStart_toEndOf="@+id/TopReviewUser2" />
 
     <TextView
         android:id="@+id/TopReviewUser3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/User2Comment"
@@ -179,7 +174,6 @@
         android:id="@+id/User3Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/TopReviewUser3"
@@ -189,10 +183,10 @@
         android:id="@+id/User3Rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBaseline_toBaselineOf="@+id/TopReviewUser3"
-        app:layout_constraintStart_toStartOf="@+id/User2Rating" />
+        app:layout_constraintStart_toEndOf="@+id/TopReviewUser3" />
 
     <Button
         android:id="@+id/ViewAllComments"

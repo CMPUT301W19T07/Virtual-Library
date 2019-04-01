@@ -12,6 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -21,6 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class MyBookDetailsActivity extends AppCompatActivity {
@@ -29,6 +36,12 @@ public class MyBookDetailsActivity extends AppCompatActivity {
     String author;
     private String status;
     String isbn;
+    String owner;
+    String pickupLocation;
+    String description;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference =  database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +54,13 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        String title = extras.getString("TITLE");
-        String author = extras.getString("AUTHOR");
-        String isbn = extras.getString("ISBN");
-        String ownerAddress = extras.getString("OWNERADDRESS");
-        String description = extras.getString("DESCRIPTION");
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
         status = extras.getString("STATUS");
+        owner = extras.getString("OWNER");
 
 //        description = "WE need a long description in here. I should just try to practice my typin " +
 //                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
@@ -77,24 +91,52 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description", "SSN", null);
-        Review dummyReview = new Review(testBook, user1);
+        Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description", "SSN", null);
+        Review dummyReview = new Review(user1.getUserName());
 
         //Setting appropriate text for text views
         bookTitleTextView.setText(title);
         authorTextView.setText("by " + author);
         ISBNTextView.setText("ISBN: " + String.valueOf(isbn));
         DescriptionTextView.setText(description);
-        TopReviewer1.setText("@" + reviewList.get(0).getReviewer());
-        TopReviewer2.setText("@" + reviewList.get(1).getReviewer());
-        TopReviewer3.setText("@" + reviewList.get(2).getReviewer());
-        Reviewer1Comment.setText(reviewList.get(0).getComment());
-        Reviewer2Comment.setText(reviewList.get(1).getComment());
-        Reviewer3Comment.setText(reviewList.get(2).getComment());
-        Reviewer1Rating.setText(String.valueOf(reviewList.get(0).getRating()));
-        Reviewer2Rating.setText(String.valueOf(reviewList.get(1).getRating()));
-        Reviewer3Rating.setText(String.valueOf(reviewList.get(2).getRating()));
-        ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(reviewList)));
+        DatabaseReference reviewReference = databaseReference.child("Reviews");
+        reviewReference.child(isbn).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Review> currentReviewList = new ArrayList<Review>();
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Review review = adSnapshot.getValue(Review.class);
+                    System.out.println("Comment of review is "+ review.getComment());
+                    currentReviewList.add(review);
+                }
+
+                System.out.println("Size of the list in onDataChange is: " + currentReviewList.size());
+                ReviewAverageScore.setText(String.valueOf(dummyReview.getAverageRating(currentReviewList)));
+
+                if(currentReviewList.size() >= 1){
+                    TopReviewer1.setText("@"+ currentReviewList.get(0).getReviewer());
+                    Reviewer1Comment.setText(currentReviewList.get(0).getComment());
+                    Reviewer1Rating.setText(String.valueOf(currentReviewList.get(0).getRating()));
+                }
+
+                if(currentReviewList.size() >= 2){
+                    TopReviewer2.setText("@" + currentReviewList.get(1).getReviewer());
+                    Reviewer2Comment.setText(currentReviewList.get(1).getComment());
+                    Reviewer2Rating.setText(String.valueOf(currentReviewList.get(1).getRating()));
+                }
+                if(currentReviewList.size() >= 3){
+                    TopReviewer3.setText("@"+ currentReviewList.get(2).getReviewer());
+                    Reviewer3Comment.setText(currentReviewList.get(2).getComment());
+                    Reviewer3Rating.setText(String.valueOf(currentReviewList.get(2).getRating()));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         EditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +147,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
@@ -121,7 +166,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
                     extras.putString("ISBN", isbn);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
+                    extras.putString("STATUS", status);
+                    extras.putString("OWNER", owner);
                     intent.putExtras(extras);
                     context.startActivity(intent);
                 } else if (status.equals("BORROWED")) {
@@ -155,20 +203,20 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
     public void TempList() {
         User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description", "SSN", null);
-        Review testReview1 = new Review(testBook, user1);
+        Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description", "SSN", null);
+        Review testReview1 = new Review(user1.getUserName());
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");
         reviewList.add(testReview1);
 
         User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview2 = new Review(testBook, user2);
+        Review testReview2 = new Review(user2.getUserName());
         testReview2.setRating(4.4);
         testReview2.setComment("This is reviewer 2's comment");
         reviewList.add(testReview2);
 
         User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview3 = new Review(testBook, user3);
+        Review testReview3 = new Review(user3.getUserName());
         testReview3.setRating(4.7);
         testReview3.setComment("This is reviewer 3's comment");
         reviewList.add(testReview3);
