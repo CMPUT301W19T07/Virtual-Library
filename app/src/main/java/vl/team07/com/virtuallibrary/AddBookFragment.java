@@ -54,6 +54,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
@@ -73,9 +76,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
     private ArrayList<Book> allBooks = new ArrayList<>();
 //    private ArrayAdapter<Book> adapter = new ArrayAdapter<Book>();
-    private String title, author, description;
-    private int ISBN;
-
+    private String title, author, description, ISBN;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -141,6 +142,46 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     public void onStart() {
         super.onStart();
 
+        if(MainActivity.SCAN_ISBN != null){
+            this.ISBN = MainActivity.SCAN_ISBN;
+
+            GoogleBookAPI googleBookAPI = new GoogleBookAPI(new AsyncResponse() {
+                @Override
+                public void processFinish(JSONObject output) {
+                    try {
+                        title = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("title");
+                        author = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("authors");
+                        description = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("description");
+
+                        if(title!=null){
+                            TitleEdit.setText(title);
+                        }
+                        if(author!=null){
+                            author = author.substring(1,author.length()-1);
+                            String[] authors = author.split(",");
+                            author = authors[0].substring(1,authors[0].length()-1);
+                            if(authors.length > 1){
+                                for(int i=1;i<authors.length;i++){
+                                    String author_new = authors[i].substring(1,authors[i].length()-1);
+                                    author = author + ", " + author_new;
+                                }
+                            }
+                            AuthorEdit.setText(author);
+                        }
+                        if(description!=null){
+                            DescriptionEdit.setText(description);
+                        }
+                        ISBNEdit.setText(ISBN);
+                    }catch (JSONException e){
+                        return;
+                    }
+                }
+            });
+            googleBookAPI.execute(this.ISBN);
+
+        }
+
+
 
         // Put book to 'My Books' Fragment by click ADD button
         // Will be update use firebase later
@@ -148,8 +189,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
 
-                String title, author, description;
-                String ISBN;
 
                 // Set new book
 

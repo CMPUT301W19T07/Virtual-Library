@@ -19,19 +19,24 @@
 
     <LinearLayout
         android:id="@+id/topLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:keepScreenOn="true">
+        android:keepScreenOn="true"
+        android:orientation="vertical">
 
         <vl.team07.com.virtuallibrary.Scanner.ui.camera.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <vl.team07.com.virtuallibrary.Scanner.ui.camera.GraphicOverlay
                 android:id='@+id/graphicOverlay'
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="355dp" />
         </vl.team07.com.virtuallibrary.Scanner.ui.camera.CameraSourcePreview>
 
     </LinearLayout>

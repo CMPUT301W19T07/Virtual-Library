@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
 
-    private String ISBN;
+    public static String SCAN_ISBN;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    this.ISBN = barcode.displayValue;
-                    alertDialog("ISBN is:",this.ISBN);
+                    SCAN_ISBN = barcode.displayValue;
+                    alertDialog("ISBN is:",SCAN_ISBN);
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
                 } else {
                     alertDialog("Error", "There is no message.");
