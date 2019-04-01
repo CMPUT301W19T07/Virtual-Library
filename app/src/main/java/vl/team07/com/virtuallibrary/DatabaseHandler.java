@@ -30,6 +30,7 @@ import android.view.Gravity;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -382,6 +383,20 @@ public class DatabaseHandler {
         Toast toast = Toast.makeText(this.context, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
         toast.show();
+    }
+
+    /**
+     * This method takes in the latitude and longitude selected by the book owner when he has
+     * accepted the request of a book
+     * 
+     * @param latitude
+     * @param longitude
+     * @param book
+     */
+
+    public void updatePickUpLocation(double latitude, double longitude, Book book) {
+        DatabaseReference bookRef = databaseReference.child("Books").child(book.getISBN());
+        bookRef.child("PickupLocation").setValue(String.valueOf(latitude) + " " +  String.valueOf(longitude));
     }
 
     /**

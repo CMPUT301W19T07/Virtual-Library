@@ -145,7 +145,8 @@ public class ConfirmRequest extends AppCompatActivity {
                 String current_userName = preferences.getString("current_userName", "n/a");
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
-                dh.acceptRequest(book, request.getRequesterUsername(), current_userName );
+                dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
+                dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
