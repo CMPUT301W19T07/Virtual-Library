@@ -388,7 +388,7 @@ public class DatabaseHandler {
     /**
      * This method takes in the latitude and longitude selected by the book owner when he has
      * accepted the request of a book
-     * 
+     *
      * @param latitude
      * @param longitude
      * @param book
