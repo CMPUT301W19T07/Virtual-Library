@@ -12,6 +12,8 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlacePicker.IntentBuilder;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -32,6 +36,20 @@ public class RequestActivity extends AppCompatActivity {
     private ListView RequestListView;
     private ArrayList<Request> RequestList;
     private ArrayAdapter<Request> adapter;
+
+    String title;
+    String author;
+    private String status;
+    String isbn;
+    String owner;
+    String pickupLocation;
+    String description;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference =  database.getReference();
+
+    SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +82,29 @@ public class RequestActivity extends AppCompatActivity {
         }
     }
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
+        status = extras.getString("STATUS");
+        owner = extras.getString("OWNER");
 
-
-
-
-    @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
+        RequestListView = (ListView) findViewById(R.id.RequestListView);
+        RequestList = new ArrayList<Request>();
         adapter = new RequestListAdapter(this,
                 R.layout.list_request, RequestList);
 
         RequestListView.setAdapter(adapter);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        DatabaseHandler dh = DatabaseHandler.getInstance(RequestActivity.this);
+        dh.getBookRequests(isbn, title,current_userName, RequestList, adapter);
+
 
         RequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,26 +117,55 @@ public class RequestActivity extends AppCompatActivity {
                 Intent intent = new Intent(RequestActivity.this, ConfirmRequest.class);
                 intent.putExtra("GiveObject", type);
                 intent.putExtra("position", sendPosition);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
+                extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
+                intent.putExtras(extras);
                 startActivityForResult(intent, 1);
 
             }
         });
+//        TempList();
+//        saveInFile();
+//        loadFromFile();
     }
 
-        public void TempList(){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            if(resultCode == Activity.RESULT_OK){
+                RequestList.clear();
+                adapter.notifyDataSetChanged();
+//                saveInFile();
+            }
+            if(resultCode == Activity.RESULT_CANCELED) {
+                int result = Integer.parseInt(data.getStringExtra("PositionBack"));
+                RequestList.remove(RequestList.get(result));
+                adapter.notifyDataSetChanged();
+//                saveInFile();
+            }
+        }
+    }
+
+    public void TempList(){
 
         User user1 = new User("user1", "Test name", "0", "email1", 0, "Canada", 0, "address1");
         User user2 = new User("user2", "Test name", "0", "email2", 0, "Canada", 0, "address2");
         User user3 = new User("user3", "Test name", "0", "email3", 0, "Canada", 0, "address3");
 
-        Book testBook1 = new Book("First Book", "Second Author", "1234567890", user2, BookStatus.BORROWED, "Description","SSN",null);
-        Request request1 = new Request(user1, testBook1);
+        Book testBook1 = new Book("First Book", "Second Author", "1234567890", "user2", BookStatus.BORROWED, "Description","SSN",null);
+        Request request1 = new Request(user1, testBook1.getTitle(), testBook1.getISBN());
         RequestList.add(request1);
 
-        Request request2 = new Request(user2, testBook1);
+        Request request2 = new Request(user2, testBook1.getTitle(), testBook1.getISBN());
         RequestList.add(request2);
 
-        Request request3 = new Request(user3, testBook1);
+        Request request3 = new Request(user3, testBook1.getTitle(), testBook1.getISBN());
         RequestList.add(request3);
     }
 

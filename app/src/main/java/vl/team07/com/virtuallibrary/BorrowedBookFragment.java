@@ -12,9 +12,11 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +32,9 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> borrowedBookList;
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
 
     public BorrowedBookFragment() {
@@ -48,6 +53,12 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
         recyclerView.setAdapter(adapter);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(BorrowedBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.displayBorrowedBooks(current_userName, adapter, borrowedBookList);
+
 
         adapter.setClickListener(new View.OnClickListener() {
             @Override
@@ -62,21 +73,21 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
-                String ownerAddress = clickedBook.getOwner().getAddress();
+                String pickUpLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
-                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("PICKUPLOCATION", pickUpLocation);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
         });
 
-        TempList();
+//        TempList();
 
 
         return BorrowedBookView;
@@ -88,15 +99,15 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
 
         Book testBook;
-        testBook = new Book("Second Book", "Second Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Second Book", "Second Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Forth Book", "Forth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
         borrowedBookList.add(testBook);
     }
 }

@@ -12,9 +12,11 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +32,10 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> myBookList;
+    private ArrayList<Book> newBookList;
 
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
     public MyBookFragment() {
         // Required empty public constructor
@@ -48,6 +53,14 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(MyBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.displayOwnedBooks(current_userName, adapter, myBookList);
+
+
 
         /**
          *Sets the onClickListener for each item in the Recycle View
@@ -73,23 +86,25 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 BookStatus status_enum = clickedBook.getStatus();
                 String status = status_enum.name();
                 String isbn = clickedBook.getISBN();
-                String ownerAddress = clickedBook.getOwner().getAddress();
+                String pickupLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
-                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
                 extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
 
             }
         });
 
-        TempList();
+        //TempList();
 
         return MyBookView;
     }

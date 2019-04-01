@@ -17,11 +17,16 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.content.DialogInterface;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.Uri;
 import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -43,7 +48,9 @@ import com.google.firebase.storage.UploadTask;
 import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the Firebase Database Handler. This class is designed to handle all the tasks that
@@ -57,6 +64,8 @@ import java.util.ArrayList;
 
 public class DatabaseHandler {
 
+
+    private static DatabaseHandler instance;
     private final String TAG = getClass().getSimpleName();
     private FirebaseDatabase myDatabase;
     private DatabaseReference databaseReference;
@@ -70,7 +79,7 @@ public class DatabaseHandler {
     private Context context;
 
     private ArrayList<Book> newBookList = new ArrayList<>();
-
+    private ArrayList<Review> newReviewList = new ArrayList<>();
 
     private final String BOOK_PARENT = "Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
@@ -85,13 +94,20 @@ public class DatabaseHandler {
      *
      * @param context
      */
-    public DatabaseHandler(Context context) {
+    private DatabaseHandler(Context context) {
         firebaseAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance();
         databaseReference = myDatabase.getReference();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         this.context = context;
+    }
+
+    public static DatabaseHandler getInstance(Context context){
+        if(instance == null){
+            instance = new DatabaseHandler(context);
+        }
+        return instance;
     }
 
     /**
@@ -110,7 +126,7 @@ public class DatabaseHandler {
                 final String message = "The book has already exist in the library!";
 
                 if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
-                    alertDialog(title, message);
+//                    alertDialog(title, message);
                 }else{
                     databaseReference.child("Books").child(book.getISBN()).setValue(book);
 
@@ -140,29 +156,72 @@ public class DatabaseHandler {
      * @see MyBookFragment
      */
 
-//    public ArrayList<Book> retrieveAvailableBook() {
-//
-//        databaseReference.keepSynced(true);
-//        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-//                    Book book = adSnapshot.getValue(Book.class);
-//                    newBookList.add(book);
-//                }
-//                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
-//
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
-//        return newBookList;
-//    }
+    public ArrayList<Book> retrieveAvailableBook() {
+
+        databaseReference.keepSynced(true);
+        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Book book = adSnapshot.getValue(Book.class);
+                    newBookList.add(book);
+                }
+                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
+                DatabaseHandler db = getInstance(context);
+                db.setNewBookList(newBookList);
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
+        System.out.println("Title of the third book is " + newBookList.get(2));
+        return newBookList;
+    }
+
+
+
+    //Add newArrayList to database's newBookList
+    public void setNewBookList(ArrayList<Book> bookList){
+        this.newBookList = bookList;
+    }
+
+    public ArrayList<Review> retrieveBookReviews(String ISBN) {
+
+        databaseReference.keepSynced(true);
+        DatabaseReference reviewref = databaseReference.child("Reviews");
+        reviewref.child(ISBN).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Review> currentReviewList = new ArrayList<Review>();
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Review review = adSnapshot.getValue(Review.class);
+                    System.out.println("Comment of review is "+ review.getComment());
+                    currentReviewList.add(review);
+                }
+                System.out.println("Size of the list in onDataChange is: " + currentReviewList.size());
+                DatabaseHandler db = getInstance(context);
+                db.setReviewList(currentReviewList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        System.out.println("Size of the list outside onDataChange is: " + newReviewList.size());
+        return this.newReviewList;
+    }
+
+
+    public void setReviewList(ArrayList<Review> reviewList){
+        this.newReviewList = reviewList;
+    }
 
 
     /**
@@ -176,6 +235,9 @@ public class DatabaseHandler {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
 
         createToast("You are registered");
+        //Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
+        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        //toast.show();
     }
 
     /**
@@ -187,7 +249,143 @@ public class DatabaseHandler {
      * @see AddReviewActivity
      */
     public void addReview (Book book, Review review) {
-        databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
+        databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).child(review.getReviewer()).setValue(review);
+    }
+
+
+    /**
+     * This method takes in a book array list and a book recyclerview adapter to load book from firebase
+     *
+     * @param allBookList
+     * @param adapter
+     * @see AllBookFragment
+     */
+    public void loadAllBook(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook;
+                    availableBook = data.getValue(Book.class);
+
+                    if(availableBook!=null){
+                        allBookList.add(availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void loadBooksIntoRecyclerView(ArrayList<Book> myBookList, BookRecyclerViewAdapter adapter){
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Book availableBook;
+                    availableBook = data.getValue(Book.class);
+
+                    if(availableBook!=null){
+                        myBookList.add(availableBook);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+                System.out.println("Size of myBookList after adapter update: "+ myBookList.size());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void displayOwnedBooks(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> myBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> bookList = user.getOwnedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    myBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+    public void loadReviews(ArrayList<Review> reviewList, ReviewRecyclerViewAdapter adapter, String ISBN){
+        databaseReference.keepSynced(true);
+        DatabaseReference reviewref = databaseReference.child("Reviews");
+        reviewref.child(ISBN).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Review review = data.getValue(Review.class);
+
+                    if(review!=null){
+                        reviewList.add(review);
+                    }
+                }
+//                adapter.setBookList(allBookList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    /**
+     * This method is takes in title string and message string to give alert dialog
+     * @param title
+     * @param message
+     */
+    public void alertDialog(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(true);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.show();
+    }
+
+    public void showToast(String message){
+
+        Toast toast = Toast.makeText(this.context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
     }
 
     /**
@@ -258,29 +456,43 @@ public class DatabaseHandler {
         toast.show();
     }
 
-
-    /**
-     * This method takes in a book array list and a book recyclerview adapter to load book from firebase
-     *
-     * @param allBookList
-     * @param adapter
-     * @see AllBookFragment
-     */
-    public void loadAllBook(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
-        databaseReference.keepSynced(true);
-        databaseReference.child(BOOK_PARENT).addValueEventListener(new ValueEventListener() {
+    public void addBookToOwnedBookList(Book newBook, String current_userName){
+        DatabaseReference userRef =  databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> oldBookList = user.getOwnedBookList();
+                oldBookList.add(newBook);
+                user.setOwnedBookList(oldBookList);
+                addUser(user);
+            }
 
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    Book availableBook;
-                    availableBook = data.getValue(Book.class);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    if(availableBook!=null){
-                        allBookList.add(availableBook);
+            }
+        });
+    }
+
+    public void displayAvailableBooks(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList){
+        DatabaseReference bookRef = databaseReference.child("Books");
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Current user's username: " + current_userName);
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Book book = data.getValue(Book.class);
+
+
+                    if((book.getStatus() == BookStatus.AVAILABLE)
+                            && !(book.getOwner().equals(current_userName))){
+                        System.out.println(book.getOwner() + " == " + current_userName);
+                        availableBookList.add(book);
                     }
+
                 }
-//                adapter.setBookList(allBookList);
+                System.out.println("Size of the Book list is: " + availableBookList.size());
                 adapter.notifyDataSetChanged();
             }
 
@@ -289,34 +501,178 @@ public class DatabaseHandler {
 
             }
         });
-
     }
 
+    public void sendRequest(String bookISBN, String currentUser){
+         DatabaseReference userRef = databaseReference.child("Users");
+         userRef.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 User user = dataSnapshot.getValue(User.class);
+                 System.out.println("ISBN of requested book is " + bookISBN);
+                 databaseReference.child("Requests").child(bookISBN).child(user.getUserName())
+                         .setValue(user);
 
-    /**
-     * This method is takes in title string and message string to give alert dialog
-     * @param title
-     * @param message
-     */
-    public void alertDialog(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setCancelable(true);
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+    }
+
+    public void getBookRequests(String isbn, String bookTitle, String current_userName, ArrayList<Request> RequestList, ArrayAdapter adapter){
+        DatabaseReference requestRef = databaseReference.child("Requests").child(isbn);
+        requestRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    User user = data.getValue(User.class);
+                    Request request = new Request(user, bookTitle, isbn);
+                    System.out.println("Username of user: " + user.getUserName());
+                    RequestList.add(request);
+                }
+                System.out.println("Size of RequestList " + RequestList.size());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        builder.show();
     }
 
-    public void showToast(String message){
-
-        Toast toast = Toast.makeText(this.context, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        toast.show();
+    public void deleteRequest(String BookISBN, String requesterUsername){
+        DatabaseReference requestRef = databaseReference.child("Requests").child(BookISBN).child(requesterUsername);
+        requestRef.removeValue();
     }
 
+    public void acceptRequest(Book book, String requesterUsername, String current_userName){
+        DatabaseReference userRef = databaseReference.child("Users").child(requesterUsername);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newRequesterBorrowedBookList = user.getBorrowedBookList();
+                book.setStatus(BookStatus.BORROWED);
+                newRequesterBorrowedBookList.add(book);
+                user.setBorrowedBookList(newRequesterBorrowedBookList);
+                updateBookStatusesToBorrowed(book, current_userName);
+                databaseReference.child("Users").child(requesterUsername).setValue(user);
 
+                //remove request list
+                databaseReference.child("Requests").child(book.getISBN()).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void displayBorrowedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> borrowedBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                ArrayList<Book> bookList = user.getBorrowedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    borrowedBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void updateBookStatusesToBorrowed(Book bookToBeUpdated, String current_userName){
+        DatabaseReference userRef = databaseReference.child("Users").child(current_userName);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                System.out.println("Current user's username : " + user.getUserName());
+                ArrayList<Book> ownedBookList = user.getOwnedBookList();
+                for(Book book: ownedBookList){
+                    if (book.getISBN().equals(bookToBeUpdated.getISBN())){
+                        ArrayList<Book> updatedOwnedBookList = ownedBookList;
+                        updatedOwnedBookList.remove(book);
+                        book.setStatus(BookStatus.BORROWED);
+                        updatedOwnedBookList.add(book);
+                        user.setOwnedBookList(updatedOwnedBookList);
+                        addUser(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        DatabaseReference bookRef = databaseReference.child("Books").child(bookToBeUpdated.getISBN());
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Book book = dataSnapshot.getValue(Book.class);
+                book.setStatus(BookStatus.BORROWED);
+                bookRef.setValue(book);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getBooksWithTerms(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList,
+                                  String searchTerms){
+        DatabaseReference bookRef = databaseReference.child("Books");
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                System.out.println("Current user's username: " + current_userName);
+                availableBookList.clear();
+                adapter.notifyDataSetChanged();
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Book book = data.getValue(Book.class);
+
+                    if((book.getStatus() == BookStatus.AVAILABLE)
+                            && !(book.getOwner().equals(current_userName))){
+                        System.out.println(book.getOwner() + " == " + current_userName);
+                        for(String word: searchTerms.split("\\s+")){
+                            if (book.getDescription().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }
+
+                        }
+
+                    }
+
+                }
+                System.out.println("Size of the Book list is: " + availableBookList.size());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    
 }
