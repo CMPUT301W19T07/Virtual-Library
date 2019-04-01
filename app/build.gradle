@@ -79,9 +79,10 @@ dependencies {
 
 dependencies {
     //noinspection GradleCompatible
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
 }
 
 
@@ -95,6 +96,20 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-maps:+'
+    implementation 'com.google.android.libraries.places:places:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.3.0'
+
     implementation 'com.android.support:appcompat-v7:28.+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.google.firebase:firebase-messaging:17.3.2'
 }

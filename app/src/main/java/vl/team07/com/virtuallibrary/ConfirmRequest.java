@@ -12,14 +12,23 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
+
 public class ConfirmRequest extends AppCompatActivity {
+
+    int PLACE_PICKER_REQUEST = 1;
+    private String locationPicked;
+
     private String result1;
     private String result2;
     private Request request;
@@ -56,11 +65,21 @@ public class ConfirmRequest extends AppCompatActivity {
 
     }
 
+    static final int PICK_MAP_POINT_REQUEST = 999;
     public void AcceptRequest(View view){
 
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+//        Intent intent = new Intent(ConfirmRequest.this, MapsActivity.class);
+//        startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+//        Uri navigationIntentUri = Uri.parse("google.navigation:q=" + 12f +"," + 2f);//creating intent with latlng
+//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+//        mapIntent.setPackage("com.google.android.apps.maps");
+//        startActivity(mapIntent);
+
+        Intent pickPointIntent = new Intent(this, MapsActivity.class);
+        startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
+
+
 
     }
 
@@ -72,4 +91,22 @@ public class ConfirmRequest extends AppCompatActivity {
         finish();
 
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_MAP_POINT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
+                Toast.makeText(this, "Point Chosen: " + latLng.latitude + " " + latLng.longitude, Toast.LENGTH_LONG).show();
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        }
+    }
+
+
 }

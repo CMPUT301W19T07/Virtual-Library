@@ -19,11 +19,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.location.places.ui.PlacePicker.IntentBuilder;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 public class RequestActivity extends AppCompatActivity {
+
     private ListView RequestListView;
     private ArrayList<Request> RequestList;
     private ArrayAdapter<Request> adapter;
@@ -37,6 +42,8 @@ public class RequestActivity extends AppCompatActivity {
         TempList();
 //        saveInFile();
 //        loadFromFile();
+
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -56,6 +63,8 @@ public class RequestActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 
