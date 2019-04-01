@@ -88,6 +88,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 String isbn = clickedBook.getISBN();
                 String pickupLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
@@ -96,6 +97,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
                 extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
 

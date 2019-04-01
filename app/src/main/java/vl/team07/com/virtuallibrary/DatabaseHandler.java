@@ -46,6 +46,7 @@ import com.google.firebase.storage.UploadTask.TaskSnapshot;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the Firebase Database Handler. This class is designed to handle all the tasks that
@@ -515,6 +516,33 @@ public class DatabaseHandler {
                 }
                 System.out.println("Size of RequestList " + RequestList.size());
                 adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void deleteRequest(String BookISBN, String requesterUsername){
+        DatabaseReference requestRef = databaseReference.child("Requests").child(BookISBN).child(requesterUsername);
+        requestRef.removeValue();
+    }
+
+    public void acceptRequest(Book book, String requesterUsername){
+        DatabaseReference userRef = databaseReference.child("Users").child(requesterUsername);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newRequesterBorrowedBookList = user.getBorrowedBookList();
+                newRequesterBorrowedBookList.add(book);
+                user.setBorrowedBookList(newRequesterBorrowedBookList);
+                databaseReference.child("Users").child(requesterUsername).setValue(user);
+
+                //remove request list
+                databaseReference.child("Requests").child(book.getISBN()).removeValue();
             }
 
             @Override

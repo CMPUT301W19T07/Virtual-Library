@@ -32,8 +32,13 @@ public class RequestActivity extends AppCompatActivity {
     private ArrayList<Request> RequestList;
     private ArrayAdapter<Request> adapter;
 
+    String title;
+    String author;
+    private String status;
     String isbn;
-    String bookTitle;
+    String owner;
+    String pickupLocation;
+    String description;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
@@ -48,8 +53,13 @@ public class RequestActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
         isbn = extras.getString("ISBN");
-        bookTitle = extras.getString("TITLE");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
+        status = extras.getString("STATUS");
+        owner = extras.getString("OWNER");
 
         RequestListView = (ListView) findViewById(R.id.RequestListView);
         RequestList = new ArrayList<Request>();
@@ -62,7 +72,7 @@ public class RequestActivity extends AppCompatActivity {
         String current_userName = preferences.getString("current_userName", "n/a");
 
         DatabaseHandler dh = DatabaseHandler.getInstance(RequestActivity.this);
-        dh.getBookRequests(isbn, bookTitle,current_userName, RequestList, adapter);
+        dh.getBookRequests(isbn, title,current_userName, RequestList, adapter);
 
 
         RequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +86,15 @@ public class RequestActivity extends AppCompatActivity {
                 Intent intent = new Intent(RequestActivity.this, ConfirmRequest.class);
                 intent.putExtra("GiveObject", type);
                 intent.putExtra("position", sendPosition);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
+                extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
+                intent.putExtras(extras);
                 startActivityForResult(intent, 1);
 
             }

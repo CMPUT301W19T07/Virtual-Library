@@ -36,6 +36,9 @@ public class MyBookDetailsActivity extends AppCompatActivity {
     String author;
     private String status;
     String isbn;
+    String owner;
+    String pickupLocation;
+    String description;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
@@ -51,12 +54,13 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        String title = extras.getString("TITLE");
-        String author = extras.getString("AUTHOR");
-        String isbn = extras.getString("ISBN");
-        String pickupLocation = extras.getString("PICKUPLOCATION");
-        String description = extras.getString("DESCRIPTION");
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
         status = extras.getString("STATUS");
+        owner = extras.getString("OWNER");
 
 //        description = "WE need a long description in here. I should just try to practice my typin " +
 //                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
@@ -143,7 +147,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
@@ -159,7 +166,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
                     extras.putString("ISBN", isbn);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
+                    extras.putString("STATUS", status);
+                    extras.putString("OWNER", owner);
                     intent.putExtras(extras);
                     context.startActivity(intent);
                 } else if (status.equals("BORROWED")) {
