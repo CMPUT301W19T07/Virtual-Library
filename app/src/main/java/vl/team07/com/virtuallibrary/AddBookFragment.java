@@ -108,12 +108,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         imageView = AddBookView.findViewById(R.id.imageView);
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addBook();
-            }
-        });
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -164,11 +158,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 description = DescriptionEdit.getText().toString();
                 ISBN = ISBNEdit.getText().toString();
 
-                try {
-                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-                }catch (NumberFormatException e){
-                    ISBN = 0;
-                }
 
 
                 /**

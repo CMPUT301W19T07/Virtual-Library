@@ -34,7 +34,7 @@ public class Book {
 
         this.Title = "";
         this.Author = "";
-        this.ISBN = 0;
+        this.ISBN = "0";
         this.Owner = new User();
         this.Status = BookStatus.AVAILABLE;
         this.Description = "";
@@ -46,7 +46,7 @@ public class Book {
 //        this.Image = null;
 //    }
 
-    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, Image image){
+    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, byte[] image){
 
         this.Title = title;
         this.Author = author;

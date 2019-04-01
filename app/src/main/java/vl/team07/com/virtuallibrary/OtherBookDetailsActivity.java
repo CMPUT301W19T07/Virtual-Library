@@ -27,7 +27,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
     ArrayList<Review> reviewList = new ArrayList<Review>();
     String title;
     String author;
-    int isbn;
+    String isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
         String ownerAddress = extras.getString("OWNERADDRESS");
         String description = extras.getString("DESCRIPTION");
 
@@ -114,7 +114,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);

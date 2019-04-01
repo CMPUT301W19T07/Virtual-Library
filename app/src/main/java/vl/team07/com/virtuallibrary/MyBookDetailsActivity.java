@@ -28,7 +28,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
     String title;
     String author;
     private String status;
-    int isbn;
+    String isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
         String ownerAddress = extras.getString("OWNERADDRESS");
         String description = extras.getString("DESCRIPTION");
         status = extras.getString("STATUS");
@@ -104,7 +104,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);
@@ -120,7 +120,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     Bundle extras = new Bundle();
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
-                    extras.putInt("ISBN", isbn);
+                    extras.putString("ISBN", isbn);
                     extras.putString("DESCRIPTION", description);
                     intent.putExtras(extras);
                     context.startActivity(intent);
@@ -143,7 +143,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
+                extras.putString("ISBN", isbn);
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);

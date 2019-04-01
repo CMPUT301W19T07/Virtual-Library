@@ -136,7 +136,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok, listener)
+                .setAction(R.string.OK, listener)
                 .show();
     }
 
@@ -291,7 +291,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Multitracker sample")
                 .setMessage(R.string.no_camera_permission)
-                .setPositiveButton(R.string.ok, listener)
+                .setPositiveButton(R.string.OK, listener)
                 .show();
     }
 
