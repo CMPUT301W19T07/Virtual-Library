@@ -264,7 +264,6 @@ public class DatabaseHandler {
      *
      * @param allBookList
      * @param adapter
-     * @see AllBookFragment
      */
     public void loadAllBook(ArrayList<Book> allBookList, BookRecyclerViewAdapter adapter){
         databaseReference.keepSynced(true);
@@ -291,6 +290,27 @@ public class DatabaseHandler {
         });
 
     }
+
+    public void loadBookByISBN(String ISBN, BookCallBack bookCallBack){
+
+
+        databaseReference.keepSynced(true);
+        databaseReference.child(BOOK_PARENT).child(ISBN).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Book resultBook = dataSnapshot.getValue(Book.class);
+                if(resultBook!=null){
+                    bookCallBack.onCallback(resultBook);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 
     /**

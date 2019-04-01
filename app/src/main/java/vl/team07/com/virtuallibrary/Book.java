@@ -27,7 +27,7 @@ public class Book {
     private BookStatus Status;
     private String Description;
     private String SearchString;
-    private byte[] Image;
+    private String Image;
     private ArrayList<User> RequesterList = new ArrayList<>();
 
     public Book(){
@@ -46,7 +46,7 @@ public class Book {
 //        this.Image = null;
 //    }
 
-    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, byte[] image){
+    public Book(String title, String author, String isbn, User owner, BookStatus status, String description, String searchString, String image){
 
         this.Title = title;
         this.Author = author;
@@ -80,7 +80,7 @@ public class Book {
 
     public void setSearchString(String inputSearchString){this.SearchString = inputSearchString;}
 
-    public void setImage(byte[] image){this.Image = image;}
+    public void setImage(String image){this.Image = image;}
 
     public String getTitle(){return this.Title;}
 
@@ -96,6 +96,6 @@ public class Book {
 
     public String getSearchString(){return this.SearchString;}
 
-    public byte[] getImage(){return this.Image;}
+    public String getImage(){return this.Image;}
 
 }

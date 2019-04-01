@@ -94,6 +94,13 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         return MyBookView;
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+
+    }
+
     public void TempList(){
 
         User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");

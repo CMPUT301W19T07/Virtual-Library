@@ -203,26 +203,31 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                  * Getting the image uploaded and storing it in book data
                  */
                 Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                book = new Book();
+                book.setTitle(title);
+                book.setAuthor(author);
+                book.setDescription(description);
+                book.setISBN(ISBN);
 
-                if (bmp != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bmp.compress(CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                    book.setImage(byteArray);
-
-                } else {
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                }
+//                if (bmp != null) {
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bmp.compress(CompressFormat.PNG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+//
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                    book.setImage(byteArray);
+//
+//                } else {
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                }
 
                 DatabaseHandler dh = new DatabaseHandler(getActivity());
                 dh.addBook(book);

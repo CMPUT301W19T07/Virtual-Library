@@ -94,10 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     SCAN_ISBN = barcode.displayValue;
-                    alertDialog("ISBN is:",SCAN_ISBN);
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
                 } else {
-                    alertDialog("Error", "There is no message.");
                 }
             } else {
                 alertDialog("Error","Cannot recognize the barcode!");
