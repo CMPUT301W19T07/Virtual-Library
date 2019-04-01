@@ -14,7 +14,7 @@ package vl.team07.com.virtuallibrary;
  * Contains data about the user
  *
  * Created by MTX on 2019-02-24.
- * 
+ *
  * @version 1.0
  * @since 1.0
  */

@@ -20,6 +20,7 @@ import java.util.ArrayList;
  *
  * @version 1.0
  * @since 1.0
+ * @deprecated 1.1
  */
 
 public class BookList {
