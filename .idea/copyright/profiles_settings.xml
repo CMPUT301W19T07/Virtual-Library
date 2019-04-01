@@ -1,7 +1,7 @@
 <component name="CopyrightManager">
-  <settings>
+  <settings default="srh">
     <module2copyright>
-      <element module="All" copyright="cmput301Project" />
+      <element module="All" copyright="srh" />
     </module2copyright>
   </settings>
 </component>

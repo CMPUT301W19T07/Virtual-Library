@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,31 +78,25 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         DescriptionEdit = (EditText) AddBookView.findViewById(R.id.enterDescriptionView);
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addBook();
+            }
+        });
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
 
+
         return AddBookView;
     }
 
-    public void onStart(){
+    public void onStart() {
         super.onStart();
 
-
-        // Put book to 'My Books' Fragment by click ADD button
-        // Will be update use firebase later
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                addBook();
-            }
-        });
-
-
     }
-
 
     public void addBook(){
 
@@ -110,29 +105,61 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         ISBN = Integer.parseInt(ISBNEdit.getText().toString());
         description = DescriptionEdit.getText().toString();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(BOOK_PARENT).child(BookStatus.AVAILABLE.toString()).child(ISBNEdit.getText().toString()).exists()){
-                    System.out.println("ISBN HAS ALREADY EXISTED");
-                    alertDialog();
-                }else if(dataSnapshot.child(BOOK_PARENT).child(BookStatus.BORROWED.toString()).child(ISBNEdit.getText().toString()).exists()){
-                    alertDialog();
-                }else{
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setISBN(ISBN);
-                    book.setDescription(description);
-                    databaseReference.child(BOOK_PARENT).child(book.getStatus().toString()).child(Integer.toString(book.getISBN())).setValue(book);
-                }
-            }
+        String title, author, description;
+        String ISBN;
+        // Set new book
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        title = TitleEdit.getText().toString();
+        author = AuthorEdit.getText().toString();
+        description = DescriptionEdit.getText().toString();
+        ISBN = ISBNEdit.getText().toString();
 
-            }
-        });
+        book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setDescription(description);
+        book.setISBN(ISBN);
+        book.setStatus(BookStatus.AVAILABLE);
+
+        String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
+                "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
+
+        book.setSearchString(SearchStringName);
+
+        DatabaseHandler dh = new DatabaseHandler(getActivity());
+        dh.addBook(book);
+
+
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String title, author, description;
+//                String ISBN;
+//                // Set new book
+//
+//                title = TitleEdit.getText().toString();
+//                author = AuthorEdit.getText().toString();
+//                description = DescriptionEdit.getText().toString();
+//                ISBN = ISBNEdit.getText().toString();
+//
+//                book = new Book();
+//                book.setTitle(title);
+//                book.setAuthor(author);
+//                book.setDescription(description);
+//                book.setISBN(ISBN);
+//                book.setStatus(BookStatus.AVAILABLE);
+//
+//                String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
+//                        "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
+//
+//                book.setSearchString(SearchStringName);
+//
+//                DatabaseHandler dh = new DatabaseHandler(getActivity());
+//                dh.addBook(book);
+//
+//            }
+//        });
 
 
     }

@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vl.team07.com.virtuallibrary">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +13,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+        <activity android:name=".LogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity" />
-
+        <activity android:name=".SignUp" />
+        <activity
+            android:name=".RequestActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".AddReviewActivity" />
+        <activity android:name=".AllReviewsActivity" />
+        <activity android:name=".EditBookDetailsActivity" />
+        <activity android:name=".OwnerBookDetailsActivity" />
+        <activity android:name=".NonOwnerBookDetailsActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ComfirmRequest" />
+        <activity android:name=".BarcodeCaptureActivity"></activity>
     </application>
 
 </manifest>
