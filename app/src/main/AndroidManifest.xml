@@ -9,17 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogIn">
+
+
+        <activity
+            android:name=".LogIn" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUp" />
+
         <activity
             android:name=".RequestActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+            
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".AllReviewsActivity" />
         <activity android:name=".EditBookDetailsActivity" />
@@ -27,9 +32,16 @@
         <activity android:name=".BorrowedBookDetailsActivity" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <activity android:name=".SignUp" />
         <activity android:name=".ConfirmRequest" />
-        <activity android:name=".OtherBookDetailsActivity"></activity>
+        <activity android:name=".OtherBookDetailsActivity" />
+
     </application>
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

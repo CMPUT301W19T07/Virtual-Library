@@ -10,7 +10,10 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -47,8 +50,10 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     public void setViewPager(ViewPager viewPager){
         TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager());
+
         tabViewPagerAdapter.addFragment(new MyBookFragment(), "My Books");
         tabViewPagerAdapter.addFragment(new BorrowedBookFragment(),"Borrowed Books");
+
 
         viewPager.setAdapter(tabViewPagerAdapter);
     }

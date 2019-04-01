@@ -20,70 +20,76 @@ import java.util.ArrayList;
 public class Request {
 
     private User Requester;
-    private Book RequestedBook;
-    private String title;
-    private String username;
-    private String email;
-    private String address;
+    private String RequestedBookTitle;
+    private String RequestedBookISBN;
+//    private String title;
+//    private String username;
+//    private String email;
+//    private String address;
 
-    public Request(User requester, Book requestedBook){
+    public Request(){
+    }
+
+    public Request(User requester, String requestedBookTitle, String requestedBookISBN){
         this.Requester = requester;
-        this.RequestedBook = requestedBook;
-        if (this.RequestedBook.getRequesters().contains(requester)){
-            throw new IllegalArgumentException("The requester:" + requester.getName() + " has already requested " + requestedBook.getTitle());
-        }
-        else{
-            this.RequestedBook.addRequester(requester);
-        }
+        this.RequestedBookTitle = requestedBookTitle;
+        this.RequestedBookISBN = requestedBookISBN;
+//        if (this.RequestedBook.getRequesters().contains(requester)){
+////            throw new IllegalArgumentException("The requester:" + requester.getName() + " has already requested " + requestedBook.getTitle());
+////        }
+////        else{
+////            this.RequestedBook.addRequester(requester);
+////        }
     }
 
     public String getRequestedBookTitle(){
-        title = RequestedBook.getTitle();
-        return title;
+        return RequestedBookTitle;
+    }
+
+    public String getRequestedBookISBN(){
+        return RequestedBookISBN;
     }
 
     public String getRequesterUsername(){
-        username = Requester.getUserName();
-        return username;
+        return Requester.getUserName();
     }
 
     public String getRequesterEmail(){
-        email = Requester.getEmail();
-        return email;
+        return Requester.getEmail();
+
     }
 
     public String getRequesterAddress(){
-        address = Requester.getAddress();
-        return address;
+        return Requester.getAddress();
     }
 
-    public void acceptRequest(){
-        this.RequestedBook.setStatus(BookStatus.BORROWED);
-    }
+//    public void acceptRequest(){
+//        this.RequestedBook.setStatus(BookStatus.BORROWED);
+//    }
 
-    public void acceptRequest(ArrayList<Book> requestedBooks){
-        this.RequestedBook.setStatus(BookStatus.BORROWED);
-        requestedBooks.add(this.RequestedBook);
-    }
+//    public void acceptRequest(ArrayList<Book> requestedBooks){
+//        this.RequestedBook.setStatus(BookStatus.BORROWED);
+//        requestedBooks.add(this.RequestedBook);
+//    }
 
-    public void rejectRequest(){
-        this.RequestedBook.getRequesters().remove(this.Requester);
-        this.RequestedBook.setStatus(BookStatus.AVAILABLE);
-    }
-
-    public ArrayList<User> showRequester(){
-        return this.RequestedBook.getRequesters();
-    }
-
-    public void clearRequester(){
-        this.RequestedBook.getRequesters().clear();
-    }
-
-    public void notifyBeRequest(){
-        // Notification to owner if book is requested
-    }
-
-    public void notifyRequestAccepted(){
-        // Notification to borrower if request is accepted
-    }
+//    public void rejectRequest(){
+//        this.RequestedBook.getRequesters().remove(this.Requester);
+//        this.RequestedBook.setStatus(BookStatus.AVAILABLE);
+//    }
+//
+//    public ArrayList<User> showRequester(){
+//        return this.RequestedBook.getRequesters();
+//    }
+//
+//    public void clearRequester(){
+//        this.RequestedBook.getRequesters().clear();
+//    }
+//
+//    public void notifyBeRequest(){
+//        // Notification to owner if book is requested
+//    }
+//
+//    public void notifyRequestAccepted(){
+//        // Notification to borrower if request is accepted
+//    }
 }

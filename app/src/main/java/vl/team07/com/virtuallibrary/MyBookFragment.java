@@ -1,7 +1,7 @@
 /*
- * Class Name
+ * MyBookFragment
  *
- * Date of Initiation
+ * February 27, 2019
  *
  * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
  * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
@@ -12,7 +12,12 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +32,10 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> myBookList;
+    private ArrayList<Book> newBookList;
 
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
     public MyBookFragment() {
         // Required empty public constructor
@@ -46,6 +54,14 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), myBookList);
         recyclerView.setAdapter(adapter);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(MyBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.displayOwnedBooks(current_userName, adapter, myBookList);
+
+
+
         /**
          *Sets the onClickListener for each item in the Recycle View
          * and opens a book detail activity that recognizes that the clicked
@@ -53,7 +69,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
          *
          * Initially created by tianxin3 and further developed by pling
          *
-         * @see MyBookDetailsActivity
+         * @see OwnerBookDetailsActivity
          *
          */
         adapter.setClickListener(new View.OnClickListener() {
@@ -69,46 +85,48 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
                 String author = clickedBook.getAuthor();
                 BookStatus status_enum = clickedBook.getStatus();
                 String status = status_enum.name();
-                int isbn = clickedBook.getISBN();
-                String ownerAddress = clickedBook.getOwner().getAddress();
+                String isbn = clickedBook.getISBN();
+                String pickupLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
-                extras.putInt("ISBN", isbn);
-                extras.putString("OWNERADDRESS", ownerAddress);
+                extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
                 extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
+
             }
         });
 
-        TempList();
+        //TempList();
 
         return MyBookView;
     }
 
-    public void TempList(){
-
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
-
-        Book testBook = new Book("First Book", "First Author", 22222222, user, BookStatus.BORROWED, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-        testBook = new Book("Eleventh Book", "Eleventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        myBookList.add(testBook);
-
-
-    }
+//    public void TempList(){
+//
+//        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+//
+//        Book testBook = new Book("First Book", "First Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Third Book", "Third Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//        testBook = new Book("Eleventh Book", "Eleventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        myBookList.add(testBook);
+//
+//    }
 
 
 }

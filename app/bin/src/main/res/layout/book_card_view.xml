@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Class Name
+  ~
+  ~ Date of Initiation
+  ~
+  ~ Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
+  ~ You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
+  ~ You can find a copy of the license in the github wiki for this project.
+  -->
+
+
+<android.support.v7.widget.CardView
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    android:layout_width = "match_parent"
+    android:layout_height = "wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/BookTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/BookAuthorText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
+
+
+        <TextView
+            android:id="@+id/BookOwnerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/BookStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/BookImage"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+</android.support.v7.widget.CardView>

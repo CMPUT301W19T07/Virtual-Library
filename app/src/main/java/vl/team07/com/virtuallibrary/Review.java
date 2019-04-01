@@ -19,31 +19,29 @@ import java.util.ArrayList;
 
 public class Review {
 
-    private User Reviewer;
-    private double Rating;
+    private String ReviewerUsername;
+    private Double Rating;
     private String Comment;
-    private Book ReviewedBook;
 
-    DecimalFormat decimalFormat = new DecimalFormat(".#");
-
-    public Review(Book reviewedBook){
-        this.ReviewedBook = reviewedBook;
+    public Review(String reviewerUsername){
+        this.ReviewerUsername = reviewerUsername;
     }
 
-    public Review(Book reviewedBook, User reviewer){
-        this.ReviewedBook = reviewedBook;
-        this.Reviewer = reviewer;
+    public Review(){
     }
 
-    public void setReviewer(User reviewer){
-        this.Reviewer = reviewer;
+    public void setReviewer(String reviewer){
+        this.ReviewerUsername = reviewer;
     }
 
     public String getReviewer(){
-        return this.Reviewer.getName();
+        return this.ReviewerUsername;
     }
+
+
     public void setRating(double rating){
         if(rating >= 0.0 && rating <= 5.0){
+            DecimalFormat decimalFormat = new DecimalFormat(".#");
             String result = decimalFormat.format(rating);
             this.Rating = Double.parseDouble(result);
         } else {
@@ -70,8 +68,12 @@ public class Review {
             totalRating += reviews.get(index).getRating();
             index++;
         }
+        DecimalFormat decimalFormat = new DecimalFormat(".#");
         String result = decimalFormat.format(totalRating / (double)reviews.size());
         return Double.parseDouble(result);
     }
 }
 
+
+//NOTES:
+//Needed to take out review methods that had double
