@@ -11,10 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/tianxin3-test
 
         <activity
             android:name=".LogIn" >
@@ -25,11 +21,6 @@
             </intent-filter>
         </activity>
 
-<<<<<<< HEAD
-        <activity
-            android:name=".RequestActivity"
-            android:windowSoftInputMode="adjustPan">
-=======
         <activity android:name=".SignUp" />
             
         <activity
@@ -37,7 +28,6 @@
             android:windowSoftInputMode="adjustPan">
 
             
->>>>>>> origin/tianxin3-test
         </activity>
             
         <activity android:name=".AddReviewActivity" />
@@ -50,15 +40,10 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-<<<<<<< HEAD
         <activity android:name=".SignUp" />
         <activity android:name=".ConfirmRequest" />
         <activity android:name=".OtherBookDetailsActivity" />
 
-=======
-
-        <activity android:name=".ComfirmRequest"></activity>
->>>>>>> origin/tianxin3-test
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
