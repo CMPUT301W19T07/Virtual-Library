@@ -29,6 +29,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -63,6 +66,9 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         availableBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), availableBookList);
         recyclerView.setAdapter(adapter);
+
+        Button searchWithTermsButton = SearchView.findViewById(R.id.SearchTermsButton);
+
 
         preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
@@ -102,6 +108,26 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 intent.putExtras(extras);
                 context.startActivity(intent);
 
+            }
+        });
+
+        searchWithTermsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText searchBar = SearchView.findViewById(R.id.SearchEditText);
+                String searchTerms = searchBar.getText().toString();
+
+                preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
+                System.out.println("Current user's username: " + current_userName);
+
+                DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+                dh.getBooksWithTerms(current_userName, adapter, availableBookList, searchTerms);
+
+                //hides keyboard after pressing button
+                InputMethodManager inputManager = (InputMethodManager)
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 

@@ -618,5 +618,42 @@ public class DatabaseHandler {
             }
         });
     }
+
+    public void getBooksWithTerms(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList,
+                                  String searchTerms){
+        DatabaseReference bookRef = databaseReference.child("Books");
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                System.out.println("Current user's username: " + current_userName);
+                availableBookList.clear();
+                adapter.notifyDataSetChanged();
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Book book = data.getValue(Book.class);
+
+                    if((book.getStatus() == BookStatus.AVAILABLE)
+                            && !(book.getOwner().equals(current_userName))){
+                        System.out.println(book.getOwner() + " == " + current_userName);
+                        for(String word: searchTerms.split("\\s+")){
+                            if (book.getDescription().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }
+
+                        }
+
+                    }
+
+                }
+                System.out.println("Size of the Book list is: " + availableBookList.size());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     
 }
