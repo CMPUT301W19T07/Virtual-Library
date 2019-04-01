@@ -510,7 +510,7 @@ public class DatabaseHandler {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     User user = data.getValue(User.class);
                     Request request = new Request(user, bookTitle, isbn);
-                    System.out.println("Username of user: " + request.getRequesterUsername());
+                    System.out.println("Username of user: " + user.getUserName());
                     RequestList.add(request);
                 }
                 System.out.println("Size of RequestList " + RequestList.size());
@@ -523,5 +523,5 @@ public class DatabaseHandler {
             }
         });
     }
-
+    
 }
