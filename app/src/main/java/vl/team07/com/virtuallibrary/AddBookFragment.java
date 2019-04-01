@@ -109,19 +109,13 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 String title, author, description;
-                int ISBN;
-
+                String ISBN;
                 // Set new book
 
                 title = TitleEdit.getText().toString();
                 author = AuthorEdit.getText().toString();
                 description = DescriptionEdit.getText().toString();
-
-                try {
-                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-                }catch (NumberFormatException e){
-                    ISBN = 0;
-                }
+                ISBN = ISBNEdit.getText().toString();
 
                 /**
                  * Getting the image uploaded and storing it in book data

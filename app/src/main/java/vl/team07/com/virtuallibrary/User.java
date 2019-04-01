@@ -25,6 +25,10 @@ public class User {
     private int ContactInfo;    // Phone number
     private String Address;
 
+    public User(){
+        this.UserName = "Test Username";
+        this.Name = "Test Name";
+    }
     //neccesary attributes to initialize user class are username, name and, email
     public User(String username, String name, String email, String password) {
         this.UserName=username;

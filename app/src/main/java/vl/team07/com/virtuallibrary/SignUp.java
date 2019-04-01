@@ -53,6 +53,8 @@ public class SignUp extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        progressBar = findViewById(R.id.progressBar);
+
         Button signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new OnClickListener() {
             @Override

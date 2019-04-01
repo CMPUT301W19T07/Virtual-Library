@@ -13,7 +13,8 @@ package vl.team07.com.virtuallibrary;
 import java.util.ArrayList;
 
 /**
- * Created by MTX on 2019-02-24.
+ * This class handles the request functionality of the app
+ * When a borrower clicks on requesting a book, the notification is sent to the owner.
  */
 
 public class Request {

@@ -41,7 +41,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
 
         final Button AddReviewButton = findViewById(R.id.AddReviewButton);
 
