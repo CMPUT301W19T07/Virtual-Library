@@ -530,19 +530,86 @@ public class DatabaseHandler {
         requestRef.removeValue();
     }
 
-    public void acceptRequest(Book book, String requesterUsername){
+    public void acceptRequest(Book book, String requesterUsername, String current_userName){
         DatabaseReference userRef = databaseReference.child("Users").child(requesterUsername);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 ArrayList<Book> newRequesterBorrowedBookList = user.getBorrowedBookList();
+                book.setStatus(BookStatus.BORROWED);
                 newRequesterBorrowedBookList.add(book);
                 user.setBorrowedBookList(newRequesterBorrowedBookList);
+                updateBookStatusesToBorrowed(book, current_userName);
                 databaseReference.child("Users").child(requesterUsername).setValue(user);
 
                 //remove request list
                 databaseReference.child("Requests").child(book.getISBN()).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void displayBorrowedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> borrowedBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                ArrayList<Book> bookList = user.getBorrowedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    borrowedBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void updateBookStatusesToBorrowed(Book bookToBeUpdated, String current_userName){
+        DatabaseReference userRef = databaseReference.child("Users").child(current_userName);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                System.out.println("Current user's username : " + user.getUserName());
+                ArrayList<Book> ownedBookList = user.getOwnedBookList();
+                for(Book book: ownedBookList){
+                    if (book.getISBN().equals(bookToBeUpdated.getISBN())){
+                        ArrayList<Book> updatedOwnedBookList = ownedBookList;
+                        updatedOwnedBookList.remove(book);
+                        book.setStatus(BookStatus.BORROWED);
+                        updatedOwnedBookList.add(book);
+                        user.setOwnedBookList(updatedOwnedBookList);
+                        addUser(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        DatabaseReference bookRef = databaseReference.child("Books").child(bookToBeUpdated.getISBN());
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Book book = dataSnapshot.getValue(Book.class);
+                book.setStatus(BookStatus.BORROWED);
+                bookRef.setValue(book);
             }
 
             @Override

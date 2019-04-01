@@ -12,6 +12,8 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +35,9 @@ public class ConfirmRequest extends AppCompatActivity {
     String description;
 
     Book book;
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +98,11 @@ public class ConfirmRequest extends AppCompatActivity {
 
     public void AcceptRequest(View view){
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
+        String current_userName = preferences.getString("current_userName", "n/a");
+
         DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
-        dh.acceptRequest(book, request.getRequesterUsername() );
+        dh.acceptRequest(book, request.getRequesterUsername(), current_userName );
 
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK, returnIntent);

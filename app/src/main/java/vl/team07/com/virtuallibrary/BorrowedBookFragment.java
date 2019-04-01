@@ -12,9 +12,11 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +32,9 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> borrowedBookList;
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
 
     public BorrowedBookFragment() {
@@ -47,6 +52,12 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         borrowedBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
         recyclerView.setAdapter(adapter);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(BorrowedBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.displayBorrowedBooks(current_userName, adapter, borrowedBookList);
 
 
         adapter.setClickListener(new View.OnClickListener() {
@@ -76,7 +87,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        TempList();
+//        TempList();
 
 
         return BorrowedBookView;
