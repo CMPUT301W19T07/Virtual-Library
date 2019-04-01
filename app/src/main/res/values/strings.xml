@@ -39,5 +39,6 @@
     <string name="Request_Button">Request</string>
     <string name="editDetails">Edit Details</string>
     <string name="signOut">Sign Out</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
