@@ -52,6 +52,11 @@ dependencies {
 
 }
 
+//dependencies {
+//    // Important - the CameraSource implementation in this project requires version 8.1 or higher.
+//    implementation 'com.google.android.gms:play-services:8.1.0'
+//}
+
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
@@ -77,6 +82,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
 
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
