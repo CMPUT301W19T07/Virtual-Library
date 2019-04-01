@@ -10,6 +10,7 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.ContentProvider;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,12 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
             BookAuthor.setText(String.format(Locale.CANADA, "Author: %s", book.getAuthor()));
             BookOwner.setText(String.format(Locale.CANADA, "Owner: %s", book.getOwner()));
             BookStatus.setText(String.format(Locale.CANADA, "Status: %s", book.getStatus().toString()));
-//            BookImage.setImageBitmap();
+
+
+            //Loading the images from Firebase Storage
+            Context context = itemView.getContext();
+            DatabaseHandler dh = DatabaseHandler.getInstance(context);
+            dh.retrieveImageFromFirebase(book.getISBN(), BookImage);
         }
 
     }

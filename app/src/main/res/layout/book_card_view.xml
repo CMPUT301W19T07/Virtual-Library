@@ -63,6 +63,6 @@
     <ImageView
         android:id="@+id/BookImage"
         android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:scaleType="centerCrop" />
 </android.support.v7.widget.CardView>
