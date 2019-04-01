@@ -13,6 +13,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -399,6 +400,32 @@ public class DatabaseHandler {
         bookRef.child("PickupLocation").setValue(String.valueOf(latitude) + " " +  String.valueOf(longitude));
     }
 
+    public void navToPickUpLocation(Book book, Context context) {
+        DatabaseReference bookRef = databaseReference.child("Books").child(book.getISBN())
+                .child("PickupLocation");
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String[] latLang = dataSnapshot.getValue().toString().split(" ");
+                double latitude = Double.parseDouble(latLang[0]);
+                double longitude = Double.parseDouble((latLang[1]));
+
+                Uri navigationIntentUri = Uri.parse("google.navigation:q=" + latitude +"," + longitude);//creating intent with latlng
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                context.startActivity(mapIntent);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "onCancelled", databaseError.toException());
+            }
+        });
+
+
+    }
+
     /**
      * This method takes the image uploaded while adding a book to the Firebase storage. It then
      * takes the URL related to the stored image and stores it in the Book Database
@@ -455,6 +482,14 @@ public class DatabaseHandler {
         });
 
     }
+
+    /**
+     * This method adds the current username to a SharedPreferences file. This helps us keep track
+     * of the current user
+     * @param email
+     * @param preferences
+     * @param edit
+     */
 
     public void getUsernameToPref (String email, SharedPreferences preferences, SharedPreferences.Editor edit) {
         DatabaseReference userRef = databaseReference.child("Users");

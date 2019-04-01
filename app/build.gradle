@@ -113,3 +113,7 @@ dependencies {
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.2'
 }
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
