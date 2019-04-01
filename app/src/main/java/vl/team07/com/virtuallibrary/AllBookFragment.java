@@ -16,11 +16,20 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -31,7 +40,12 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> allBookList;
+    private DatabaseHandler databaseHandler;
 
+
+    private final String BOOK_PARENT = "Books";
+    private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
+    private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
 
     public AllBookFragment() {
         // Required empty public constructor
@@ -48,6 +62,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         allBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
         recyclerView.setAdapter(adapter);
+
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+
+        TempList();
+//        loadAllBook();
+        databaseHandler.loadAllBook(allBookList,adapter);
+
 
         /**
          *Sets the onClickListener for each item in the Recycle View
@@ -71,15 +93,15 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
                     Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
                     String title = clickedBook.getTitle();
                     String author = clickedBook.getAuthor();
-                    int isbn = clickedBook.getISBN();
-                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String isbn = clickedBook.getISBN();
+                    String pickupLocation = clickedBook.getPickupLocation();
                     String description = clickedBook.getDescription();
 
                     Bundle extras = new Bundle();
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
-                    extras.putInt("ISBN", isbn);
-                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("ISBN", isbn);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
                     intent.putExtras(extras);
                     context.startActivity(intent);
@@ -88,15 +110,15 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
                     Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
                     String title = clickedBook.getTitle();
                     String author = clickedBook.getAuthor();
-                    int isbn = clickedBook.getISBN();
-                    String ownerAddress = clickedBook.getOwner().getAddress();
+                    String isbn = clickedBook.getISBN();
+                    String pickupLocation = clickedBook.getPickupLocation();
                     String description = clickedBook.getDescription();
 
                     Bundle extras = new Bundle();
                     extras.putString("TITLE", title);
                     extras.putString("AUTHOR", author);
-                    extras.putInt("ISBN", isbn);
-                    extras.putString("OWNERADDRESS", ownerAddress);
+                    extras.putString("ISBN", isbn);
+                    extras.putString("PICKUPLOCATION", pickupLocation);
                     extras.putString("DESCRIPTION", description);
                     intent.putExtras(extras);
                     context.startActivity(intent);
@@ -105,7 +127,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        TempList();
+
 
         return AllBookView;
     }
@@ -121,25 +143,27 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
         User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
 
-        Book testBook = new Book("First Book", "First Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+        Book testBook = new Book("First Book", "First Author", "1234567890", "Test User", BookStatus.AVAILABLE, "Description","SSN",null);
         allBookList.add(testBook);
-        testBook = new Book("Second Book", "Second Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+        testBook = new Book("Second Book", "Second Author", "1234567890", "Test User", BookStatus.BORROWED, "Description","SSN",null);
         allBookList.add(testBook);
-        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
+//        testBook = new Book("Third Book", "Third Author","1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Forth Book", "Forth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Sixth Book", "Sixth Author","1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
     }
+
+
 }

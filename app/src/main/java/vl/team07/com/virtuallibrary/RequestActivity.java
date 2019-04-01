@@ -85,16 +85,13 @@ public class RequestActivity extends AppCompatActivity {
         });
     }
 
-
-
-
         public void TempList(){
 
         User user1 = new User("user1", "Test name", 0, "email1", 0, "Canada", 0, "address1");
         User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");
         User user3 = new User("user3", "Test name", 0, "email3", 0, "Canada", 0, "address3");
 
-        Book testBook1 = new Book("First Book", "Second Author", 1234567890, user2, BookStatus.BORROWED, "Description","SSN",null);
+        Book testBook1 = new Book("First Book", "Second Author", "1234567890", "user2", BookStatus.BORROWED, "Description","SSN",null);
         Request request1 = new Request(user1, testBook1);
         RequestList.add(request1);
 
@@ -105,58 +102,5 @@ public class RequestActivity extends AppCompatActivity {
         RequestList.add(request3);
     }
 
-//    public void RejectClick(View view) {
-//
-//        RequestList.get(0).rejectRequest();
-//        RequestList.remove(RequestList.get(0));
-//        adapter.notifyDataSetChanged();
-////        finish();
-////        startActivity(getIntent());
-//
-//    }
 
-//    private void loadFromFile() {
-//
-//        try {
-//
-//            FileReader in = new FileReader(new File(getFilesDir(),FILENAME));
-//
-//            Gson gson = new Gson();
-//
-//            // taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt on date 16th - Jan 2019
-//
-//            Type type = new TypeToken<ArrayList<Request>>(){}.getType();
-//
-//            RequestList = gson.fromJson(in, type);
-//
-//
-//
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    //taken from lonelyTwitter of the lab
-//    private void saveInFile() {
-//        try {
-//
-//            FileWriter out = new FileWriter(new File(getFilesDir(),FILENAME));
-//
-//            Gson gson = new Gson();
-//
-//            gson.toJson(RequestList, out);
-//            out.close();
-//
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
 }

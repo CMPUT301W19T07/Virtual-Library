@@ -12,6 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.support.v4.content.ContextCompat;
@@ -52,6 +54,10 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
     private ImageView imageView;
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor edit;
+
+    DatabaseHandler dh;
 
     public AddBookFragment() {
         // Required empty public constructor
@@ -109,19 +115,16 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 String title, author, description;
-                int ISBN;
-
+                String ISBN;
                 // Set new book
 
                 title = TitleEdit.getText().toString();
                 author = AuthorEdit.getText().toString();
                 description = DescriptionEdit.getText().toString();
+                ISBN = ISBNEdit.getText().toString();
 
-                try {
-                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-                }catch (NumberFormatException e){
-                    ISBN = 0;
-                }
+                preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
 
                 /**
                  * Getting the image uploaded and storing it in book data
@@ -138,7 +141,10 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setAuthor(author);
                     book.setDescription(description);
                     book.setISBN(ISBN);
-                    book.setImage(byteArray);
+                    book.setStatus(BookStatus.AVAILABLE);
+                    book.setOwner(current_userName);
+                    //book.setImage(byteArray);
+
 
                 } else {
                     book = new Book();
@@ -146,9 +152,13 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                     book.setAuthor(author);
                     book.setDescription(description);
                     book.setISBN(ISBN);
+                    book.setStatus(BookStatus.AVAILABLE);
+                    book.setOwner(current_userName);
                 }
 
-                DatabaseHandler dh = new DatabaseHandler(getActivity());
+                System.out.println("current username is: " + current_userName);
+                dh = DatabaseHandler.getInstance(getActivity());
+                dh.addBookToOwnedBookList(book, current_userName);
                 dh.addBook(book);
 
             }

@@ -46,7 +46,7 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         public void setDetails(Book book){
             BookTitle.setText(book.getTitle());
             BookAuthor.setText(String.format(Locale.CANADA, "Author: %s", book.getAuthor()));
-            BookOwner.setText(String.format(Locale.CANADA, "Owner: %s", book.getOwner().getName()));
+            BookOwner.setText(String.format(Locale.CANADA, "Owner: %s", book.getOwner()));
             BookStatus.setText(String.format(Locale.CANADA, "Status: %s", book.getStatus().toString()));
 //            BookImage.setImageBitmap();
         }

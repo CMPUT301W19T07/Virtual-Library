@@ -7,11 +7,11 @@
 
 
     <EditText
-        android:id="@+id/searchText"
+        android:id="@+id/SearchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Search"
+        android:hint="Enter Search Term"
         android:inputType="textPersonName" />
 
     <android.support.v7.widget.RecyclerView

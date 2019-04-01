@@ -12,9 +12,11 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,14 +38,17 @@ import java.util.List;
 
 import static java.sql.DriverManager.println;
 
+import java.util.ArrayList;
+
 
 public class SearchFragment extends android.support.v4.app.Fragment {
 
-    RecyclerView recyclerView;
-    public ArrayList<Book> availBookList; //Books that are available and not yours.
-    public BookRecyclerViewAdapter mAdapter;
-    EditText search;
+    private EditText search;
+    private RecyclerView recyclerView;
+    private BookRecyclerViewAdapter adapter;
+    private ArrayList<Book> availableBookList;
 
+    SharedPreferences preferences;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -62,15 +67,21 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        getActivity().setTitle("Search");
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.SearchRecyclerView);
+        View SearchView = inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = (RecyclerView) SearchView.findViewById(R.id.SearchRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        availBookList = new ArrayList<>();
-        mAdapter = new BookRecyclerViewAdapter(getContext(), availBookList);
-        recyclerView.setAdapter(mAdapter);
+        availableBookList = new ArrayList<>();
+        adapter = new BookRecyclerViewAdapter(getContext(), availableBookList);
+        recyclerView.setAdapter(adapter);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+        dh.displayAvailableBooks(current_userName, adapter, availableBookList);
+
+        getActivity().setTitle("Search");
         search = view.findViewById(R.id.searchText);
         search.addTextChangedListener(new TextWatcher() {
             @Override

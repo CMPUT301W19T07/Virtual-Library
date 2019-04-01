@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "619361212997",
+    "firebase_url": "https://virtuallibrary-12090.firebaseio.com",
+    "project_id": "virtuallibrary-12090",
+    "storage_bucket": "virtuallibrary-12090.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619361212997:android:ae0ad12825dfdc41",
+        "android_client_info": {
+          "package_name": "vl.team07.com.virtuallibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM5J7TtEdNek7IPdWDrz6_TU05gz9i2_U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

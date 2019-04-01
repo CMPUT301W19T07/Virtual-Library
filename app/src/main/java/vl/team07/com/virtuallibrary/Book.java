@@ -22,39 +22,32 @@ public class Book {
 
     private String Title;
     private String Author;
-    private int ISBN;
-    private User Owner;
+    private String ISBN;
+    private String Owner;
     private BookStatus Status;
     private String Description;
     private String SearchString;
+    private String PickupLocation;
     private byte[] Image;
     private ArrayList<User> RequesterList = new ArrayList<>();
 
     public Book(){
 
-        this.Title = "";
-        this.Author = "";
-        this.ISBN = 0;
-        this.Owner = null;
-        this.Status = BookStatus.AVAILABLE;
-        this.Description = "";
-        this.SearchString = "";
-
     }
-
     public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString) {
         this.Image = null;
     }
 
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString, byte[] image){
+    public Book(String title, String author, String isbn, String ownerUsername, BookStatus status, String description, String searchString,byte[] image){
 
         this.Title = title;
         this.Author = author;
         this.ISBN = isbn;
-        this.Owner = owner;
+        this.Owner = ownerUsername;
         this.Status = status;
         this.Description = description;
         this.SearchString = searchString;
+        this.PickupLocation = "To Be Determined";
         this.Image = image;
     }
 
@@ -70,9 +63,9 @@ public class Book {
 
     public void setAuthor(String inputAuthor){this.Author = inputAuthor;}
 
-    public void setISBN(int inputISBN){this.ISBN = inputISBN;}
+    public void setISBN(String inputISBN){this.ISBN = inputISBN;}
 
-    public void setOwner(User inputOwner){this.Owner = inputOwner;}
+    public void setOwner(String ownerUsername){this.Owner = ownerUsername;}
 
     public void setStatus(BookStatus inputStatus){this.Status = inputStatus;}
 
@@ -86,9 +79,9 @@ public class Book {
 
     public String getAuthor(){return this.Author;}
 
-    public int getISBN(){return this.ISBN;}
+    public String getISBN(){return this.ISBN;}
 
-    public User getOwner(){return this.Owner;}
+    public String getOwner(){return this.Owner;}
 
     public BookStatus getStatus(){return this.Status;}
 
@@ -97,5 +90,13 @@ public class Book {
     public String getSearchString(){return this.SearchString;}
 
     public byte[] getImage(){return this.Image;}
+
+    public String getPickupLocation(){
+        return this.PickupLocation;
+    }
+
+    public void setPickupLocation(String newPickupLocation){
+        this.PickupLocation = newPickupLocation;
+    }
 
 }

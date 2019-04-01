@@ -12,6 +12,8 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,18 +32,22 @@ import org.w3c.dom.Comment;
  */
 
 public class AddReviewActivity extends AppCompatActivity {
-
+    SharedPreferences preferences;
+    SharedPreferences.Editor edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_review);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        edit = preferences.edit();
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
         String title = extras.getString("TITLE");
         String author = extras.getString("AUTHOR");
-        int isbn = extras.getInt("ISBN");
+        String isbn = extras.getString("ISBN");
 
         final Button AddReviewButton = findViewById(R.id.AddReviewButton);
 
@@ -78,13 +84,14 @@ public class AddReviewActivity extends AppCompatActivity {
                 }
 
                 if (errorFlag == false){
-                    User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
-                    Book testBook = new Book(title, author, isbn, user1, BookStatus.AVAILABLE, "Description","SSN",null);
-                    Review newReview = new Review(testBook, user1);
+                    String current_userName = preferences.getString("current_userName", "n/a");
+                    User user1 = new User(current_userName, "Test name1", 0, "Test email", 0, "Canada", 0, "   ");
+                    Book testBook = new Book(title, author, isbn, current_userName, BookStatus.AVAILABLE, "Description","SSN",null);
+                    Review newReview = new Review(user1.getUserName());
                     newReview.setComment(comment);
                     newReview.setRating(Double.parseDouble(rating));
 
-                    DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                     dh.addReview(testBook, newReview);
 
                     Context context = v.getContext();
