@@ -15,6 +15,7 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
@@ -62,6 +63,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
+
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -128,6 +132,54 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         return AddBookView;
     }
 
+     /*
+        AsyncTask enables proper and easy use of the UI thread. This class
+        allows to perform background operations and publish results on the UI
+        thread without having to manipulate threads and/or handlers.
+     */
+
+    /*
+        final AsyncTask<Params, Progress, Result>
+            execute(Params... params)
+                Executes the task with the specified parameters.
+     */
+    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView){
+            this.imageView = imageView;
+        }
+
+        /*
+            doInBackground(Params... params)
+                Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                /*
+                    decodeStream(InputStream is)
+                        Decode an input stream into a bitmap.
+                 */
+                logo = BitmapFactory.decodeStream(is);
+            }catch(Exception e){ // Catch the download exception
+                e.printStackTrace();
+            }
+            return logo;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+        protected void onPostExecute(Bitmap result){
+            imageView.setImageBitmap(result);
+        }
+    }
+
+
     /**
      * Starting the activity of the gallery, to pick the book image
      * @param requestCode
@@ -158,7 +210,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                         title = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("title");
                         author = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("authors");
                         description = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("description");
+                        String URL =  output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
 
+                        new DownLoadImageTask(imageView).execute(URL);
                         if(title!=null){
                             TitleEdit.setText(title);
                         }

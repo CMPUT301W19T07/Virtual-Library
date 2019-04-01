@@ -134,13 +134,12 @@ public class DatabaseHandler {
                 final String message = "The book has already exist in the library!";
 
                 if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
-                    alertDialog(title, message);
+                    createToast("This book already exists");
                 }else{
                     databaseReference.child("Books").child(book.getISBN()).setValue(book);
 
                     showToast("The book is added!");
                 }
-                System.out.println("Currently running addBook");
             }
 
             @Override
@@ -594,7 +593,7 @@ public class DatabaseHandler {
                 }
                 if(listContainsBook) {
                     System.out.println("Book is already in owned list");
-                    alertDialog("Book Already Exists", "Book Already ");
+//                    createToast("This book already exists");
                 }else {
                     oldBookList.add(newBook);
 

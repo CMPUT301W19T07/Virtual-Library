@@ -12,6 +12,7 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -31,9 +32,9 @@ public class ScanBookInfo {
         this.book = book;
     }
 
-    public void showDialog(Activity activity){
+    public void showDialog(Context context){
 
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -51,7 +52,11 @@ public class ScanBookInfo {
         title.setText("Title: "+ book.getTitle() + "\n");
         author.setText("Author: " + book.getAuthor() + "\n");
         des.setText("Description: \n"+book.getDescription());
-//        image.setImageBitmap(book.getImage());
+
+        Context ctx = dialog.getContext();
+        DatabaseHandler dh = DatabaseHandler.getInstance(ctx);
+        dh.retrieveImageFromFirebase(book.getISBN(), image);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
