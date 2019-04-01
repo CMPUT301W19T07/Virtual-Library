@@ -14,14 +14,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnerBookDetailsActivity">
+    tools:context=".OtherBookDetailsActivity">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dashboard_black_24dp" />
@@ -86,7 +86,7 @@
         android:id="@+id/TopReviewsIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Top Reviews"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -208,11 +208,15 @@
         app:layout_constraintTop_toBottomOf="@+id/User3Comment" />
 
     <Button
-        android:id="@+id/EditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/RequestButton"
+        android:layout_width="111dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="8dp"
-        android:text="Edit Book Details"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/Request_Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.729"
+        app:layout_constraintStart_toEndOf="@+id/User1Rating"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
 </android.support.constraint.ConstraintLayout>

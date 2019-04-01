@@ -11,15 +11,17 @@
 package vl.team07.com.virtuallibrary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class ComfirmRequest extends AppCompatActivity {
+public class ConfirmRequest extends AppCompatActivity {
     private String result1;
     private String result2;
     private Request request;
@@ -60,6 +62,12 @@ public class ComfirmRequest extends AppCompatActivity {
 
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK, returnIntent);
+        Context context = view.getContext();
+        CharSequence text = "Request Accepted!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
         finish();
 
     }

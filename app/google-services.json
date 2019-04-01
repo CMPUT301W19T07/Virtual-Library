@@ -1,54 +1,27 @@
 {
   "project_info": {
-<<<<<<< HEAD
-    "project_number": "224451493203",
-    "firebase_url": "https://virtual-library-d12fa.firebaseio.com",
-    "project_id": "virtual-library-d12fa",
-    "storage_bucket": "virtual-library-d12fa.appspot.com"
-=======
     "project_number": "619361212997",
     "firebase_url": "https://virtuallibrary-12090.firebaseio.com",
     "project_id": "virtuallibrary-12090",
     "storage_bucket": "virtuallibrary-12090.appspot.com"
->>>>>>> origin/master
   },
   "client": [
     {
       "client_info": {
-<<<<<<< HEAD
-        "mobilesdk_app_id": "1:224451493203:android:ae0ad12825dfdc41",
-=======
         "mobilesdk_app_id": "1:619361212997:android:ae0ad12825dfdc41",
->>>>>>> origin/master
         "android_client_info": {
           "package_name": "vl.team07.com.virtuallibrary"
         }
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
-          "client_id": "224451493203-163j2klim3fbg44fsu5okarqgkge0lp2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "vl.team07.com.virtuallibrary",
-            "certificate_hash": "d392596d37fd714f6ffa3b1888c1793b7fc37028"
-          }
-        },
-        {
-          "client_id": "224451493203-u0kt6iop2i8j1oosi37m1vc509dqfaf0.apps.googleusercontent.com",
-=======
           "client_id": "619361212997-12f1lgsocneg90063ajg4pijpkbnke1q.apps.googleusercontent.com",
->>>>>>> origin/master
           "client_type": 3
         }
       ],
       "api_key": [
         {
-<<<<<<< HEAD
-          "current_key": "AIzaSyAfdruyB0Zc7Lw4DTijoaupaJQ-Q8jS1Fo"
-=======
           "current_key": "AIzaSyAM5J7TtEdNek7IPdWDrz6_TU05gz9i2_U"
->>>>>>> origin/master
         }
       ],
       "services": {
@@ -56,18 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-<<<<<<< HEAD
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "224451493203-u0kt6iop2i8j1oosi37m1vc509dqfaf0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-=======
           "status": 1,
           "other_platform_oauth_client": []
->>>>>>> origin/master
         },
         "ads_service": {
           "status": 2
