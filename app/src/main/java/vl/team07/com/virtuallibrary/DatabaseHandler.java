@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -459,11 +460,14 @@ public class DatabaseHandler {
         bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Current user's username: " + current_userName);
                 for(DataSnapshot data: dataSnapshot.getChildren()) {
                     Book book = data.getValue(Book.class);
 
 
-                    if(book.getStatus() == BookStatus.AVAILABLE && book.getOwner() != current_userName){
+                    if((book.getStatus() == BookStatus.AVAILABLE)
+                            && !(book.getOwner().equals(current_userName))){
+                        System.out.println(book.getOwner() + " == " + current_userName);
                         availableBookList.add(book);
                     }
 
@@ -479,5 +483,45 @@ public class DatabaseHandler {
         });
     }
 
+    public void sendRequest(String bookISBN, String currentUser){
+         DatabaseReference userRef = databaseReference.child("Users");
+         userRef.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 User user = dataSnapshot.getValue(User.class);
+                 System.out.println("ISBN of requested book is " + bookISBN);
+                 databaseReference.child("Requests").child(bookISBN).child(user.getUserName())
+                         .setValue(user);
+
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+    }
+
+    public void getBookRequests(String isbn, String bookTitle, String current_userName, ArrayList<Request> RequestList, ArrayAdapter adapter){
+        DatabaseReference requestRef = databaseReference.child("Requests").child(isbn);
+        requestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    User user = data.getValue(User.class);
+                    Request request = new Request(user, bookTitle, isbn);
+                    System.out.println("Username of user: " + request.getRequesterUsername());
+                    RequestList.add(request);
+                }
+                System.out.println("Size of RequestList " + RequestList.size());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

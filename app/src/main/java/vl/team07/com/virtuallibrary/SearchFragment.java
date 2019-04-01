@@ -11,6 +11,7 @@
 package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,11 +66,44 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
+        System.out.println("Current user's username: " + current_userName);
 
         DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
         dh.displayAvailableBooks(current_userName, adapter, availableBookList);
 
         getActivity().setTitle("Search");
+
+        adapter.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.indexOfChild(v);
+                System.out.println("POSITION: "+position);
+                Book clickedBook = availableBookList.get(position);
+
+                Context context = v.getContext();
+                Intent intent = new Intent(context, OtherBookDetailsActivity.class);
+                String title = clickedBook.getTitle();
+                String author = clickedBook.getAuthor();
+                BookStatus status_enum = clickedBook.getStatus();
+                String status = status_enum.name();
+                String isbn = clickedBook.getISBN();
+                String pickupLocation = clickedBook.getPickupLocation();
+                String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
+
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putString("ISBN", isbn);
+                extras.putString("PICKUPLOCATION", pickupLocation);
+                extras.putString("DESCRIPTION", description);
+                extras.putString("STATUS", status);
+                extras.putString("OWNER", owner);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+
+            }
+        });
 
         return SearchView;
     }

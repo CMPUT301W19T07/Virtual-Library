@@ -34,8 +34,15 @@ public class Book {
     public Book(){
 
     }
-    public Book(String title, String author, int isbn, User owner, BookStatus status, String description, String searchString) {
-        this.Image = null;
+    public Book(String title, String author, String isbn, String owner, BookStatus status, String description, String searchString) {
+        this.Title = title;
+        this.Author = author;
+        this.ISBN = isbn;
+        this.Owner = owner;
+        this.Status = status;
+        this.Description = description;
+        this.SearchString = searchString;
+        this.PickupLocation = "To Be Determined";
     }
 
     public Book(String title, String author, String isbn, String ownerUsername, BookStatus status, String description, String searchString,byte[] image){

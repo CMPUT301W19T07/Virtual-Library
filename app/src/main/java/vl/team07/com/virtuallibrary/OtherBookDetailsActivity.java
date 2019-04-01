@@ -12,6 +12,8 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,9 +37,15 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
     String title;
     String author;
     String isbn;
+    String pickupLocation;
+    String description;
+    String status;
+    String owner;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +58,13 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        String title = extras.getString("TITLE");
-        String author = extras.getString("AUTHOR");
-        String isbn = extras.getString("ISBN");
-        String ownerAddress = extras.getString("OWNERADDRESS");
-        String description = extras.getString("DESCRIPTION");
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
+        status = extras.getString("STATUS");
+        owner = extras.getString("OWNER");
 
 //        description = "WE need a long description in here. I should just try to practice my typin " +
 //                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
@@ -136,8 +146,15 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
+                Book requestedBook = new Book(title, author, isbn, owner, BookStatus.AVAILABLE, description, "");
+
                 CharSequence text = "Request Sent";
                 int duration = Toast.LENGTH_SHORT;
+                preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
+
+                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+                dh.sendRequest(requestedBook.getISBN(), current_userName);
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
