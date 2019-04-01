@@ -18,7 +18,7 @@ public class User {
 
     private String UserName;
     private String Name;
-    private int Password;
+    private String Password;
     private String Email;
     private int Age;
     private String Nationality;
@@ -30,15 +30,15 @@ public class User {
         this.Name = "Test Name";
     }
     //neccesary attributes to initialize user class are username, name and, email
-    public User(String username, String name, String email) {
+    public User(String username, String name, String email, String password) {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
-        Age = 0;
-        Nationality = null;
+        this.Password=password;
+        Nationality = "Canada";
     }
 
-    public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
+    public User(String username, String name, String password, String email, int age, String nationality, int contactInfo, String address){
         this.UserName = username;
         this.Name = name;
         this.Password = password;
@@ -53,7 +53,7 @@ public class User {
 
     public void setName(String inputName){this.Name = inputName;}
 
-    public void setPassword(int inputPassword){this.Password = inputPassword;}
+    public void setPassword(String inputPassword){this.Password = inputPassword;}
 
     public void setEmail(String inputEmail){this.Email = inputEmail;}
 
@@ -69,7 +69,7 @@ public class User {
 
     public String getName(){return this.Name;}
 
-    public int getPassword(){return this.Password;}
+    public String getPassword(){return this.Password;}
 
     public String getEmail(){return this.Email;}
 

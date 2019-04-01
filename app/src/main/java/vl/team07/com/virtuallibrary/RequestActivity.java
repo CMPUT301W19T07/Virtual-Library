@@ -17,21 +17,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class RequestActivity extends AppCompatActivity {
     private ListView RequestListView;
@@ -86,7 +76,7 @@ public class RequestActivity extends AppCompatActivity {
                 String sendPosition = Integer.toString(position);
                 Gson gson = new Gson();
                 String type = gson.toJson(request);
-                Intent intent = new Intent(RequestActivity.this,ComfirmRequest.class);
+                Intent intent = new Intent(RequestActivity.this, ConfirmRequest.class);
                 intent.putExtra("GiveObject", type);
                 intent.putExtra("position", sendPosition);
                 startActivityForResult(intent, 1);
@@ -97,9 +87,9 @@ public class RequestActivity extends AppCompatActivity {
 
         public void TempList(){
 
-        User user1 = new User("user1", "Test name", 0, "email1", 0, "Canada", 0, "address1");
-        User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");
-        User user3 = new User("user3", "Test name", 0, "email3", 0, "Canada", 0, "address3");
+        User user1 = new User("user1", "Test name", "0", "email1", 0, "Canada", 0, "address1");
+        User user2 = new User("user2", "Test name", "0", "email2", 0, "Canada", 0, "address2");
+        User user3 = new User("user3", "Test name", "0", "email3", 0, "Canada", 0, "address3");
 
         Book testBook1 = new Book("First Book", "Second Author", "1234567890", user2, BookStatus.BORROWED, "Description","SSN",null);
         Request request1 = new Request(user1, testBook1);

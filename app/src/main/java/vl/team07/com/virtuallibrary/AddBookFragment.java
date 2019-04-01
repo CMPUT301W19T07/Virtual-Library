@@ -12,18 +12,39 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,11 +54,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+
+import static android.app.Activity.RESULT_OK;
 import java.util.ArrayList;
 
 
 public class AddBookFragment extends android.support.v4.app.Fragment {
 
+    private static final int RESULT_LOAD_IMAGE = 1;
 
     private TextView TitleView, AuthorView, ISBNView, DescriptionView;
     private EditText TitleEdit, AuthorEdit, ISBNEdit, DescriptionEdit;
@@ -54,6 +79,10 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    private ImageView imageView;
+
+
 
     public AddBookFragment() {
         // Required empty public constructor
@@ -76,6 +105,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         AuthorEdit = (EditText) AddBookView.findViewById(R.id.enterAuthorView);
         ISBNEdit = (EditText) AddBookView.findViewById(R.id.enterISBNView);
         DescriptionEdit = (EditText) AddBookView.findViewById(R.id.enterDescriptionView);
+        imageView = AddBookView.findViewById(R.id.imageView);
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -90,93 +120,98 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
 
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
         return AddBookView;
     }
 
-    public void onStart() {
+    /**
+     * Starting the activity of the gallery, to pick the book image
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            imageView.setImageURI(selectedImage);
+
+        }
+    }
+    
+    public void onStart(){
         super.onStart();
 
-    }
 
-    public void addBook(){
-
-        title = TitleEdit.getText().toString();
-        author = AuthorEdit.getText().toString();
-        ISBN = Integer.parseInt(ISBNEdit.getText().toString());
-        description = DescriptionEdit.getText().toString();
-
-        String title, author, description;
-        String ISBN;
-        // Set new book
-
-        title = TitleEdit.getText().toString();
-        author = AuthorEdit.getText().toString();
-        description = DescriptionEdit.getText().toString();
-        ISBN = ISBNEdit.getText().toString();
-
-        book = new Book();
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setDescription(description);
-        book.setISBN(ISBN);
-        book.setStatus(BookStatus.AVAILABLE);
-
-        String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
-                "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
-
-        book.setSearchString(SearchStringName);
-
-        DatabaseHandler dh = new DatabaseHandler(getActivity());
-        dh.addBook(book);
-
-
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                String title, author, description;
-//                String ISBN;
-//                // Set new book
-//
-//                title = TitleEdit.getText().toString();
-//                author = AuthorEdit.getText().toString();
-//                description = DescriptionEdit.getText().toString();
-//                ISBN = ISBNEdit.getText().toString();
-//
-//                book = new Book();
-//                book.setTitle(title);
-//                book.setAuthor(author);
-//                book.setDescription(description);
-//                book.setISBN(ISBN);
-//                book.setStatus(BookStatus.AVAILABLE);
-//
-//                String SearchStringName = book.getTitle()+"m"+book.getAuthor()+
-//                        "m"+String.valueOf(book.getISBN())+"m"+book.getDescription();
-//
-//                book.setSearchString(SearchStringName);
-//
-//                DatabaseHandler dh = new DatabaseHandler(getActivity());
-//                dh.addBook(book);
-//
-//            }
-//        });
-
-
-    }
-
-
-
-    public void alertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Error");
-        builder.setMessage("The book has already exists in the Firebase.");
-        builder.setCancelable(true);
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+        // Put book to 'My Books' Fragment by click ADD button
+        // Will be update use firebase later
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View v) {
+
+                String title, author, description;
+                int ISBN;
+
+                // Set new book
+
+                title = TitleEdit.getText().toString();
+                author = AuthorEdit.getText().toString();
+                description = DescriptionEdit.getText().toString();
+
+                try {
+                    ISBN = Integer.parseInt(ISBNEdit.getText().toString());
+                }catch (NumberFormatException e){
+                    ISBN = 0;
+                }
+
+                /**
+                 * Getting the image uploaded and storing it in book data
+                 */
+                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+                if (bmp != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                    book.setImage(byteArray);
+
+                } else {
+                    book = new Book();
+                    book.setTitle(title);
+                    book.setAuthor(author);
+                    book.setDescription(description);
+                    book.setISBN(ISBN);
+                }
+
+                DatabaseHandler dh = new DatabaseHandler(getActivity());
+                dh.addBook(book);
+
             }
         });
-        builder.show();
+
+        /**
+         * Adding an image from gallery once the imageView is clicked. It will launch the gallery,
+         * and allow the user to select an upload a photo.
+         */
+        imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+            }
+        });
+
     }
 
 }

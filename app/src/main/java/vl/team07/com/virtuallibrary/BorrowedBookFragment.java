@@ -58,7 +58,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = borrowedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NonOwnerBookDetailsActivity.class);
+                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
@@ -85,7 +85,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
 
     public void TempList(){
 
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
 
         Book testBook;
         testBook = new Book("Second Book", "Second Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);

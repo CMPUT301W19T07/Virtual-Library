@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,6 +55,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     private ArrayList<Book> borrowedBookList;
 
     private final String BOOK_PARENT = "Books";
+    private ArrayList<Book> availableBookList;
+    private ArrayList<Book> borrowedBookList;
+    private ArrayAdapter<Book> arrayAdapter;
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    private final String BOOK_PARENT = "All Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
     private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
 
@@ -99,6 +109,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
          * @see OwnerBookDetailsActivity
          * @see NonOwnerBookDetailsActivity
          */
+        // int position is index of item clicked in recyclerView
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +157,10 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
         });
 
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
 
         return AllBookView;
     }
@@ -190,7 +205,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     // Temp for test
     public void TempList(){
 
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
 
         Book testBook = new Book("First Book", "First Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
         allBookList.add(testBook);
@@ -211,6 +226,21 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 //        testBook = new Book("Ninth Book", "Ninth Author", "1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
 //        allBookList.add(testBook);
 //        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
+//        testBook = new Book("Third Book", "Third Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Forth Book", "Forth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Fifth Book", "Fifth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Sixth Book", "Sixth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Seventh Book", "Seventh Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Eighth Book", "Eighth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Ninth Book", "Ninth Author", 1234567890, user, BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Tenth Book", "Tenth Author", 1234567890, user, BookStatus.BORROWED, "Description","SSN",null);
 //        allBookList.add(testBook);
     }
 

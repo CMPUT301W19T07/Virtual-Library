@@ -13,6 +13,9 @@ package vl.team07.com.virtuallibrary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.Uri;
 import android.content.DialogInterface;
 import android.provider.ContactsContract.Data;
 import android.support.annotation.NonNull;
@@ -21,6 +24,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +37,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.UploadTask.TaskSnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -47,6 +60,10 @@ public class DatabaseHandler {
     private final String TAG = getClass().getSimpleName();
     private FirebaseDatabase myDatabase;
     private DatabaseReference databaseReference;
+
+    private FirebaseStorage myDbStorage;
+    private StorageReference myDbStorageRef;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -123,29 +140,29 @@ public class DatabaseHandler {
      * @see MyBookFragment
      */
 
-    public ArrayList<Book> retrieveAvailableBook() {
-
-        databaseReference.keepSynced(true);
-        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Book book = adSnapshot.getValue(Book.class);
-                    newBookList.add(book);
-                }
-                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
-        return newBookList;
-    }
+//    public ArrayList<Book> retrieveAvailableBook() {
+//
+//        databaseReference.keepSynced(true);
+//        databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+//                    Book book = adSnapshot.getValue(Book.class);
+//                    newBookList.add(book);
+//                }
+//                System.out.println("Size of the list in onDataChange is: " + newBookList.size());
+//
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//        System.out.println("Size of the list outside onDataChange is: " + newBookList.size());
+//        return newBookList;
+//    }
 
 
     /**
@@ -158,9 +175,7 @@ public class DatabaseHandler {
     public void addUser(User user) {
         databaseReference.child("Users").child(user.getUserName()).setValue(user);
 
-        Toast toast = Toast.makeText(this.context, "You are registered", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-        toast.show();
+        createToast("You are registered");
     }
 
     /**
@@ -173,6 +188,74 @@ public class DatabaseHandler {
      */
     public void addReview (Book book, Review review) {
         databaseReference.child("Reviews").child(String.valueOf(book.getISBN())).setValue(review);
+    }
+
+    /**
+     * This method takes the image uploaded while adding a book to the Firebase storage. It then
+     * takes the URL related to the stored image and stores it in the Book Database
+     *
+     * @param bmp
+     * @param book
+     * @see AddBookFragment
+     */
+
+    public void uploadImageToFirebase (Bitmap bmp, Book book) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.getReference();
+
+        final StorageReference ImagesRef = myDbStorageRef.child("images/"+book.getISBN()+".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        final UploadTask uploadTask = ImagesRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                createToast("Failed to add image");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.i("problem", task.getException().toString());
+                        }
+
+                        return ImagesRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri imageURI = task.getResult();
+                            DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference()
+                                    .child("Books").child(String.valueOf(book.getISBN()));
+
+                            bookRef.child("image").setValue(imageURI.toString());
+                        }
+                        else {
+                            createToast("Failed!");
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    /**
+     * Simple method to generate Toast in Android
+     * @param toastText
+     */
+
+    public void createToast(String toastText) {
+        Toast toast = Toast.makeText(this.context, toastText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+        toast.show();
     }
 
 
