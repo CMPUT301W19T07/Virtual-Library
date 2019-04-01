@@ -70,7 +70,7 @@
         android:text="@string/address" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/editDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"

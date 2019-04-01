@@ -101,7 +101,7 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
-                User user = new User(username, name, email, password);
+                User user = new User(username, name, email);
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.addUser(user);
@@ -126,27 +126,6 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-
-
-
-
-//        if(uniqueUsername(username)){
-//            if(checkEmail(email)){
-//                //database here
-//                myRef.child("Users").child(String.valueOf(new User(username,name,email)));
-//                Toast toast3 = Toast.makeText(getApplicationContext(),"Account added. You may now log in.",Toast.LENGTH_SHORT);
-//                toast3.show();
-//                Return(view);
-//            }else{
-//                Toast toast = Toast.makeText(getApplicationContext(),"Email is invalid",Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        }else{
-//            Toast toast2 = Toast.makeText(getApplicationContext(),"Username is already taken",Toast.LENGTH_SHORT);
-//            toast2.show();
-//        }
-
-
     /**
      * Return.
      * Returns to log In.
@@ -155,38 +134,4 @@ public class SignUp extends AppCompatActivity {
     public void Return(View view){
         finish();
     }
-
-//    /**
-//     * Implementation of the uniqueUsername method
-//     * @param uname the string: The username needed to be checked
-//     * @return Unique the boolean: True if the username is not present in the darabase
-//     */
-//    @Override
-//    public boolean uniqueUsername(final String uname) {
-//        Unique = true;
-//                for(DataSnapshot data:){ //get data here
-//                    User check = data.getValue(User.class);
-//                    if(uname == check.getUsername()){
-//                       Unique = false;
-//                    }
-//                }
-//        return Unique;
-
-
-//    /**
-//     * Implementation of the checkEmail method
-//     * @param email the string: The email the user wishes to use
-//     * @return True if the email is in a valid format, otherwise false
-//     */
-//    @Override
-//    public boolean checkEmail(String email) {
-//        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(email);
-//        if(matcher.matches()){
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
 }

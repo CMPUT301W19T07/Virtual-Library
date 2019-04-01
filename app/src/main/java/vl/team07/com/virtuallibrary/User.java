@@ -36,11 +36,10 @@ public class User {
         this.Name = "Test Name";
     }
     //neccesary attributes to initialize user class are username, name and, email
-    public User(String username, String name, String email, String password) {
+    public User(String username, String name, String email) {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
-        this.Password=password;
         Nationality = "Canada";
         Age = 20;
         OwnedBookList = new ArrayList<Book>();

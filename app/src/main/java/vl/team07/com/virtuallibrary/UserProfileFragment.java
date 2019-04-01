@@ -20,10 +20,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -34,9 +37,10 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
 
 
     private TextView nameText, usernameText, ageText, nationalityText, contactInfoText, addressText;
+    private ImageView imageView;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    Button signOut;
+    Button signOut, editDetails;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -64,10 +68,37 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         nationalityText = (TextView) UserProfileView.findViewById(R.id.nationalityText);
         contactInfoText = (TextView) UserProfileView.findViewById(R.id.contactInfoText);
         addressText = (TextView) UserProfileView.findViewById(R.id.addressText);
+        imageView = UserProfileView.findViewById(R.id.imageView2);
 
         signOut = UserProfileView.findViewById(R.id.signOutBtn);
+        editDetails = UserProfileView.findViewById(R.id.editDetails);
+
+        DatabaseHandler dh = DatabaseHandler.getInstance(getContext());
+        dh.retrieveUserImageFromFirebase(usernameText.toString(), imageView);
 
         setUserInfo();
+
+        /**
+         * Leads to a new fragment to edit the details of the account
+         */
+        editDetails.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EditUserDetailsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("NAME", nameText.toString());
+                extras.putString("USERNAME", usernameText.toString());
+                extras.putString("AGE", ageText.toString());
+                extras.putString("NATIONALITY", nationalityText.toString());
+                extras.putString("EMAIL", contactInfoText.toString());
+                extras.putString("ADDRESS", addressText.toString());
+
+                intent.putExtras(extras);
+                context.startActivity(intent);
+
+            }
+        });
 
         /**
          * Uses Firebase Authentication to signout the the current user
@@ -98,6 +129,9 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+
         // User should be replaced by load from firebase
         User user = new User("Test username", "Test name", "0", "Test email", 18, "Canada", 0, "Edmonton");
 
@@ -107,6 +141,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
         contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
         addressText.setText(String.format(Locale.CANADA, "Address: %s", user.getAddress()));
+
     }
 
 

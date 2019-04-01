@@ -442,23 +442,11 @@ public class DatabaseHandler {
         myDbStorage = FirebaseStorage.getInstance();
         myDbStorageRef = myDbStorage.
                 getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
-                child("images/"+ ISBN + ".png");
+                child("imagesBook/"+ ISBN + ".png");
 
-//        myDbStorageRef.child("images/"+ISBN+".png").getDownloadUrl().
-//                addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        bookCover.setImageURI(uri);
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                createToast("Failed to load image");
-//            }
-//        });
 
         try {
-            final File localFile = File.createTempFile("images", "png");
+            final File localFile = File.createTempFile("imagesB", "png");
             myDbStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -487,7 +475,7 @@ public class DatabaseHandler {
         myDbStorage = FirebaseStorage.getInstance();
         myDbStorageRef = myDbStorage.getReference();
 
-        final StorageReference ImagesRef = myDbStorageRef.child("images/"+book.getISBN()+".png");
+        final StorageReference ImagesRef = myDbStorageRef.child("imagesBook/"+book.getISBN()+".png");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(CompressFormat.PNG, 100, baos);
@@ -559,6 +547,86 @@ public class DatabaseHandler {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+    }
+
+    /**
+     * This method retrieves the use profile picture from the firebase storage.
+     * @param userName
+     * @param userPicture
+     */
+
+    public void retrieveUserImageFromFirebase(String userName, ImageView userPicture) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.
+                getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
+                child("imagesUser/"+ userName + ".png");
+
+
+        try {
+            final File localFile = File.createTempFile("imagesU", "png");
+            myDbStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    userPicture.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        } catch (IOException e ) {}
+    }
+
+    /**
+     * Storing the user profile image in Firebase storage
+     * @param bmp
+     * @param user
+     */
+
+    public void uploadUserImageToFirebase (Bitmap bmp, User user) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.getReference();
+
+        final StorageReference ImagesRef = myDbStorageRef.child("imagesUser/"+user.getUserName()+".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        final UploadTask uploadTask = ImagesRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                createToast("Failed to add image");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.i("problem", task.getException().toString());
+                        }
+
+                        return ImagesRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri imageURI = task.getResult();
+                        }
+                        else {
+                            createToast("Failed!");
+                        }
+                    }
+                });
             }
         });
 
