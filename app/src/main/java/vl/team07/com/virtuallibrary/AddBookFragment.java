@@ -150,7 +150,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         if(MainActivity.SCAN_ISBN != null){
             this.ISBN = MainActivity.SCAN_ISBN;
-
+            MainActivity.SCAN_ISBN =null;
             GoogleBookAPI googleBookAPI = new GoogleBookAPI(new AsyncResponse() {
                 @Override
                 public void processFinish(JSONObject output) {

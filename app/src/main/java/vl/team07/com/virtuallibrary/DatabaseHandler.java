@@ -119,7 +119,7 @@ public class DatabaseHandler {
      */
     public void addBook(final Book book) {
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -127,12 +127,13 @@ public class DatabaseHandler {
                 final String message = "The book has already exist in the library!";
 
                 if(dataSnapshot.child(BOOK_PARENT).child(book.getISBN()).exists()) {
-//                    alertDialog(title, message);
+                    alertDialog(title, message);
                 }else{
                     databaseReference.child("Books").child(book.getISBN()).setValue(book);
 
                     showToast("The book is added!");
                 }
+                System.out.println("Currently running addBook");
             }
 
             @Override
@@ -484,9 +485,24 @@ public class DatabaseHandler {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 ArrayList<Book> oldBookList = user.getOwnedBookList();
-                oldBookList.add(newBook);
-                user.setOwnedBookList(oldBookList);
-                addUser(user);
+
+//                boolean isExisted = UserArrayList.stream().anyMatch(user->user.getUserName().equals(username));
+//                boolean isExisted = oldBookList.stream().anyMatch()
+                boolean listContainsBook = false;
+                for(Book book : oldBookList){
+                    if (book.getISBN().equals(newBook.getISBN())){
+                        listContainsBook = true;
+                    }
+                }
+                if(listContainsBook) {
+                    System.out.println("Book is already in owned list");
+                    alertDialog("Book Already Exists", "Book Already ");
+                }else {
+                    oldBookList.add(newBook);
+
+                    user.setOwnedBookList(oldBookList);
+                    addUser(user);
+                }
             }
 
             @Override
