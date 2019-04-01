@@ -12,7 +12,9 @@ package vl.team07.com.virtuallibrary;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+/**
+ * @deprecated 1.0
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override

@@ -24,7 +24,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
+ *
+ * The recycler view adapter used to display the list of books.
+ *
  * Created by MTX on 2019-03-06.
+ *
+ * @version 1.0
+ * @since 1.0
  */
 public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder>{
 
@@ -42,7 +48,9 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
             BookImage = itemView.findViewById(R.id.BookImage);
         }
-
+        /**
+         * Sets the details of a book into the view
+         */
         public void setDetails(Book book){
             BookTitle.setText(book.getTitle());
             BookAuthor.setText(String.format(Locale.CANADA, "Author: %s", book.getAuthor()));
@@ -63,11 +71,16 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
     private ArrayList<Book> books;
     private View.OnClickListener onClickListener;
 
+    /**
+     * Collects data and current activity
+     */
     public BookRecyclerViewAdapter(Context context, ArrayList<Book> books){
         this.context = context;
         this.books = books;
     }
-
+    /**
+     * Adds functions to the items in the list
+     */
     @NonNull
     @Override
     public BookHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -83,18 +96,24 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
 
         return bookHolder;
     }
-
+    /**
+     * Adds Books to Recyclerview
+     */
     @Override
     public void onBindViewHolder(@NonNull BookHolder bookHolder, int i) {
         Book book = books.get(i);
         bookHolder.setDetails(book);
     }
-
+    /**
+     * Returns item count
+     */
     @Override
     public int getItemCount() {
         return books.size();
     }
-
+    /**
+     * Adds onclicklisnters to the items
+     */
     public void setClickListener(View.OnClickListener onClickListener){
         this.onClickListener = onClickListener;
     }

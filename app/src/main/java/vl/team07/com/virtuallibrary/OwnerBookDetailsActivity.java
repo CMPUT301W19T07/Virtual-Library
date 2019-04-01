@@ -29,9 +29,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * The type Owner book details activity.
+ * Creates a display of a book that the user is not the owner of
+ * @version 1.0
+ * @since 1.0
+ */
 public class OwnerBookDetailsActivity extends AppCompatActivity {
+    /**
+     * The Review list.
+     */
     ArrayList<Review> reviewList = new ArrayList<Review>();
+    /**
+     * The Title.
+     */
     String title;
+    /**
+     * The Author.
+     */
     String author;
     String isbn;
 
@@ -134,6 +149,9 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
 
 
         EditButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Allows the user to display the books data and edit it
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -149,6 +167,9 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
         });
 
         ViewCommentsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Shows the list of reviews attached to the book
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -165,6 +186,10 @@ public class OwnerBookDetailsActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Temp list of test data
+     */
     public void TempList(){
         User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);

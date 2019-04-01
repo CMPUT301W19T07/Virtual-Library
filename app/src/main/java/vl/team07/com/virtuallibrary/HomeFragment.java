@@ -20,17 +20,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+/**
+ * Displays the layout of the home page
+ */
 public class HomeFragment extends android.support.v4.app.Fragment {
 
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    /**
+     * Instantiates a new Home fragment.
+     */
     public HomeFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Modifies the screen view to accommodate the modifications
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,12 +77,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
 
 
-
-
-    }
+    /**
+     * Set view pager.
+     *
+     * @param viewPager the view pager
+     */
     public void setViewPager(ViewPager viewPager){
         TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager());
-
+        
         tabViewPagerAdapter.addFragment(new MyBookFragment(), "My Books");
         tabViewPagerAdapter.addFragment(new BorrowedBookFragment(),"Borrowed Books");
 

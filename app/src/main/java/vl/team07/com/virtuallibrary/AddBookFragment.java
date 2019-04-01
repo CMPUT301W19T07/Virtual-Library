@@ -69,6 +69,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
+/**
+ *
+ * Creates the display of the AddBook screen
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddBookFragment extends android.support.v4.app.Fragment {
 
     private static final int RESULT_LOAD_IMAGE = 1;
@@ -98,7 +105,9 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     public AddBookFragment() {
         // Required empty public constructor
     }
-
+/**
+ * Creates the layout
+ */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -36,6 +36,11 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 
+/**
+ * Holds the data that should be displayed while searching for books or users
+ * @version 1.0
+ * @since 1.0
+ */
 public class SearchFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView recyclerView;
@@ -44,17 +49,24 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
     SharedPreferences preferences;
 
+    /**
+     * Instantiates a new Search fragment.
+     */
     public SearchFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Creates fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
     }
-
+    /**
+     * Creates UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +92,21 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         getActivity().setTitle("Search");
 
         adapter.setClickListener(new View.OnClickListener() {
+        return SearchView;
+    }
+    /**
+     *  Allows the user to enter an input and get results that match the keywords
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM); item.setActionView(searchView);
+//        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+//        MenuItemCompat.setActionView(item, sv);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);

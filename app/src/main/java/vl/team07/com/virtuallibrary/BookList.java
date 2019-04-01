@@ -13,7 +13,14 @@ package vl.team07.com.virtuallibrary;
 import java.util.ArrayList;
 
 /**
+ *
+ * A test class used to ensure that Book and related classes function properly
+ *
  * Created by MTX on 2019-02-24.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @deprecated 1.1
  */
 
 public class BookList {

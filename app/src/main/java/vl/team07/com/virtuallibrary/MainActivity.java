@@ -27,6 +27,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_BARCODE_CAPTURE = 9001;
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+        /**
+         * Creates the bottom navigation bar
+         */
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -108,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /**
+     * Creates display
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new HomeFragment());
 }
 
-
+    /**
+     * Load fragments into the display
+     */
     private void loadFragment(Fragment fragment) {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

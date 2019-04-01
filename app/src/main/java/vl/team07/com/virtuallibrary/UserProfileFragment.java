@@ -33,6 +33,9 @@ import org.w3c.dom.Text;
 import java.util.Locale;
 
 
+/**
+ * Displays the user's data
+ */
 public class UserProfileFragment extends android.support.v4.app.Fragment {
 
 
@@ -42,6 +45,9 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
     FirebaseUser firebaseUser;
     Button signOut, editDetails;
 
+    /**
+     * Instantiates a new User profile fragment.
+     */
     public UserProfileFragment() {
         // Required empty public constructor
     }
@@ -53,7 +59,9 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         if (getArguments() != null) {
         }
     }
-
+    /**
+     * Creats the display for the data
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,7 +131,10 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
     }
 
 
-    // Temp use to test
+    /**
+     * Set the user's info into the display
+     */
+// Temp use to test
     public void setUserInfo(){
 
         firebaseAuth = FirebaseAuth.getInstance();
