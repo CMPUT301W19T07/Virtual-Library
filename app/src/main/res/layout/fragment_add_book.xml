@@ -110,5 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="240dp"
         android:layout_marginTop="450dp"
-        android:text="@string/bottom_navigation_add" />
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="@string/bottom_navigation_add"
+        android:textColor="@color/iconWhite"/>
 </FrameLayout>

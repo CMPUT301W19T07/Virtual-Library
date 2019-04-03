@@ -206,7 +206,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="Edit Book Details"
+        android:textColor="@color/iconWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>
