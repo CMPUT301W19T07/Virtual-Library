@@ -62,27 +62,8 @@ public class RequestActivity extends AppCompatActivity {
         TempList();
 //        saveInFile();
 //        loadFromFile();
-    }
-    /**
-     * Modifies the request list upon a request being accepted or denied
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
-            if(resultCode == Activity.RESULT_OK){
-                RequestList.get(0).acceptRequest();
-                RequestList.clear();
-                adapter.notifyDataSetChanged();
-//                saveInFile();
-            }
-            if(resultCode == Activity.RESULT_CANCELED) {
-                int result = Integer.parseInt(data.getStringExtra("PositionBack"));
-                RequestList.remove(RequestList.get(result));
-                adapter.notifyDataSetChanged();
-//                saveInFile();
-            }
-        }
-    }
+
+
 
 
         Intent intent = getIntent();

@@ -56,12 +56,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
 
         String ISBN;
 
-        if(MainActivity.SCAN_ISBN != null){
+        if (MainActivity.SCAN_ISBN != null) {
             ISBN = MainActivity.SCAN_ISBN;
             MainActivity.SCAN_ISBN = null;
 
@@ -75,6 +75,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
                 }
             });
         }
+    }
 
 
     /**

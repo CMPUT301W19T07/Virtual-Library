@@ -26,6 +26,8 @@ public class Review {
     private String ReviewerUsername;
     private Double Rating;
     private String Comment;
+    private Book ReviewedBook;
+    private User Reviewer;
 
     public Review(String reviewerUsername){
         this.ReviewerUsername = reviewerUsername;
@@ -34,8 +36,10 @@ public class Review {
     public Review(){
     }
 
-    public void setReviewer(String reviewer){
+    public void setReviewer(String reviewer) {
         this.ReviewerUsername = reviewer;
+    }
+
     /**
      * The Decimal format.
      */
@@ -141,5 +145,3 @@ public class Review {
 }
 
 
-//NOTES:
-//Needed to take out review methods that had double

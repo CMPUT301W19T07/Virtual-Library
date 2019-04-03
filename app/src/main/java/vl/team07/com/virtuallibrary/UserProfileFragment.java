@@ -86,6 +86,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
 
         setUserInfo();
 
+
         /**
          * Leads to a new fragment to edit the details of the account
          */
