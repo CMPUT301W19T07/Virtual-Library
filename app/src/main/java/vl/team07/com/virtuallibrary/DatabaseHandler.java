@@ -192,11 +192,19 @@ public class DatabaseHandler {
     }
 
 
+    /**
+     * Add newArrayList to database's newBookList
+     */
 
-    //Add newArrayList to database's newBookList
     public void setNewBookList(ArrayList<Book> bookList){
         this.newBookList = bookList;
     }
+
+    /**
+     * This method retrieves all the books from the database
+     * @param ISBN
+     * @return
+     */
 
     public ArrayList<Review> retrieveBookReviews(String ISBN) {
 
@@ -227,6 +235,10 @@ public class DatabaseHandler {
     }
 
 
+    /**
+     * This method sets all the reviews for a book in a list.
+     * @param reviewList
+     */
     public void setReviewList(ArrayList<Review> reviewList){
         this.newReviewList = reviewList;
     }
@@ -288,6 +300,12 @@ public class DatabaseHandler {
         });
 
     }
+
+    /**
+     * This method loads
+     * @param myBookList
+     * @param adapter
+     */
 
     public void loadBooksIntoRecyclerView(ArrayList<Book> myBookList, BookRecyclerViewAdapter adapter){
         databaseReference.keepSynced(true);

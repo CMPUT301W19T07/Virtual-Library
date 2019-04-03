@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,6 +63,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
 
         getActivity().setTitle("User Profile");
 
+
         nameText = (TextView) UserProfileView.findViewById(R.id.nameText);
         usernameText = (TextView) UserProfileView.findViewById(R.id.usernameText);
         ageText = (TextView) UserProfileView.findViewById(R.id.ageText);
@@ -74,6 +76,15 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
 
         DatabaseHandler dh = DatabaseHandler.getInstance(getContext());
         dh.retrieveUserImageFromFirebase(usernameText.toString(), imageView);
+
+        SwipeRefreshLayout pullToRefresh = UserProfileView.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setUserInfo();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
         setUserInfo();
 
