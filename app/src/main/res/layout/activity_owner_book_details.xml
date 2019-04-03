@@ -14,7 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnerBookDetailsActivity">
+    tools:context=".RequestedBookDetailsActivity">
 
     <ImageView
         android:id="@+id/bookCover"
@@ -201,12 +201,4 @@
         app:layout_constraintStart_toStartOf="@+id/User3Comment"
         app:layout_constraintTop_toBottomOf="@+id/User3Comment" />
 
-    <Button
-        android:id="@+id/EditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Edit Book Details"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
-        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

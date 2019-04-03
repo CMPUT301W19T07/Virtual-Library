@@ -63,6 +63,7 @@
         <activity android:name=".EditBookDetailsActivity" />
         <activity android:name=".MyBookDetailsActivity" />
         <activity android:name=".BorrowedBookDetailsActivity" />
+        <activity android:name=".RequestedBookDetailsActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />

@@ -14,7 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnerBookDetailsActivity">
+    tools:context=".RequestedBookDetailsActivity">
 
     <ImageView
         android:id="@+id/bookCover"
@@ -215,16 +215,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/recieveButton"
+        android:id="@+id/ScanButton"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="259dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="259dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:text="Receive Book"
+        android:text="@string/Scan_Button"
         android:textColor="@color/iconWhite"
+        app:layout_constraintBottom_toTopOf="@+id/locationButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="437dp" />
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

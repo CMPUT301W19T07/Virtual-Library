@@ -75,6 +75,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 String isbn = clickedBook.getISBN();
                 String pickUpLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
@@ -82,6 +83,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 extras.putString("ISBN", isbn);
                 extras.putString("PICKUPLOCATION", pickUpLocation);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }

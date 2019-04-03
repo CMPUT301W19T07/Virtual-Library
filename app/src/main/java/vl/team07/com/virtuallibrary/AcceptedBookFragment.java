@@ -53,11 +53,11 @@ public class AcceptedBookFragment extends android.support.v4.app.Fragment {
         adapter = new BookRecyclerViewAdapter(getContext(), acceptedBookList);
         recyclerView.setAdapter(adapter);
 
-//        preferences = PreferenceManager.getDefaultSharedPreferences(AcceptedBookView.getContext());
-//        String current_userName = preferences.getString("current_userName", "n/a");
-//
-//        databaseHandler = DatabaseHandler.getInstance(getActivity());
-//        databaseHandler.displayBorrowedBooks(current_userName, adapter, acceptedBookList);
+        preferences = PreferenceManager.getDefaultSharedPreferences(AcceptedBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.displayAcceptedBooks(current_userName, adapter, acceptedBookList);
 
 
         adapter.setClickListener(new View.OnClickListener() {
@@ -69,12 +69,13 @@ public class AcceptedBookFragment extends android.support.v4.app.Fragment {
                 Book clickedBook = acceptedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
+                Intent intent = new Intent(context, AcceptedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
                 String pickUpLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
+                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
@@ -82,32 +83,14 @@ public class AcceptedBookFragment extends android.support.v4.app.Fragment {
                 extras.putString("ISBN", isbn);
                 extras.putString("PICKUPLOCATION", pickUpLocation);
                 extras.putString("DESCRIPTION", description);
+                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
         });
 
-//        TempList();
-
 
         return AcceptedBookView;
     }
 
-
-//    public void TempList(){
-//
-//        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
-//
-//        Book testBook;
-//        testBook = new Book("Second Book", "Second Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-//        acceptedBookList.add(testBook);
-//        testBook = new Book("Forth Book", "Forth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-//        borrowedBookList.add(testBook);
-//        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-//        borrowedBookList.add(testBook);
-//        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-//        borrowedBookList.add(testBook);
-//        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-//        borrowedBookList.add(testBook);
-//    }
 }
