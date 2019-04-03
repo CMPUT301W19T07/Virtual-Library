@@ -829,5 +829,27 @@ public class DatabaseHandler {
             }
         });
     }
+
+    public void loadUserInfo(String logEmail, UserCallBack userCallBack){
+
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    User user = data.getValue(User.class);
+                    if (logEmail.equals(user.getEmail())){
+                        userCallBack.onCallBack(user);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     
 }

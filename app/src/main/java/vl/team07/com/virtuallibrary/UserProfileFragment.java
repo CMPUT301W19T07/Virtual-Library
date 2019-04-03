@@ -98,15 +98,51 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        // User should be replaced by load from firebase
-        User user = new User("Test username", "Test name", "0", "Test email", 18, "Canada", 0, "Edmonton");
+        String logEmail = firebaseUser.getEmail();
 
-        nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
-        usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
-        ageText.setText(String.format(Locale.CANADA, "Age: %d", user.getAge()));
-        nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
-        contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
-        addressText.setText(String.format(Locale.CANADA, "Address: %s", user.getAddress()));
+        DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
+
+        databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
+            @Override
+            public void onCallBack(User user) {
+
+                nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
+                usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
+                contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
+
+
+                if(user.getAge() != 0){
+                    ageText.setText(String.format(Locale.CANADA, "Age: %d", user.getAge()));
+                }else{
+                    ageText.setText(String.format(Locale.CANADA, "Age: Not shown."));
+                }
+
+                if(user.getNationality() != null){
+                    nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
+                }else{
+                    nationalityText.setText(String.format(Locale.CANADA, "Nationality: Not shown."));
+                }
+
+                if(user.getAddress() != null){
+                    addressText.setText(String.format(Locale.CANADA, "Address: %s", user.getAddress()));
+                }else{
+                    addressText.setText(String.format(Locale.CANADA, "Address: Not shown."));
+                }
+
+
+            }
+        });
+
+
+        // User should be replaced by load from firebase
+//        User user = new User("Test username", "Test name", "0", "Test email", 18, "Canada", 0, "Edmonton");
+//
+//        nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
+//        usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
+//        ageText.setText(String.format(Locale.CANADA, "Age: %d", user.getAge()));
+//        nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
+//        contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
+//        addressText.setText(String.format(Locale.CANADA, "Address: %s", user.getAddress()));
     }
 
 
