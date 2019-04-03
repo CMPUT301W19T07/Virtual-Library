@@ -70,7 +70,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         imageView = (ImageView)UserProfileView.findViewById(R.id.imageView2);
 
         signOut = UserProfileView.findViewById(R.id.signOutBtn);
-        editDetails = UserProfileView.findViewById(R.id.button5);
+        editDetails = UserProfileView.findViewById(R.id.editDetails);
 
 
         SwipeRefreshLayout pullToRefresh = UserProfileView.findViewById(R.id.pullToRefresh);

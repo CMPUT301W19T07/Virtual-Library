@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,6 +57,17 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
         databaseHandler.displayOwnedBooks(current_userName, adapter, myBookList);
+
+        SwipeRefreshLayout pullToRefresh = MyBookView.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myBookList.clear();
+                adapter.notifyDataSetChanged();
+                databaseHandler.displayBorrowedBooks(current_userName, adapter, myBookList);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
 
 

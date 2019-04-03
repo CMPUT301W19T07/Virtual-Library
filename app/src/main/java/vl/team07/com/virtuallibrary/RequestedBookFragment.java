@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,6 +63,17 @@ public class RequestedBookFragment extends android.support.v4.app.Fragment {
         databaseHandler = DatabaseHandler.getInstance(getActivity());
         databaseHandler.displayRequestedBooks(current_userName, adapter, requestedBookList);
 
+        SwipeRefreshLayout pullToRefresh = RequestedBookView.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestedBookList.clear();
+                adapter.notifyDataSetChanged();
+                databaseHandler.displayRequestedBooks(current_userName, adapter, requestedBookList);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
 
 
         /**
@@ -99,6 +112,8 @@ public class RequestedBookFragment extends android.support.v4.app.Fragment {
                 context.startActivity(intent);
             }
         });
+
+
 
 
         return RequestedBookView;
