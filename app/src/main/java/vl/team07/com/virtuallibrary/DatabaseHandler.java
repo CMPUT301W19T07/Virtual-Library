@@ -1220,5 +1220,32 @@ public class DatabaseHandler {
             }
         });
     }
+
+
+    public void confirmReturnedBook (Book returnedBook){
+        DatabaseReference userRef = databaseReference.child("Users").child(returnedBook.getOwner());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+                for (Book book : newOwnedBookList){
+                    if(book.getISBN().equals(returnedBook.getISBN())){
+                        newOwnedBookList.remove(book);
+                        newOwnedBookList.add(returnedBook);
+                        user.setOwnedBookList(newOwnedBookList);
+                        userRef.setValue(user);
+                        break;
+                    }
+                }
+                databaseReference.child("Books").child(returnedBook.getISBN()).setValue(returnedBook);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     
 }

@@ -106,12 +106,8 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         return MyBookView;
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
 
 
-    }
 
     public void TempList(){
 
