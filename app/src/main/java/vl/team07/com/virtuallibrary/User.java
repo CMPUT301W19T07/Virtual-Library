@@ -41,10 +41,10 @@ public class User {
         this.Name = name;
         this.Email=email;
         this.Password=password;
-        Nationality = "Canada";
-        Age = 20;
-        OwnedBookList = new ArrayList<Book>();
-        BorrowedBookList = new ArrayList<Book>();
+        this.Nationality = "Canada";
+        this.Age = 20;
+        this.OwnedBookList = new ArrayList<Book>();
+        this.BorrowedBookList = new ArrayList<Book>();
     }
 
     public User(String username, String name, String password, String email, int age, String nationality, int contactInfo, String address){
