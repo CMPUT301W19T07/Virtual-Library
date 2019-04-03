@@ -59,7 +59,6 @@ public class EditUserDetailsActivity extends AppCompatActivity {
 //        firebaseAuth = FirebaseAuth.getInstance();
 //        firebaseUser = firebaseAuth.getCurrentUser();
 //        String logEmail = firebaseUser.getEmail();
-        DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
 
 //        dh.loadUserInfo(logEmail, new UserCallBack() {
 //            @Override
@@ -82,19 +81,16 @@ public class EditUserDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onCallBack(User user) {
                         Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        databaseHandler.uploadUserImageToFirebase(bmp, user);
 
                         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
                         dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
                         dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
                         dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
 
-                        dh.uploadUserImageToFirebase(bmp, user);
                         Toast toast = Toast.makeText(EditUserDetailsActivity.this, "Changes made successfully!", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
                         toast.show();
-
-                        edit.putString("current_userName", user.getUserName());
-                        edit.commit();
                     }
                 });
 
