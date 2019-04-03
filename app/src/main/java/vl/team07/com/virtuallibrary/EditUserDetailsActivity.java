@@ -52,6 +52,8 @@ public class EditUserDetailsActivity extends AppCompatActivity {
         EditText nameText = findViewById(R.id.nameText);
         EditText Age = findViewById(R.id.ageText);
         EditText Nationality = findViewById(R.id.nationalityText);
+        TextView Email = findViewById(R.id.contactInfoText);
+        TextView Address = findViewById(R.id.addressText);
         imageView = findViewById(R.id.imageView2);
         acceptChanges = findViewById(R.id.acceptChangesBtn);
 

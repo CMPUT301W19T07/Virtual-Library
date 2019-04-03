@@ -13,6 +13,7 @@ package vl.team07.com.virtuallibrary;
 /**
  * The interface User data checker.
  * Used to check if a username or email is valid.
+ * @deprecated 1.0
  */
 public interface UserDataChecker {
 

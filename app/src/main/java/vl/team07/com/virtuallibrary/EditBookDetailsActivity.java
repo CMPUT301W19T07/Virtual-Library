@@ -22,7 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 
+ * Displays the book's data so the user can edit it, and then saves the data
+ *
+ * @version 1.0
+ * @since 1.0
  */
 public class EditBookDetailsActivity extends AppCompatActivity {
 
@@ -63,6 +66,9 @@ public class EditBookDetailsActivity extends AppCompatActivity {
         dh.retrieveImageFromFirebase(isbn, bookCover);
 
         editButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Saves changes to the database
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();

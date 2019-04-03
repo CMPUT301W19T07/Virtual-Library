@@ -12,6 +12,8 @@ package vl.team07.com.virtuallibrary;
 
 /**
  * Created by MTX on 2019-02-24.
+ *
+ * @deprecated 1.0
  */
 
 public class ComposeBook {

@@ -23,7 +23,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-
+/**
+ * Displays the collection of books that the user is the owner of
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class MyBookFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView recyclerView;
@@ -34,6 +39,9 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
     SharedPreferences preferences;
     private DatabaseHandler databaseHandler;
 
+    /**
+     * Instantiates a new My book fragment.
+     */
     public MyBookFragment() {
         // Required empty public constructor
     }
@@ -113,6 +121,9 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
 
     }
 
+    /**
+     *A temp list holding test data
+     */
     public void TempList(){
 
         User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
