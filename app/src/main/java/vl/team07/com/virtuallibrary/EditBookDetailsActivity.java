@@ -56,7 +56,7 @@ public class EditBookDetailsActivity extends AppCompatActivity {
         ISBNEdit.setText(String.valueOf(isbn));
         DescriptionEdit.setText(description);
 
-        final ImageView bookCover = findViewById(R.id.bookCover);
+        final ImageView bookCover = findViewById(R.id.editBookCover);
 
         //Loading the images from Firebase Storage
         DatabaseHandler dh = DatabaseHandler.getInstance(this);

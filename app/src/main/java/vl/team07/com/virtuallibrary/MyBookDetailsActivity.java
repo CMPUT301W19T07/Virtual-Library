@@ -159,10 +159,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
-                extras.putString("PICKUPLOCATION", pickupLocation);
+//                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
-                extras.putString("STATUS", status);
-                extras.putString("OWNER", owner);
+//                extras.putString("STATUS", status);
+//                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
