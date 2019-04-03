@@ -81,22 +81,32 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         /**
          * Leads to a new fragment to edit the details of the account
          */
+
         editDetails.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, EditUserDetailsActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("NAME", nameText.toString());
-                extras.putString("USERNAME", usernameText.toString());
-                extras.putString("AGE", ageText.toString());
-                extras.putString("NATIONALITY", nationalityText.toString());
-                extras.putString("EMAIL", contactInfoText.toString());
-                extras.putString("ADDRESS", addressText.toString());
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseUser = firebaseAuth.getCurrentUser();
+                String logEmail = firebaseUser.getEmail();
+                DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
 
-                intent.putExtras(extras);
-                context.startActivity(intent);
+                databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
+                    @Override
+                    public void onCallBack(User user) {
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, EditUserDetailsActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("NAME", user.getName());
+                        extras.putString("USERNAME", user.getUserName());
+                        extras.putString("AGE", String.valueOf(user.getAge()));
+                        extras.putString("NATIONALITY", user.getNationality());
+                        extras.putString("EMAIL", user.getEmail());
+                        extras.putString("ADDRESS", "randomAddress");
 
+                        intent.putExtras(extras);
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
 
