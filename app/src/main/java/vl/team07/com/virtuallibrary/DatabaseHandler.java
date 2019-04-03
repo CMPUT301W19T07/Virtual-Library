@@ -442,7 +442,7 @@ public class DatabaseHandler {
         myDbStorage = FirebaseStorage.getInstance();
         myDbStorageRef = myDbStorage.
                 getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
-                child("images/"+ ISBN + ".png");
+                child("imagesBook/"+ ISBN + ".png");
 
 //        myDbStorageRef.child("images/"+ISBN+".png").getDownloadUrl().
 //                addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -487,7 +487,7 @@ public class DatabaseHandler {
         myDbStorage = FirebaseStorage.getInstance();
         myDbStorageRef = myDbStorage.getReference();
 
-        final StorageReference ImagesRef = myDbStorageRef.child("images/"+book.getISBN()+".png");
+        final StorageReference ImagesRef = myDbStorageRef.child("imagesBook/"+book.getISBN()+".png");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(CompressFormat.PNG, 100, baos);
