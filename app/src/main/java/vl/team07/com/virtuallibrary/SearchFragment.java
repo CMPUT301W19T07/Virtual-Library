@@ -136,6 +136,10 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 InputMethodManager inputManager = (InputMethodManager)
                         getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                if(availableBookList.isEmpty()){
+                    dh.showToast("Not Found!");
+                }
             }
         });
 
