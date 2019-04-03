@@ -60,12 +60,14 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 
@@ -99,6 +101,14 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         // Required empty public constructor
     }
 
+
+    /**
+     * Create "AddBookFragmentView", set the related layout for the view.
+     * Connect to Firebase
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -158,12 +168,16 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             String urlOfImage = urls[0];
             Bitmap logo = null;
             try{
-                InputStream is = new URL(urlOfImage).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
-                logo = BitmapFactory.decodeStream(is);
+                URL aURL = new URL(urlOfImage);
+                URLConnection conn = aURL.openConnection();
+                conn.connect();
+                InputStream is = conn.getInputStream();
+                BufferedInputStream bis = new BufferedInputStream(is);
+                logo = BitmapFactory.decodeStream(bis);
+                bis.close();
+                is.close();
+
+
             }catch(Exception e){ // Catch the download exception
                 e.printStackTrace();
             }
@@ -196,7 +210,12 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         }
     }
-    
+
+
+    /**
+     * Check if Scanner run, if it is, retrieve data from Google Books by ISBN and fill it to fragment automatically.
+     * After add button click, create new Book and set all details by info filled recently. Then upload Book to firebase
+     * */
     public void onStart() {
         super.onStart();
 
@@ -211,6 +230,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                         author = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("authors");
                         description = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("description");
                         String URL =  output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
+
 
                         new DownLoadImageTask(imageView).execute(URL);
                         if(title!=null){
@@ -272,33 +292,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 book.setISBN(ISBN);
                 book.setStatus(BookStatus.AVAILABLE);
                 book.setOwner(current_userName);
-
-
-
-//                if (bmp != null) {
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    bmp.compress(CompressFormat.PNG, 100, stream);
-//                    byte[] byteArray = stream.toByteArray();
-//
-//                    book = new Book();
-//                    book.setTitle(title);
-//                    book.setAuthor(author);
-//                    book.setDescription(description);
-//                    book.setISBN(ISBN);
-//                    book.setStatus(BookStatus.AVAILABLE);
-//                    book.setOwner(current_userName);
-//                    //book.setImage(byteArray);
-//
-//
-//                } else {
-//                    book = new Book();
-//                    book.setTitle(title);
-//                    book.setAuthor(author);
-//                    book.setDescription(description);
-//                    book.setISBN(ISBN);
-//                    book.setStatus(BookStatus.AVAILABLE);
-//                    book.setOwner(current_userName);
-//                }
 
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());

@@ -462,9 +462,21 @@ public class DatabaseHandler {
                 getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
                 child("imagesBook/"+ ISBN + ".png");
 
+//        myDbStorageRef.child("images/"+ISBN+".png").getDownloadUrl().
+//                addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        bookCover.setImageURI(uri);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                createToast("Failed to load image");
+//            }
+//        });
 
         try {
-            final File localFile = File.createTempFile("imagesB", "png");
+            final File localFile = File.createTempFile("images", "png");
             myDbStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -723,15 +735,19 @@ public class DatabaseHandler {
         });
     }
 
-    public void sendRequest(String bookISBN, String currentUser){
+    public void sendRequest(Book requestedBook, String currentUser){
          DatabaseReference userRef = databaseReference.child("Users");
          userRef.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  User user = dataSnapshot.getValue(User.class);
-                 System.out.println("ISBN of requested book is " + bookISBN);
-                 databaseReference.child("Requests").child(bookISBN).child(user.getUserName())
-                         .setValue(user);
+                 ArrayList<Book> newRequestedBookList = user.getRequestedBookList();
+                 System.out.println("ISBN of requested book is " + requestedBook.getISBN());
+                 newRequestedBookList.add(requestedBook);
+                 user.setRequestedBookList(newRequestedBookList);
+                 databaseReference.child("Users").child(currentUser).setValue(user);
+
+                 databaseReference.child("Requests").child(requestedBook.getISBN()).child(user.getUserName()).setValue(user);
 
              }
 
@@ -764,26 +780,18 @@ public class DatabaseHandler {
         });
     }
 
-    public void deleteRequest(String BookISBN, String requesterUsername){
-        DatabaseReference requestRef = databaseReference.child("Requests").child(BookISBN).child(requesterUsername);
+    public void deleteRequest(Book requestedBook, String requesterUsername){
+        DatabaseReference requestRef = databaseReference.child("Requests").child(requestedBook.getISBN()).child(requesterUsername);
         requestRef.removeValue();
-    }
-
-    public void acceptRequest(Book book, String requesterUsername, String current_userName){
         DatabaseReference userRef = databaseReference.child("Users").child(requesterUsername);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                ArrayList<Book> newRequesterBorrowedBookList = user.getBorrowedBookList();
-                book.setStatus(BookStatus.BORROWED);
-                newRequesterBorrowedBookList.add(book);
-                user.setBorrowedBookList(newRequesterBorrowedBookList);
-                updateBookStatusesToBorrowed(book, current_userName);
-                databaseReference.child("Users").child(requesterUsername).setValue(user);
-
-                //remove request list
-                databaseReference.child("Requests").child(book.getISBN()).removeValue();
+                ArrayList<Book> newRequestedBookList = user.getRequestedBookList();
+                newRequestedBookList.remove(requestedBook);
+                user.setRequestedBookList(newRequestedBookList);
+                userRef.setValue(user);
             }
 
             @Override
@@ -793,6 +801,215 @@ public class DatabaseHandler {
         });
     }
 
+    public void acceptRequest(Book book, String requesterUsername, String bookOwner_userName){
+        DatabaseReference userRef = databaseReference.child("Users").child(requesterUsername);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //remove accepted book from all other requester's requested book list
+                deleteBookFromAllOtherRequestersRequestedBookList(book, requesterUsername);
+
+                //remove book from requester's requested book list and
+                //add it to requester's accepted book list
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newRequesterRequestedBookList = user.getRequestedBookList();
+                ArrayList<Book> newRequesterAcceptedBookList = user.getAcceptedBookList();
+
+                //deletes book from accepted user's requested book list
+                for(Book Listbook: newRequesterRequestedBookList){
+                    if(Listbook.getISBN().equals(book.getISBN())){
+                        newRequesterRequestedBookList.remove(Listbook);
+                    }
+                }
+                newRequesterAcceptedBookList.add(book);
+                user.setRequestedBookList(newRequesterRequestedBookList);
+                user.setAcceptedBookList(newRequesterAcceptedBookList);
+                databaseReference.child("Users").child(requesterUsername).setValue(user);
+                databaseReference.child("Books").child(book.getISBN()).setValue(book);
+                databaseReference.child("Users").child(bookOwner_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User owner = dataSnapshot.getValue(User.class);
+                        ArrayList<Book> newOwnedBookList = owner.getOwnedBookList();
+                        for (Book bookFromOwnedList: newOwnedBookList){
+                            if(bookFromOwnedList.getISBN().equals(book.getISBN())){
+                                newOwnedBookList.remove(bookFromOwnedList);
+                                newOwnedBookList.add(book);
+                                owner.setOwnedBookList(newOwnedBookList);
+                                databaseReference.child("Users").child(bookOwner_userName).setValue(owner);
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                //remove accepted book from all other requester's requested book list
+                //deleteBookFromAllOtherRequestersRequestedBookList(book);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void deleteBookFromAllOtherRequestersRequestedBookList(Book book, String acceptedUsername){
+        DatabaseReference reqRef = databaseReference.child("Requests").child(book.getISBN());
+        reqRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Entered deletefromallother");
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+
+                    User user = data.getValue(User.class);
+                    System.out.println("Name of user from datasnapshot = " + user.getUserName());
+                    if(user.getUserName().equals(acceptedUsername)){
+                        System.out.println("Skipping user: "+ user.getUserName());
+                        continue;
+                    }
+                    ArrayList<Book> newRequestedBookList = user.getRequestedBookList();
+                    System.out.println("Size of requestedBookList = " + newRequestedBookList.size());
+                    for(Book bookFromList : newRequestedBookList){
+                        String ISBNFromList = bookFromList.getISBN();
+                        String ISBNofDeletedBook = book.getISBN();
+                        System.out.println("Inside For Loop");
+                        System.out.println("ISBN from list = "+ ISBNFromList);
+                        System.out.println("ISBN's of to be deleted book = " + ISBNofDeletedBook);
+                        if(ISBNFromList.equals(ISBNofDeletedBook)){
+                            System.out.println("ISBN's of book are equal");
+                            newRequestedBookList.remove(bookFromList);
+                            user.setRequestedBookList(newRequestedBookList);
+                            break;
+                        }
+                    }
+                    databaseReference.child("Users").child(user.getUserName()).setValue(user);
+
+                }
+                databaseReference.child("Requests").child(book.getISBN()).removeValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void receiveAcceptedBooks(Book book, String current_user){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_user).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newAcceptedBookList = user.getAcceptedBookList();
+                ArrayList<Book> newBorrowedBookList = user.getBorrowedBookList();
+
+                newBorrowedBookList.add(book);
+                for(Book Listbook: newAcceptedBookList){
+                    if(Listbook.getISBN().equals(book.getISBN())){
+                        newAcceptedBookList.remove(Listbook);
+                        break;
+                    }
+                }
+                user.setAcceptedBookList(newAcceptedBookList);
+                user.setBorrowedBookList(newBorrowedBookList);
+                userRef.child(current_user).setValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        userRef.child(book.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+
+                for(Book Listbook: newOwnedBookList){
+                    if(Listbook.getISBN().equals(book.getISBN())){
+                        newOwnedBookList.remove(Listbook);
+                        newOwnedBookList.add(book);
+                        break;
+                    }
+                }
+                user.setOwnedBookList(newOwnedBookList);
+                userRef.child(book.getOwner()).setValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Books").child(book.getISBN()).setValue(book);
+    }
+
+    public void returnBorrowedBook(Book returnedBook, String current_userName){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newBorrowedBookList = user.getBorrowedBookList();
+                for (Book book : newBorrowedBookList){
+                    if(book.getISBN().equals(returnedBook.getISBN())){
+                        newBorrowedBookList.remove(book);
+                        user.setBorrowedBookList(newBorrowedBookList);
+                        userRef.child(current_userName).setValue(user);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        userRef.child(returnedBook.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+                for(Book book: newOwnedBookList){
+                    if(book.getISBN().equals(returnedBook.getISBN())){
+                        newOwnedBookList.remove(book);
+                        newOwnedBookList.add(returnedBook);
+                        user.setOwnedBookList(newOwnedBookList);
+                        userRef.child(book.getOwner()).setValue(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Books").child(returnedBook.getISBN()).setValue(returnedBook);
+    }
+
+    /**
+    * load all borrowed books by given user from firebase
+     * @param current_userName
+     * @param adapter
+     * @param borrowedBookList
+     * @see BorrowedBookFragment*/
     public void displayBorrowedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> borrowedBookList){
         DatabaseReference userRef = databaseReference.child("Users");
         userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -804,6 +1021,50 @@ public class DatabaseHandler {
                 System.out.println("Size of the Book list is: " + bookList.size());
                 for(Book book : bookList){
                     borrowedBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void displayRequestedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> requestedBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                ArrayList<Book> bookList = user.getRequestedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    requestedBookList.add(book);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void displayAcceptedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> acceptedBookList){
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                ArrayList<Book> bookList = user.getAcceptedBookList();
+                System.out.println("Size of the Book list is: " + bookList.size());
+                for(Book book : bookList){
+                    acceptedBookList.add(book);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -858,6 +1119,14 @@ public class DatabaseHandler {
         });
     }
 
+    /**
+     * get book from firebase by provide search terms and add to provide booklist if it existed
+     * @param current_userName
+     * @param adapter
+     * @param availableBookList
+     * @param searchTerms
+     * @see SearchFragment
+     * */
     public void getBooksWithTerms(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList,
                                   String searchTerms){
         DatabaseReference bookRef = databaseReference.child("Books");
@@ -877,6 +1146,12 @@ public class DatabaseHandler {
                         for(String word: searchTerms.split("\\s+")){
                             if (book.getDescription().toLowerCase().contains(word.toLowerCase())){
                                 availableBookList.add(book);
+                            }else if(book.getTitle().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }else if(book.getAuthor().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }else if(book.getISBN().contains(word)){
+                                availableBookList.add(book);
                             }
 
                         }
@@ -895,7 +1170,11 @@ public class DatabaseHandler {
         });
     }
 
-
+    /**
+     * Load book from firebase by its ISBN, add it into BookCallBack to access it when method is called
+     * in another activity/fragment
+     * @param ISBN
+     * @param bookCallBack */
     public void loadBookByISBN(String ISBN, BookCallBack bookCallBack){
 
 
@@ -916,19 +1195,41 @@ public class DatabaseHandler {
         });
     }
 
-    public void loadUserInfo(String logEmail, UserCallBack userCallBack){
+    /**
+     * load User from firebase by given email, add it into UserCallBack which can be
+     * accessed when method is calling in another activity/fragment
+     * @param logEmail
+     * @param userCallBack */
+    public void loadUserInfo(String logEmail, UserCallBack userCallBack) {
 
         DatabaseReference userRef = databaseReference.child("Users");
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     User user = data.getValue(User.class);
-                    if (logEmail.equals(user.getEmail())){
+                    if (logEmail.equals(user.getEmail())) {
                         userCallBack.onCallBack(user);
                         break;
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void SearchUserName(String searchedUsername, UserRecyclerViewAdapter adapter, ArrayList<User> searchedUserList){
+        adapter.notifyDataSetChanged();
+        DatabaseReference userRef = databaseReference.child("Users").child(searchedUsername);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                searchedUserList.add(user);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

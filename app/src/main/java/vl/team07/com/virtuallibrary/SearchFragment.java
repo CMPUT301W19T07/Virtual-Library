@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ import android.view.accessibility.AccessibilityManager.TouchExplorationStateChan
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,9 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> availableBookList;
+    private ArrayList<User> searchedUserList;
+
+    EditText searchBar;
 
     SharedPreferences preferences;
 
@@ -68,7 +73,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         recyclerView.setAdapter(adapter);
 
         Button searchWithTermsButton = SearchView.findViewById(R.id.SearchTermsButton);
-
+        searchBar = SearchView.findViewById(R.id.SearchEditText);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
@@ -117,45 +122,55 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 EditText searchBar = SearchView.findViewById(R.id.SearchEditText);
                 String searchTerms = searchBar.getText().toString();
 
-                preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
-                String current_userName = preferences.getString("current_userName", "n/a");
-                System.out.println("Current user's username: " + current_userName);
+                if(searchTerms.charAt(0) == '@'){
+                    UserRecyclerViewAdapter userAdapter = new UserRecyclerViewAdapter(getContext(), searchedUserList);
+                    recyclerView.setAdapter(userAdapter);
 
-                DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
-                dh.getBooksWithTerms(current_userName, adapter, availableBookList, searchTerms);
+                    String searchedUserName = searchTerms.replace("@", "");
 
-                //hides keyboard after pressing button
-                InputMethodManager inputManager = (InputMethodManager)
-                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+                    dh.SearchUserName(searchedUserName, userAdapter, searchedUserList);
+
+                }
+                else {
+                    preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
+                    String current_userName = preferences.getString("current_userName", "n/a");
+                    System.out.println("Current user's username: " + current_userName);
+
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+                    dh.getBooksWithTerms(current_userName, adapter, availableBookList, searchTerms);
+
+                    //hides keyboard after pressing button
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    if(availableBookList.isEmpty()){
+                        dh.showToast("Not Found!");
+                    }
+                }
             }
         });
-
         return SearchView;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-//        inflater.inflate(R.menu.search, menu);
-//        MenuItem item = menu.findItem(R.id.action_search);
-//        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM); item.setActionView(searchView);
-////        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-////        MenuItemCompat.setActionView(item, sv);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                Log.d("TEST....", "Search Query Submitted");
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                Log.d("TEST 2....", "tap");
-//                return true;
-//            }
-//        });
-//    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        String ISBN;
+        if(MainActivity.SCAN_ISBN != null) {
+
+
+            ISBN = MainActivity.SCAN_ISBN;
+            MainActivity.SCAN_ISBN = null;
+
+
+            searchBar.setText(ISBN);
+        }
+    }
+
+
 }
 

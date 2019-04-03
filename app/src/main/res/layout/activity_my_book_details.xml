@@ -18,29 +18,37 @@
 
     <ImageView
         android:id="@+id/bookCover"
-        android:layout_width="120dp"
-        android:layout_height="155dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+
 
     <TextView
         android:id="@+id/BookTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="125dp"
-        android:maxEms="20"
-        android:singleLine="false"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="18dp"
+        android:maxEms="20"
+
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+
+
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+
         app:layout_constraintStart_toEndOf="@+id/bookCover"
         app:layout_constraintTop_toTopOf="@+id/bookCover" />
 
@@ -210,14 +218,12 @@
         android:id="@+id/EditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="210dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:text="Edit Book Details"
         android:textColor="@color/iconWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/ViewAllComments"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/RequestsButton"
@@ -230,7 +236,7 @@
         android:text="@string/Requests_Button"
         android:textColor="@color/iconWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.871"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toEndOf="@+id/User1Rating"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
 </android.support.constraint.ConstraintLayout>

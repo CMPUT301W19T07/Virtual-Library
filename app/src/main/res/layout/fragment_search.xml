@@ -18,7 +18,9 @@
         android:id="@+id/SearchTermsButton"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:text="Search Books with Terms" />
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="Search Books with Terms"
+        android:textColor="@color/iconWhite"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/SearchRecyclerView"

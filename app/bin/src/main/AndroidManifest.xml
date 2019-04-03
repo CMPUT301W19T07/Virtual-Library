@@ -32,7 +32,7 @@
         <activity android:name=".AddReviewActivity"></activity>
         <activity android:name=".AllReviewsActivity" />
         <activity android:name=".EditBookDetailsActivity" />
-        <activity android:name=".OwnerBookDetailsActivity" />
+        <activity android:name=".RequestedBookDetailsActivity" />
         <activity android:name=".NonOwnerBookDetailsActivity" />
         <activity
             android:name=".MainActivity"

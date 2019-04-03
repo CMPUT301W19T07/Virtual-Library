@@ -38,6 +38,9 @@ import java.net.URL;
  * Created by MTX on 2019-04-01.
  */
 
+
+/**
+ * The AsyncTask for retrieve book's info from google book library by provided ISBN*/
 public class GoogleBookAPI extends AsyncTask<String, Object, JSONObject>{
     public AsyncResponse delegate = null;//Call back interface
 
@@ -111,6 +114,9 @@ public class GoogleBookAPI extends AsyncTask<String, Object, JSONObject>{
     }
 
 
+    /**
+     * after task is executed, add the JSONObject to CallBack
+     * @param s*/
     @Override
     protected void onPostExecute(JSONObject s) {
         super.onPostExecute(s);

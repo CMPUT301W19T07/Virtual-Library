@@ -12,24 +12,12 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -66,7 +54,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
 
-        TempList();
+//        TempList();
 //        loadAllBook();
         databaseHandler.loadAllBook(allBookList,adapter);
 
@@ -78,7 +66,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
          *
          * Initially created by tianxin3 and further developed by pling
          *
-         * @see OwnerBookDetailsActivity
+         * @see RequestedBookDetailsActivity
          * @see NonOwnerBookDetailsActivity
          */
         adapter.setClickListener(new View.OnClickListener() {
@@ -90,7 +78,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
                 Context context = v.getContext();
                 if (clickedBook.getStatus() == BookStatus.AVAILABLE){
-                    Intent intent = new Intent(context, OwnerBookDetailsActivity.class);
+                    Intent intent = new Intent(context, RequestedBookDetailsActivity.class);
                     String title = clickedBook.getTitle();
                     String author = clickedBook.getAuthor();
                     String isbn = clickedBook.getISBN();

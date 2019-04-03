@@ -116,14 +116,32 @@ public class ConfirmRequest extends AppCompatActivity {
 //        mapIntent.setPackage("com.google.android.apps.maps");
 //        startActivity(mapIntent);
 
-        Intent pickPointIntent = new Intent(this, MapsActivity.class);
-        startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
+        //Intent pickPointIntent = new Intent(this, MapsActivity.class);
+        //startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
+        String current_userName = preferences.getString("current_userName", "n/a");
+
+        DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
+
+        // Updating the pickup location in the database
+        //dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
+        //Updating the pickup location of the book manually so acceptRequest has the updated copy
+        //book.setPickupLocation(String.valueOf(latLng.latitude) + " " + String.valueOf(latLng.longitude));
+
+        book.setStatus(BookStatus.ACCEPTED);
+
+        dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
+
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     public void RejectRequest(View view){
 
         DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
-        dh.deleteRequest(request.getRequestedBookISBN(), request.getRequesterUsername() );
+        dh.deleteRequest(book, request.getRequesterUsername() );
 
         Intent returnIntent = new Intent();
         returnIntent.putExtra("PositionBack", result2);
@@ -147,9 +165,11 @@ public class ConfirmRequest extends AppCompatActivity {
                 DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
 
                 // Updating the pickup location in the database
-                dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
+                //dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
                 //Updating the pickup location of the book manually so acceptRequest has the updated copy
-                book.setPickupLocation(String.valueOf(latLng.latitude) + " " + String.valueOf(latLng.longitude));
+                //book.setPickupLocation(String.valueOf(latLng.latitude) + " " + String.valueOf(latLng.longitude));
+
+                book.setStatus(BookStatus.ACCEPTED);
 
                 dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
 

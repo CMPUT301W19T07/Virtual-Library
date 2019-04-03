@@ -30,20 +30,23 @@ public class User {
 
     private List<Book> OwnedBookList;
     private List<Book> BorrowedBookList;
+    private List<Book> RequestedBookList;
+    private List<Book> AcceptedBookList;
 
     public User(){
         this.UserName = "Test Username";
         this.Name = "Test Name";
     }
     //neccesary attributes to initialize user class are username, name and, email
-    public User(String username, String name, String email) {
+    public User(String username, String name, String email, String password) {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
-        Nationality = "Canada";
-        Age = 20;
-        OwnedBookList = new ArrayList<Book>();
-        BorrowedBookList = new ArrayList<Book>();
+        this.Password=password;
+        this.Nationality = "Canada";
+        this.Age = 20;
+        this.OwnedBookList = new ArrayList<Book>();
+        this.BorrowedBookList = new ArrayList<Book>();
     }
 
     public User(String username, String name, String password, String email, int age, String nationality, int contactInfo, String address){
@@ -113,6 +116,34 @@ public class User {
         ArrayList<Book> convertedBookList = new ArrayList<>();
         if (BorrowedBookList != null){
             for (Book book : BorrowedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public void setRequestedBookList(ArrayList<Book> bookList){
+        this.RequestedBookList = bookList;
+    }
+
+    public ArrayList<Book> getRequestedBookList() {
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (RequestedBookList != null){
+            for (Book book : RequestedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public void setAcceptedBookList(ArrayList<Book> bookList){
+        this.AcceptedBookList = bookList;
+    }
+
+    public ArrayList<Book> getAcceptedBookList() {
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (AcceptedBookList != null){
+            for (Book book : AcceptedBookList) {
                 convertedBookList.add(book);
             }
         }

@@ -46,6 +46,7 @@ public class ScanBookInfo {
         TextView author = dialog.findViewById(R.id.scan_book_author);
         TextView des = dialog.findViewById(R.id.scan_book_des);
         des.setMovementMethod(new ScrollingMovementMethod());
+
         ImageView image = dialog.findViewById(R.id.scan_book_image);
 
         Button button = dialog.findViewById(R.id.btn_ok);

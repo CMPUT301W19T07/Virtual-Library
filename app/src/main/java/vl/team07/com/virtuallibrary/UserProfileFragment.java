@@ -26,8 +26,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -69,13 +67,11 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         ageText = (TextView) UserProfileView.findViewById(R.id.ageText);
         nationalityText = (TextView) UserProfileView.findViewById(R.id.nationalityText);
         contactInfoText = (TextView) UserProfileView.findViewById(R.id.contactInfoText);
-        imageView = UserProfileView.findViewById(R.id.imageView2);
+        imageView = (ImageView)UserProfileView.findViewById(R.id.imageView2);
 
         signOut = UserProfileView.findViewById(R.id.signOutBtn);
-        editDetails = UserProfileView.findViewById(R.id.editDetails);
+        editDetails = UserProfileView.findViewById(R.id.button5);
 
-        DatabaseHandler dh = DatabaseHandler.getInstance(getContext());
-        dh.retrieveUserImageFromFirebase(usernameText.toString(), imageView);
 
         SwipeRefreshLayout pullToRefresh = UserProfileView.findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -87,19 +83,6 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         });
 
         setUserInfo();
-
-        /**
-         * Leads to a new fragment to edit the details of the account
-         */
-
-        editDetails.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, EditUserDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         /**
          * Uses Firebase Authentication to signout the the current user
@@ -119,9 +102,21 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        editDetails.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EditUserDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return UserProfileView;
 
     }
+
+
 
 
     // Temp use to test

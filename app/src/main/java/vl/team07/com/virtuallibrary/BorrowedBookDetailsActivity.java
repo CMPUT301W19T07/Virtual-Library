@@ -13,6 +13,8 @@ package vl.team07.com.virtuallibrary;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -41,9 +43,15 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
     String title;
     String author;
     String isbn;
+    String pickupLocation;
+    String owner;
+    String description;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +59,17 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_borrowed_book_details);
 
         //test Review List
-        TempList();
+
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        String title = extras.getString("TITLE");
-        String author = extras.getString("AUTHOR");
-        String isbn = extras.getString("ISBN");
-        String ownerAddress = extras.getString("OWNERADDRESS");
-        String description = extras.getString("DESCRIPTION");
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
+        owner = extras.getString("OWNER");
 
 //        description = "WE need a long description in here. I should just try to practice my typin " +
 //                "but his should be fine. Do we need it longer? Im not too sure, but hopefully i can get" +
@@ -75,7 +84,6 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         final TextView ISBNTextView = findViewById(R.id.ISBNTextView);
         final TextView DescriptionTextView = findViewById(R.id.DescriptionTextView);
         DescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-        final TextView OwnerAddressTextView = findViewById(R.id.OwnerAddressTextView);
         final TextView ReviewAverageScore = findViewById(R.id.AverageReviewScore);
         final TextView TopReviewer1 = findViewById(R.id.TopReviewUser1);
         final TextView TopReviewer2 = findViewById(R.id.TopReviewUser2);
@@ -105,7 +113,6 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         authorTextView.setText("by " + author);
         ISBNTextView.setText("ISBN: "  +String.valueOf(isbn));
         DescriptionTextView.setText(description);
-        OwnerAddressTextView.setText(ownerAddress);
 
         DatabaseReference reviewReference = databaseReference.child("Reviews");
         reviewReference.child(isbn).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -148,6 +155,15 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         ReturnButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+
+                Book book = new Book(title, author, isbn, owner, BookStatus.RETURNED, description, "");
+
+                preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
+
+                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+                dh.returnBorrowedBook(book, current_userName);
+
                 Context context = v.getContext();
                 CharSequence text = "Return Sent";
                 int duration = Toast.LENGTH_SHORT;
@@ -189,26 +205,6 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
         });
 
 
-    }
-    public void TempList(){
-        User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
-        Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);
-        Review testReview1 = new Review(user1.getUserName());
-        testReview1.setRating(4.9);
-        testReview1.setComment("This is reviewer 1's comment");
-        reviewList.add(testReview1);
-
-        User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview2 = new Review(user2.getUserName());
-        testReview2.setRating(4.4);
-        testReview2.setComment("This is reviewer 2's comment");
-        reviewList.add(testReview2);
-
-        User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
-        Review testReview3 = new Review(user3.getUserName());
-        testReview3.setRating(4.7);
-        testReview3.setComment("This is reviewer 3's comment");
-        reviewList.add(testReview3);
     }
 
 

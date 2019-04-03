@@ -48,17 +48,6 @@ public class SearchActivityTest extends ActivityTestRule<MainActivity> {
 
     }
 
-    @Test
-    public void clickOnSearch() {
-        MainActivity activity = (MainActivity) solo.getCurrentActivity();
-
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnText("Borrowed Books");
-        solo.clickOnImage(11);
-        solo.assertCurrentActivity("Wrong Activity", SearchFragment.class);
-    }
-
     @After
     public void tearDown() throws Exception {
         solo.finishOpenedActivities();

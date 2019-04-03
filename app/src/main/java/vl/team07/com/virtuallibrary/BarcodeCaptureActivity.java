@@ -54,6 +54,10 @@ import java.io.IOException;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
+
+
+/**
+ * Reuse of Barcode-Scanner: https://github.com/1priyank1/Barcode-scanner*/
 public final class BarcodeCaptureActivity extends AppCompatActivity {
     private static final String TAG = "Barcode-reader";
 
