@@ -157,6 +157,15 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         dh.retrieveImageFromFirebase(isbn, bookCover);
 
 
+        if (status.equals("RETURNED")) {
+            ConfirmReturn.setVisibility(View.VISIBLE);
+            locationButton.setVisibility(View.VISIBLE);
+        } else {
+            ConfirmReturn.setVisibility(View.INVISIBLE);
+            locationButton.setVisibility(View.INVISIBLE);
+        }
+
+
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description", "SSN", null);
         testBook.setPickupLocation(pickupLocation);
@@ -250,6 +259,8 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
         ConfirmReturn.setOnClickListener(new View.OnClickListener() {
             @Override
