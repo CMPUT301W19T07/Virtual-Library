@@ -87,6 +87,11 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
         final Button ScanButton = findViewById(R.id.ScanButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
 
+        bookTitleTextView.setText(title);
+        authorTextView.setText(author);
+        ISBNTextView.setText(isbn);
+        DescriptionTextView.setText(description);
+
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description", "SSN", null);
         Review dummyReview = new Review(user1.getUserName());

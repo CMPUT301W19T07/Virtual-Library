@@ -157,6 +157,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 Book book = new Book(title, author, isbn, owner, BookStatus.RETURNED, description, "");
+                book.setPickupLocation(pickupLocation);
 
                 preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String current_userName = preferences.getString("current_userName", "n/a");
@@ -165,7 +166,7 @@ public class BorrowedBookDetailsActivity extends AppCompatActivity {
                 dh.returnBorrowedBook(book, current_userName);
 
                 Context context = v.getContext();
-                CharSequence text = "Return Sent";
+                CharSequence text = "Return request sent at set pickup location";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);

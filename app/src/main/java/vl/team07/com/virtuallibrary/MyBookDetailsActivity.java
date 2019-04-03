@@ -12,12 +12,15 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
@@ -48,6 +51,9 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +101,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         final Button EditButton = findViewById(R.id.EditButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
         final Button RequestsButton = findViewById(R.id.RequestsButton);
+        final Button ConfirmReturn = findViewById(R.id.ConfirmReturn);
         final ImageView bookCover = findViewById(R.id.bookCover);
+        final Button locationButton = findViewById(R.id.locationButton);
+
 
         //Loading the images from Firebase Storage
         DatabaseHandler dh = DatabaseHandler.getInstance(this);
@@ -104,6 +113,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description", "SSN", null);
+        testBook.setPickupLocation(pickupLocation);
         Review dummyReview = new Review(user1.getUserName());
 
         //Setting appropriate text for text views
@@ -171,7 +181,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         RequestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status.equals("AVAILABLE")) {
+                if (status.equals("AVAILABLE") || status.equals("REQUESTED")) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, RequestActivity.class);
                     Bundle extras = new Bundle();
@@ -184,9 +194,35 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     extras.putString("OWNER", owner);
                     intent.putExtras(extras);
                     context.startActivity(intent);
-                } else if (status.equals("BORROWED")) {
+                } else {
                     Context context = v.getContext();
-                    CharSequence text = "Invalid! This book has been borrowed.";
+                    CharSequence text = "Invalid! This book has not been requested.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+            }
+        });
+
+        ConfirmReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status.equals("RETURNED")) {
+                    Book book = new Book(title, author, isbn, owner, BookStatus.AVAILABLE, description, "");
+
+                    preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String current_userName = preferences.getString("current_userName", "n/a");
+
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+                    dh.confirmReturnedBook(book);
+                    Toast.makeText(MyBookDetailsActivity.this, "Book successfully returned",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+
+                } else {
+                    Context context = v.getContext();
+                    CharSequence text = "Invalid! This book has not been returned yet.";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -207,6 +243,22 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 extras.putString("DESCRIPTION", description);
                 intent.putExtras(extras);
                 context.startActivity(intent);
+            }
+        });
+
+        locationButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (testBook.getStatus().equals("RETURNED")) {
+                    DatabaseHandler dh = DatabaseHandler.getInstance(MyBookDetailsActivity.this);
+                    Context context = v.getContext();
+                    dh.navToPickUpLocation(testBook, context);
+                } else {
+                    Toast.makeText(MyBookDetailsActivity.this, "Book is not being returned",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

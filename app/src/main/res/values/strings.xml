@@ -44,6 +44,7 @@
     <string name="NotShown">No data</string>
     <string name="Map_Button">Map</string>
     <string name="Scan_Button">Scan</string>
+    <string name="ConfirmReturn_Button">ConfirmReturn</string>
 
 
 </resources>
