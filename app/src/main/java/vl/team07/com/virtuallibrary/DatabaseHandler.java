@@ -651,6 +651,27 @@ public class DatabaseHandler {
 
                  databaseReference.child("Requests").child(requestedBook.getISBN()).child(user.getUserName()).setValue(user);
 
+                 userRef.child(requestedBook.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
+                     @Override
+                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                         User user = dataSnapshot.getValue(User.class);
+                         ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+                         for (Book book : newOwnedBookList){
+                             if(book.getISBN().equals(requestedBook.getISBN())){
+                                 newOwnedBookList.remove(book);
+                                 newOwnedBookList.add(requestedBook);
+                                 user.setOwnedBookList(newOwnedBookList);
+                                 userRef.child(requestedBook.getOwner()).setValue(user);
+                             }
+                         }
+                     }
+
+                     @Override
+                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                     }
+                 });
+
              }
 
              @Override
@@ -904,6 +925,32 @@ public class DatabaseHandler {
             }
         });
         databaseReference.child("Books").child(returnedBook.getISBN()).setValue(returnedBook);
+    }
+
+    public void confirmReturnedBook (Book returnedBook){
+        DatabaseReference userRef = databaseReference.child("Users").child(returnedBook.getOwner());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+                for (Book book : newOwnedBookList){
+                    if(book.getISBN().equals(returnedBook.getISBN())){
+                        newOwnedBookList.remove(book);
+                        newOwnedBookList.add(returnedBook);
+                        user.setOwnedBookList(newOwnedBookList);
+                        userRef.setValue(user);
+                        break;
+                    }
+                }
+                databaseReference.child("Books").child(returnedBook.getISBN()).setValue(returnedBook);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void displayBorrowedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> borrowedBookList){

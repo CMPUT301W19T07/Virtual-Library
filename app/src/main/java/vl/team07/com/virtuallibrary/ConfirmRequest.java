@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class ConfirmRequest extends AppCompatActivity {
     String owner;
     String pickupLocation;
     String description;
+
 
     Book book;
 
@@ -86,6 +88,7 @@ public class ConfirmRequest extends AppCompatActivity {
         TextView UsernameText = (TextView) findViewById(R.id.Username);
         TextView EmailText = (TextView) findViewById(R.id.Email);
         TextView AddressText = (TextView) findViewById(R.id.Address);
+        Button selectPickupLocationButton = (Button) findViewById(R.id.selectPickupLocation);
 
         if (bookTitleText != null) {
             bookTitleText.setText(request.getRequestedBookTitle());
@@ -103,6 +106,14 @@ public class ConfirmRequest extends AppCompatActivity {
             AddressText.setText(request.getRequesterAddress());
         }
 
+        selectPickupLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickPointIntent = new Intent(v.getContext(), MapsActivity.class);
+                startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
+            }
+        });
+
     }
 
     static final int PICK_MAP_POINT_REQUEST = 999;
@@ -115,10 +126,9 @@ public class ConfirmRequest extends AppCompatActivity {
 //        Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
 //        mapIntent.setPackage("com.google.android.apps.maps");
 //        startActivity(mapIntent);
-
-        //Intent pickPointIntent = new Intent(this, MapsActivity.class);
-        //startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
-
+        if(pickupLocation.equals("To Be Determined")){
+            Toast.makeText(this, "Please Choose a Pickup Location Before Accepting", Toast.LENGTH_LONG).show();
+        }
         preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
         String current_userName = preferences.getString("current_userName", "n/a");
 
@@ -157,12 +167,9 @@ public class ConfirmRequest extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
+                pickupLocation = Double.toString(latLng.latitude) + " " + Double.toString(latLng.longitude);
                 Toast.makeText(this, "Point Chosen: " + latLng.latitude + " " + latLng.longitude, Toast.LENGTH_LONG).show();
-                
-                preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
-                String current_userName = preferences.getString("current_userName", "n/a");
 
-                DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
 
                 // Updating the pickup location in the database
                 //dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
@@ -171,11 +178,6 @@ public class ConfirmRequest extends AppCompatActivity {
 
                 book.setStatus(BookStatus.ACCEPTED);
 
-                dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
-
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
             }
         }
     }
