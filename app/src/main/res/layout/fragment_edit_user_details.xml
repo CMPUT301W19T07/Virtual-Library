@@ -80,4 +80,5 @@
 
 
 
-</LinearLayout>ols:context=".EditUserDetailsFragment"/>
+</LinearLayout>
+    <!--ols:context=".EditUserDetailsFragment"/>-->
