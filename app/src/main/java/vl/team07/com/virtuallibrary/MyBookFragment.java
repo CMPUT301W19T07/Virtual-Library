@@ -64,7 +64,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
             public void onRefresh() {
                 myBookList.clear();
                 adapter.notifyDataSetChanged();
-                databaseHandler.displayBorrowedBooks(current_userName, adapter, myBookList);
+                databaseHandler.displayOwnedBooks(current_userName, adapter, myBookList);
                 pullToRefresh.setRefreshing(false);
             }
         });
