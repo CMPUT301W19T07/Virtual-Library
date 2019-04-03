@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="123dp"
+        android:layout_height="102dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/ic_person_outline_black_24dp" />
@@ -20,17 +20,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/name"
         android:text="@string/name" />
 
-    <TextView
+    <EditText
         android:id="@+id/usernameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
+        android:hint="@string/user_name"
         android:text="@string/user_name" />
 
     <EditText
@@ -40,6 +42,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
+        android:hint="@string/age"
         android:text="@string/age" />
 
     <EditText
@@ -47,25 +50,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginRight="24dp" />
+        android:hint="@string/nationality" />
 
-    <TextView
+    <EditText
         android:id="@+id/contactInfoText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
+        android:hint="@string/contact_info"
         android:text="@string/contact_info" />
 
-    <TextView
+    <EditText
         android:id="@+id/addressText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
+        android:hint="@string/address"
         android:text="@string/address" />
 
     <Button

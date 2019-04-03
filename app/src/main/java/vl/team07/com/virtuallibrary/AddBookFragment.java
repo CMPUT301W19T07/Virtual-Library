@@ -60,12 +60,14 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 
@@ -158,12 +160,26 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
             String urlOfImage = urls[0];
             Bitmap logo = null;
             try{
-                InputStream is = new URL(urlOfImage).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
-                logo = BitmapFactory.decodeStream(is);
+                URL aURL = new URL(urlOfImage);
+                URLConnection conn = aURL.openConnection();
+                conn.connect();
+                InputStream is = conn.getInputStream();
+                BufferedInputStream bis = new BufferedInputStream(is);
+                logo = BitmapFactory.decodeStream(bis);
+                bis.close();
+                is.close();
+
+
+
+//
+//                InputStream is = new URL(urlOfImage).openStream();
+//                /*
+//                    decodeStream(InputStream is)
+//                        Decode an input stream into a bitmap.
+//                 */
+//                logo = BitmapFactory.decodeStream(is);
+
+
             }catch(Exception e){ // Catch the download exception
                 e.printStackTrace();
             }
@@ -175,6 +191,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 Runs on the UI thread after doInBackground(Params...).
          */
         protected void onPostExecute(Bitmap result){
+            System.out.println("BITTTTMAP: " + result);
             imageView.setImageBitmap(result);
         }
     }
@@ -211,6 +228,8 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                         author = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("authors");
                         description = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("description");
                         String URL =  output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
+
+                        System.out.println("UUUURL: " + URL);
 
                         new DownLoadImageTask(imageView).execute(URL);
                         if(title!=null){
