@@ -13,6 +13,7 @@ package vl.team07.com.virtuallibrary;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -44,6 +45,7 @@ public class ScanBookInfo {
         TextView title = dialog.findViewById(R.id.scan_book_title);
         TextView author = dialog.findViewById(R.id.scan_book_author);
         TextView des = dialog.findViewById(R.id.scan_book_des);
+        des.setMovementMethod(new ScrollingMovementMethod());
 
         ImageView image = dialog.findViewById(R.id.scan_book_image);
 
