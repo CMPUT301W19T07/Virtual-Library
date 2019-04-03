@@ -16,11 +16,16 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -45,6 +50,8 @@ public class RequestActivity extends AppCompatActivity {
     DatabaseReference databaseReference =  database.getReference();
 
     SharedPreferences preferences;
+
+
 
 
     @Override
@@ -117,6 +124,7 @@ public class RequestActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 RequestList.clear();
                 adapter.notifyDataSetChanged();
+                finish();
 //                saveInFile();
             }
             if(resultCode == Activity.RESULT_CANCELED) {

@@ -49,11 +49,9 @@ public class MyBookDetailsActivity extends AppCompatActivity {
     String pickupLocation;
     String description;
 
+    SharedPreferences preferences;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
-
-    SharedPreferences preferences;
-    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +102,6 @@ public class MyBookDetailsActivity extends AppCompatActivity {
         final Button ConfirmReturn = findViewById(R.id.ConfirmReturn);
         final ImageView bookCover = findViewById(R.id.bookCover);
         final Button locationButton = findViewById(R.id.locationButton);
-
 
         //Loading the images from Firebase Storage
         DatabaseHandler dh = DatabaseHandler.getInstance(this);
@@ -169,10 +166,10 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                 extras.putString("TITLE", title);
                 extras.putString("AUTHOR", author);
                 extras.putString("ISBN", isbn);
-                extras.putString("PICKUPLOCATION", pickupLocation);
+//                extras.putString("PICKUPLOCATION", pickupLocation);
                 extras.putString("DESCRIPTION", description);
-                extras.putString("STATUS", status);
-                extras.putString("OWNER", owner);
+//                extras.putString("STATUS", status);
+//                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
@@ -194,9 +191,9 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     extras.putString("OWNER", owner);
                     intent.putExtras(extras);
                     context.startActivity(intent);
-                } else {
+                } else if (status.equals("BORROWED")) {
                     Context context = v.getContext();
-                    CharSequence text = "Invalid! This book has not been requested.";
+                    CharSequence text = "Invalid! This book has been borrowed.";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -219,6 +216,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
                     Toast.makeText(MyBookDetailsActivity.this, "Book successfully returned",
                             Toast.LENGTH_SHORT).show();
                     finish();
+                    dh.showToast("Return confirmed!");
 
                 } else {
                     Context context = v.getContext();

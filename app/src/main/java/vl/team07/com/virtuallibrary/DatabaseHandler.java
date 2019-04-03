@@ -749,27 +749,6 @@ public class DatabaseHandler {
 
                  databaseReference.child("Requests").child(requestedBook.getISBN()).child(user.getUserName()).setValue(user);
 
-                 userRef.child(requestedBook.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
-                     @Override
-                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                         User user = dataSnapshot.getValue(User.class);
-                         ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
-                         for (Book book : newOwnedBookList){
-                             if(book.getISBN().equals(requestedBook.getISBN())){
-                                 newOwnedBookList.remove(book);
-                                 newOwnedBookList.add(requestedBook);
-                                 user.setOwnedBookList(newOwnedBookList);
-                                 userRef.child(requestedBook.getOwner()).setValue(user);
-                             }
-                         }
-                     }
-
-                     @Override
-                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                     }
-                 });
-
              }
 
              @Override
@@ -1285,5 +1264,6 @@ public class DatabaseHandler {
             }
         });
     }
+
     
 }

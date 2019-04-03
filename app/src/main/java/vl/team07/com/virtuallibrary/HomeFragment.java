@@ -69,9 +69,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             });
         }
 
-
-
-
     }
     public void setViewPager(ViewPager viewPager){
         TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager());
