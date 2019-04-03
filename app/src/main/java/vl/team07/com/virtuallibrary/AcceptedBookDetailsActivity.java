@@ -195,11 +195,14 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
                 book.setPickupLocation(pickupLocation);
 
 
+
                 preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String current_userName = preferences.getString("current_userName", "n/a");
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.receiveAcceptedBooks(book, current_userName);
+
+                dh.createToast("You have received the book");
             }
         });
 

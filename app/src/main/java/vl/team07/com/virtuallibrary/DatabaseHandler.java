@@ -736,26 +736,47 @@ public class DatabaseHandler {
     }
 
     public void sendRequest(Book requestedBook, String currentUser){
-         DatabaseReference userRef = databaseReference.child("Users");
-         userRef.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
-             @Override
-             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 User user = dataSnapshot.getValue(User.class);
-                 ArrayList<Book> newRequestedBookList = user.getRequestedBookList();
-                 System.out.println("ISBN of requested book is " + requestedBook.getISBN());
-                 newRequestedBookList.add(requestedBook);
-                 user.setRequestedBookList(newRequestedBookList);
-                 databaseReference.child("Users").child(currentUser).setValue(user);
+        DatabaseReference userRef = databaseReference.child("Users");
+        userRef.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                ArrayList<Book> newRequestedBookList = user.getRequestedBookList();
+                System.out.println("ISBN of requested book is " + requestedBook.getISBN());
+                newRequestedBookList.add(requestedBook);
+                user.setRequestedBookList(newRequestedBookList);
+                databaseReference.child("Users").child(currentUser).setValue(user);
 
-                 databaseReference.child("Requests").child(requestedBook.getISBN()).child(user.getUserName()).setValue(user);
+                databaseReference.child("Requests").child(requestedBook.getISBN()).child(user.getUserName()).setValue(user);
 
-             }
+                userRef.child(requestedBook.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        ArrayList<Book> newOwnedBookList = user.getOwnedBookList();
+                        for (Book book : newOwnedBookList){
+                            if(book.getISBN().equals(requestedBook.getISBN())){
+                                newOwnedBookList.remove(book);
+                                newOwnedBookList.add(requestedBook);
+                                user.setOwnedBookList(newOwnedBookList);
+                                userRef.child(requestedBook.getOwner()).setValue(user);
+                            }
+                        }
+                    }
 
-             @Override
-             public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-             }
-         });
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getBookRequests(String isbn, String bookTitle, String current_userName, ArrayList<Request> RequestList, ArrayAdapter adapter){
@@ -1006,9 +1027,7 @@ public class DatabaseHandler {
 
     /**
     * load all borrowed books by given user from firebase
-     * @param current_userName
-     * @param adapter
-     * @param borrowedBookList
+     * @param returnedBook
      * @see BorrowedBookFragment*/
     public void confirmReturnedBook (Book returnedBook){
         DatabaseReference userRef = databaseReference.child("Users").child(returnedBook.getOwner());

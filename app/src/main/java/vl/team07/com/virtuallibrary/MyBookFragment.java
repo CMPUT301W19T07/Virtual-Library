@@ -56,7 +56,10 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
         String current_userName = preferences.getString("current_userName", "n/a");
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
+
+        System.out.println("TEST....." + current_userName);
         databaseHandler.displayOwnedBooks(current_userName, adapter, myBookList);
+
 
         SwipeRefreshLayout pullToRefresh = MyBookView.findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

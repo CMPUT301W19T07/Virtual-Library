@@ -56,6 +56,9 @@ public class LogIn extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = preferences.edit();
 
+//        edit.putString("current_userName", "ronghui");
+//        edit.commit();
+
         Button goToSignUpButton = findViewById(R.id.goToSignUp);
         goToSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
