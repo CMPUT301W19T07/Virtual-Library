@@ -20,16 +20,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * The type Sign up.
@@ -43,7 +40,13 @@ public class SignUp extends AppCompatActivity {
     private String username;
     private String name;
     private String email;
+    private String password;
+    private ProgressBar progressBar;
     private boolean Unique;
+    private int age;
+    private String nationality;
+
+    FirebaseAuth firebaseAuth;
     SharedPreferences preferences;
     SharedPreferences.Editor edit;
 
@@ -52,6 +55,9 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        progressBar = findViewById(R.id.progressBar);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = preferences.edit();
 
@@ -61,14 +67,41 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                EditText editText = (EditText) findViewById(R.id.Uname);
+                EditText editText = (EditText) findViewById(R.id.userName);
                 username = editText.getText().toString();
                 EditText editText2 = (EditText) findViewById(R.id.Name);
                 name = editText2.getText().toString();
                 EditText editText3 = (EditText) findViewById(R.id.Email);
                 email = editText3.getText().toString();
+                EditText editText4 = findViewById(R.id.passWordSU);
+                password = editText4.getText().toString();
 
-                User user = new User(username, name, email);
+                age = 18;
+                nationality = "Canada";
+
+
+                /**
+                 * Signing up a new user using Firebase Authentication
+                 *
+                 * @author Imtiaz Raqib
+                 */
+                progressBar.setVisibility(View.VISIBLE);
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUp.this, "Registered successfully!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SignUp.this, "ERROR: " + task.getException()
+                                            .getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                User user = new User(username, name, email, password);
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.addUser(user);

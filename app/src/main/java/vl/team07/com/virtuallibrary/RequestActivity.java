@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class RequestActivity extends AppCompatActivity {
+
     private ListView RequestListView;
     private ArrayList<Request> RequestList;
     private ArrayAdapter<Request> adapter;
@@ -50,6 +51,12 @@ public class RequestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
+        RequestListView = (ListView) findViewById(R.id.RequestListView);
+        RequestList = new ArrayList<Request>();
+        TempList();
+//        saveInFile();
+//        loadFromFile();
+
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -123,9 +130,9 @@ public class RequestActivity extends AppCompatActivity {
 
     public void TempList(){
 
-        User user1 = new User("user1", "Test name", 0, "email1", 0, "Canada", 0, "address1");
-        User user2 = new User("user2", "Test name", 0, "email2", 0, "Canada", 0, "address2");
-        User user3 = new User("user3", "Test name", 0, "email3", 0, "Canada", 0, "address3");
+        User user1 = new User("user1", "Test name", "0", "email1", 0, "Canada", 0, "address1");
+        User user2 = new User("user2", "Test name", "0", "email2", 0, "Canada", 0, "address2");
+        User user3 = new User("user3", "Test name", "0", "email3", 0, "Canada", 0, "address3");
 
         Book testBook1 = new Book("First Book", "Second Author", "1234567890", "user2", BookStatus.BORROWED, "Description","SSN",null);
         Request request1 = new Request(user1, testBook1.getTitle(), testBook1.getISBN());

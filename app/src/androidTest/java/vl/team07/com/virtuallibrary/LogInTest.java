@@ -64,7 +64,7 @@ public class LogInTest extends ActivityTestRule<LogIn>{
 
         solo.assertCurrentActivity("Wrong Activity", LogIn.class);
 
-        solo.enterText((EditText) solo.getView(R.id.USERNAME), "test");
+        solo.enterText((EditText) solo.getView(R.id.userEmail), "test");
 
         solo.clickOnButton("Log In");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);

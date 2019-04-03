@@ -21,7 +21,7 @@ public class User {
 
     private String UserName;
     private String Name;
-    private int Password;
+    private String Password;
     private String Email;
     private int Age;
     private String Nationality;
@@ -30,23 +30,28 @@ public class User {
 
     private List<Book> OwnedBookList;
     private List<Book> BorrowedBookList;
+    private List<Book> RequestedBookList;
+    private List<Book> AcceptedBookList;
 
     public User(){
         this.UserName = "Test Username";
         this.Name = "Test Name";
     }
     //neccesary attributes to initialize user class are username, name and, email
-    public User(String username, String name, String email) {
+    public User(String username, String name, String email, String password) {
         this.UserName=username;
         this.Name = name;
         this.Email=email;
-        Age = 0;
-        Nationality = null;
+        this.Password=password;
+        Nationality = "Canada";
+        Age = 20;
         OwnedBookList = new ArrayList<Book>();
         BorrowedBookList = new ArrayList<Book>();
+        RequestedBookList = new ArrayList<Book>();
+        AcceptedBookList = new ArrayList<Book>();
     }
 
-    public User(String username, String name, int password, String email, int age, String nationality, int contactInfo, String address){
+    public User(String username, String name, String password, String email, int age, String nationality, int contactInfo, String address){
         this.UserName = username;
         this.Name = name;
         this.Password = password;
@@ -57,13 +62,15 @@ public class User {
         this.Address = address;
         this.OwnedBookList = new ArrayList<Book>();
         this.BorrowedBookList = new ArrayList<Book>();
+        this.RequestedBookList = new ArrayList<Book>();
+        this.AcceptedBookList = new ArrayList<Book>();
     }
 
     public void setUserName(String inputUserName){this.UserName = inputUserName;}
 
     public void setName(String inputName){this.Name = inputName;}
 
-    public void setPassword(int inputPassword){this.Password = inputPassword;}
+    public void setPassword(String inputPassword){this.Password = inputPassword;}
 
     public void setEmail(String inputEmail){this.Email = inputEmail;}
 
@@ -79,7 +86,7 @@ public class User {
 
     public String getName(){return this.Name;}
 
-    public int getPassword(){return this.Password;}
+    public String getPassword(){return this.Password;}
 
     public String getEmail(){return this.Email;}
 
@@ -113,6 +120,26 @@ public class User {
         ArrayList<Book> convertedBookList = new ArrayList<>();
         if (BorrowedBookList != null){
             for (Book book : BorrowedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public ArrayList<Book> getRequestedBookList(){
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (RequestedBookList != null) {
+            for (Book book : RequestedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public ArrayList<Book> getAcceptedBookList(){
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (AcceptedBookList != null) {
+            for (Book book : AcceptedBookList) {
                 convertedBookList.add(book);
             }
         }

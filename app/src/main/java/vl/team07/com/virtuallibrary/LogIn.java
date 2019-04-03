@@ -16,11 +16,17 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import android.widget.TextView;
 
 
@@ -31,8 +37,13 @@ import android.widget.TextView;
  * @see SignUp
  * @version 1.0
  */
-public class LogIn extends AppCompatActivity{
+public class LogIn extends AppCompatActivity {
 
+    private String userEmail;
+    private String passWord;
+    ProgressBar progressBar;
+
+    FirebaseAuth firebaseAuth;
     private String username;
     SharedPreferences preferences;
     SharedPreferences.Editor edit;
@@ -49,51 +60,65 @@ public class LogIn extends AppCompatActivity{
         goToSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup(v);
+                signUp(v);
             }
         });
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Button logInButton = findViewById(R.id.logInButton);
         logInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                login(v);
+                logIn(v);
             }
         });
     }
 
     /**
      * Login.
-     * Used to check if a username exists in the database.
+     * Used to check if a userEmail exists in the database.
      * If it does, the profile is loaded into the system and the user is sent to the main page/
      * @param view the view
      */
-    public void login(View view){
+    public void logIn(View view){
 
-        EditText editText = (EditText) findViewById(R.id.USERNAME);
-        username = editText.getText().toString();
+        EditText editText = (EditText) findViewById(R.id.userEmail);
+        EditText editText2 = findViewById(R.id.passWordSU);
+        //editText.setText("kk@a.ca");
+        //editText2.setText("kk1234");
+        progressBar = findViewById(R.id.progressBar);
 
-        edit.putString("current_userName", username);
-        edit.commit();
+        userEmail = editText.getText().toString();
+        passWord = editText2.getText().toString();
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        /**
+         * Authorize user based on Firebase User Authentication
+         *
+         * @author Imtiaz Raqib
+         */
+        progressBar.setVisibility(View.VISIBLE);
+        firebaseAuth.signInWithEmailAndPassword(userEmail, passWord).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                    DatabaseHandler dh = DatabaseHandler.getInstance(LogIn.this);
+                    dh.getUsernameToPref(userEmail, preferences, edit);
+                    // Save username into PreferenceManager
+//                    edit.putString("current_userName", username);
+//                    edit.commit();
 
+                    Intent intent = new Intent(LogIn.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LogIn.this, "No account registered with "
+                    + userEmail, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-//                for(//get firebase data here){
-//                    User user = (User) "data here";
-//                    if(username == user.getUsername()){
-//                        CurrentUser u = CurrentUser.getInstance();
-//                        u.Username = user.getUsername();
-//                        u.Name = user.getName();
-//                        u.Email = user.getEmail();
-//                        u.Age = user.getAge();
-//                        u.Nationality = user.getNationality();
-//                        Intent intent = new Intent(this, MainPage.class);
-//                        startActivityForResult(intent,0);
-//                    }
-//                Toast toast = Toast.makeText(getApplicationContext(),"User profile not found",Toast.LENGTH_SHORT);
-//                toast.show();
     }
 
     /**
@@ -101,7 +126,7 @@ public class LogIn extends AppCompatActivity{
      * Sends the user to the sign up page
      * @param view the view
      */
-    public void signup(View view){
+    public void signUp(View view){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }

@@ -28,12 +28,13 @@ public class Book {
     private String Description;
     private String SearchString;
     private String PickupLocation;
-    private byte[] Image;
+    private String Image;
     private ArrayList<User> RequesterList = new ArrayList<>();
 
     public Book(){
 
     }
+    
     public Book(String title, String author, String isbn, String owner, BookStatus status, String description, String searchString) {
         this.Title = title;
         this.Author = author;
@@ -45,7 +46,7 @@ public class Book {
         this.PickupLocation = "To Be Determined";
     }
 
-    public Book(String title, String author, String isbn, String ownerUsername, BookStatus status, String description, String searchString,byte[] image){
+    public Book(String title, String author, String isbn, String ownerUsername, BookStatus status, String description, String searchString, String image){
 
         this.Title = title;
         this.Author = author;
@@ -80,7 +81,7 @@ public class Book {
 
     public void setSearchString(String inputSearchString){this.SearchString = inputSearchString;}
 
-    public void setImage(byte[] image){this.Image = image;}
+    public void setImage(String image){this.Image = image;}
 
     public String getTitle(){return this.Title;}
 
@@ -96,7 +97,7 @@ public class Book {
 
     public String getSearchString(){return this.SearchString;}
 
-    public byte[] getImage(){return this.Image;}
+    public String getImage(){return this.Image;}
 
     public String getPickupLocation(){
         return this.PickupLocation;

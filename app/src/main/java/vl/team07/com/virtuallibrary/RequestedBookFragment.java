@@ -12,10 +12,12 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,20 +36,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class AllBookFragment extends android.support.v4.app.Fragment {
+public class RequestedBookFragment extends android.support.v4.app.Fragment {
 
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
-    private ArrayList<Book> allBookList;
+    private ArrayList<Book> requestedBookList;
     private DatabaseHandler databaseHandler;
+    SharedPreferences preferences;
 
 
     private final String BOOK_PARENT = "Books";
     private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
     private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
 
-    public AllBookFragment() {
+    public RequestedBookFragment() {
         // Required empty public constructor
     }
 
@@ -55,20 +58,21 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View AllBookView = inflater.inflate(R.layout.fragment_all_book, container, false);
+        View RequestedBookView = inflater.inflate(R.layout.fragment_all_book, container, false);
 
-        recyclerView = (RecyclerView) AllBookView.findViewById(R.id.AllBookRecyclerView);
+        recyclerView = (RecyclerView) RequestedBookView.findViewById(R.id.AllBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        allBookList = new ArrayList<>();
-        adapter = new BookRecyclerViewAdapter(getContext(), allBookList);
+        requestedBookList = new ArrayList<>();
+
+        adapter = new BookRecyclerViewAdapter(getContext(), requestedBookList);
         recyclerView.setAdapter(adapter);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(RequestedBookView.getContext());
+        String current_userName = preferences.getString("current_userName", "n/a");
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
+        databaseHandler.getRequestedBooks(current_userName, adapter, requestedBookList);
 
-        TempList();
-//        loadAllBook();
-        databaseHandler.loadAllBook(allBookList,adapter);
 
 
         /**
@@ -86,7 +90,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
-                Book clickedBook = allBookList.get(position);
+                Book clickedBook = requestedBookList.get(position);
 
                 Context context = v.getContext();
                 if (clickedBook.getStatus() == BookStatus.AVAILABLE){
@@ -129,7 +133,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
 
 
-        return AllBookView;
+        return RequestedBookView;
     }
 
     @Override
@@ -139,14 +143,14 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 
 
     // Temp for test
-    public void TempList(){
-
-        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
-
-        Book testBook = new Book("First Book", "First Author", "1234567890", "Test User", BookStatus.AVAILABLE, "Description","SSN",null);
-        allBookList.add(testBook);
-        testBook = new Book("Second Book", "Second Author", "1234567890", "Test User", BookStatus.BORROWED, "Description","SSN",null);
-        allBookList.add(testBook);
+//    public void TempList(){
+//
+//        User user = new User("Test user", "Test name", 0, "Test email", 0, "Canada", 0, "");
+//
+//        Book testBook = new Book("First Book", "First Author", "1234567890", "Test User", BookStatus.AVAILABLE, "Description","SSN",null);
+//        allBookList.add(testBook);
+//        testBook = new Book("Second Book", "Second Author", "1234567890", "Test User", BookStatus.BORROWED, "Description","SSN",null);
+//        allBookList.add(testBook);
 //        testBook = new Book("Third Book", "Third Author","1234567890", user, BookStatus.AVAILABLE, "Description","SSN",null);
 //        allBookList.add(testBook);
 //        testBook = new Book("Forth Book", "Forth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
@@ -163,7 +167,7 @@ public class AllBookFragment extends android.support.v4.app.Fragment {
 //        allBookList.add(testBook);
 //        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", user, BookStatus.BORROWED, "Description","SSN",null);
 //        allBookList.add(testBook);
-    }
+//    }
 
 
 }

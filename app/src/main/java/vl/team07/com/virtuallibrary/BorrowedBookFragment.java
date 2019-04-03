@@ -96,7 +96,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
 
     public void TempList(){
 
-
+        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
 
         Book testBook;
         testBook = new Book("Second Book", "Second Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);

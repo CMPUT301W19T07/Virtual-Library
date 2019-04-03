@@ -10,7 +10,15 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.app.AlertDialog;
 import android.content.Context;
+
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.support.annotation.NonNull;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -26,20 +34,32 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
+import java.util.ArrayList;
 
 
 public class AddBookFragment extends android.support.v4.app.Fragment {
@@ -51,6 +71,16 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     private Button addButton;
     private Book book;
     private Gson gson;
+    private final String BOOK_PARENT = "All Books";
+
+    private ArrayList<Book> allBooks = new ArrayList<>();
+//    private ArrayAdapter<Book> adapter = new ArrayAdapter<Book>();
+    private String title, author, description;
+    private int ISBN;
+
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     private ImageView imageView;
 
@@ -58,6 +88,7 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
     SharedPreferences.Editor edit;
 
     DatabaseHandler dh;
+
 
     public AddBookFragment() {
         // Required empty public constructor
@@ -84,6 +115,15 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         addButton = (Button) AddBookView.findViewById(R.id.addButton);
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+
         return AddBookView;
     }
 
@@ -103,8 +143,8 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         }
     }
-
-    public void onStart(){
+    
+    public void onStart() {
         super.onStart();
 
 
@@ -131,35 +171,46 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                  */
                 Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-                if (bmp != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bmp.compress(CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                    book.setStatus(BookStatus.AVAILABLE);
-                    book.setOwner(current_userName);
-                    //book.setImage(byteArray);
+                book = new Book();
+                book.setTitle(title);
+                book.setAuthor(author);
+                book.setDescription(description);
+                book.setISBN(ISBN);
+                book.setStatus(BookStatus.AVAILABLE);
+                book.setOwner(current_userName);
 
 
-                } else {
-                    book = new Book();
-                    book.setTitle(title);
-                    book.setAuthor(author);
-                    book.setDescription(description);
-                    book.setISBN(ISBN);
-                    book.setStatus(BookStatus.AVAILABLE);
-                    book.setOwner(current_userName);
-                }
+
+//                if (bmp != null) {
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bmp.compress(CompressFormat.PNG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+//
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                    book.setStatus(BookStatus.AVAILABLE);
+//                    book.setOwner(current_userName);
+//                    //book.setImage(byteArray);
+//
+//
+//                } else {
+//                    book = new Book();
+//                    book.setTitle(title);
+//                    book.setAuthor(author);
+//                    book.setDescription(description);
+//                    book.setISBN(ISBN);
+//                    book.setStatus(BookStatus.AVAILABLE);
+//                    book.setOwner(current_userName);
+//                }
 
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());
                 dh.addBookToOwnedBookList(book, current_userName);
                 dh.addBook(book);
+                dh.uploadImageToFirebase(bmp, book);
 
             }
         });
@@ -175,7 +226,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
             }
         });
-
     }
 
 }

@@ -21,7 +21,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.TestCase.*;
 
 public class SignUpTest extends ActivityTestRule<SignUp>{
 
@@ -50,7 +49,7 @@ public class SignUpTest extends ActivityTestRule<SignUp>{
 
         solo.assertCurrentActivity("Wrong Activity", SignUp.class);
 
-        solo.enterText((EditText) solo.getView(R.id.Uname), "Craig Miller");
+        solo.enterText((EditText) solo.getView(R.id.userName), "Craig Miller");
         solo.enterText((EditText) solo.getView(R.id.Name), "Name");
         solo.enterText((EditText) solo.getView(R.id.Email), "cjmiller@ualberta.ca");
 

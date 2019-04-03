@@ -93,7 +93,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
         final Button RequestButton = findViewById(R.id.RequestButton);
 
 
-        User user1 = new User("Test user1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+        User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description","SSN",null);
         Review dummyReview = new Review(user1.getUserName());
 
@@ -155,7 +155,9 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
                 dh.sendRequest(requestedBook.getISBN(), current_userName);
-
+                requestedBook.setStatus(BookStatus.REQUESTED);
+                dh.updateBookStatus(requestedBook);
+                dh.addBookToRequestedBookList(requestedBook, current_userName);
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
@@ -179,23 +181,24 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
 
     }
     public void TempList(){
-        User user1 = new User("Testusername1", "Test name1", 0, "Test email", 0, "Canada", 0, "");
+        User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
         Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);
         Review testReview1 = new Review(user1.getUserName());
         testReview1.setRating(4.9);
         testReview1.setComment("This is reviewer 1's comment");
         reviewList.add(testReview1);
 
-        User user2 = new User("Testusername2", "Test name2", 0, "Test email", 0, "Canada", 0, "");
+        User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
         Review testReview2 = new Review(user2.getUserName());
         testReview2.setRating(4.4);
         testReview2.setComment("This is reviewer 2's comment");
         reviewList.add(testReview2);
 
-        User user3 = new User("Testusername3", "Test name3", 0, "Test email", 0, "Canada", 0, "");
+        User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
         Review testReview3 = new Review(user3.getUserName());
         testReview3.setRating(4.7);
         testReview3.setComment("This is reviewer 3's comment");
         reviewList.add(testReview3);
+
     }
 }

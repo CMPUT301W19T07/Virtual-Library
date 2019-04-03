@@ -23,5 +23,5 @@ package vl.team07.com.virtuallibrary;
 
 public enum BookStatus {
     AVAILABLE,
-    BORROWED
+    REQUESTED, ACCEPTED, BORROWED
 }

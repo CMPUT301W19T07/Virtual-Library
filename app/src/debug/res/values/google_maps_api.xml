@@ -1,0 +1,34 @@
+<!--
+* Google Maps Activity
+*
+* March 31, 2019
+*
+* Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
+* You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
+* You can find a copy of the license in the github wiki for this project.
+-->
+
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=EC:00:67:05:22:A5:EE:32:23:5C:02:E9:C6:42:E6:EE:5B:F3:7A:0E%3Bvl.team07.com.virtuallibrary
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    EC:00:67:05:22:A5:EE:32:23:5C:02:E9:C6:42:E6:EE:5B:F3:7A:0E
+
+    SHA-1 certificate fingerprint:
+    EC:00:67:05:22:A5:EE:32:23:5C:02:E9:C6:42:E6:EE:5B:F3:7A:0E
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAzoQx8_0AvjBOghIGsOrz_3Q3wYfs-A3Y</string>
+</resources>

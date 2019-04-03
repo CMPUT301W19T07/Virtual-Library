@@ -18,10 +18,29 @@
     <string name="user_name">Username</string>
     <string name="age">Age</string>
     <string name="nationality">Nationality</string>
-    <string name="contact_info">Contact Info</string>
+    <string name="contact_info">Email</string>
     <string name="address">Address</string>
     <string name="Welcome">Welcome To</string>
+    <string name="OK">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="title_activity_main">Barcode Reader Sample</string>
+    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
+    <string name="read_barcode">Read Barcode</string>
+    <string name="auto_focus">Auto Focus</string>
+    <string name="use_flash">Use Flash</string>
+    <string name="barcode_success">Barcode read successfully</string>
+    <string name="barcode_failure">No barcode captured</string>
+    <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="scan">"Scan"</string>
     <string name="Requests_Button">Requests</string>
     <string name="Return_Button">Return</string>
     <string name="Request_Button">Request</string>
+    <string name="editDetails">Edit Details</string>
+    <string name="signOut">Sign Out</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiaW10aWF6dWQiLCJhIjoiY2p0eTN4Z3VkMTF4dzQ0bzZjYWF3eGc3MCJ9.QNPVHZ5pJq9zNsKpJyRQ0A</string>
+
+
 </resources>
