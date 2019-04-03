@@ -67,6 +67,7 @@ public class EditUserDetailsActivity extends AppCompatActivity {
 //                dh.retrieveUserImageFromFirebase(user.getUserName(), imageView);
 //            }
 //        });
+        Bitmap bmp_old = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
 
         acceptChanges.setOnClickListener(new OnClickListener() {
@@ -83,18 +84,25 @@ public class EditUserDetailsActivity extends AppCompatActivity {
                     public void onCallBack(User user) {
                         Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-                        dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
-                        dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
-                        dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
+                        if(bmp_old != bmp){
+                            dh.uploadUserImageToFirebase(bmp, user);
+                        }
 
-                        dh.uploadUserImageToFirebase(bmp, user);
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+                        if(!nameText.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
+                        }
+                        if(!Nationality.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
+                        }
+                        if(!Age.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
+                        }
+
                         Toast toast = Toast.makeText(EditUserDetailsActivity.this, "Changes made successfully!", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
                         toast.show();
 
-                        edit.putString("current_userName", user.getUserName());
-                        edit.commit();
                     }
                 });
 
