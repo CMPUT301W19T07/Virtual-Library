@@ -42,6 +42,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiaW10aWF6dWQiLCJhIjoiY2p0eTN4Z3VkMTF4dzQ0bzZjYWF3eGc3MCJ9.QNPVHZ5pJq9zNsKpJyRQ0A</string>
     <string name="NotShown">No data</string>
+    <string name="Map_Button">Map</string>
+    <string name="Scan_Button">Scan</string>
 
 
 </resources>

@@ -30,6 +30,8 @@ public class User {
 
     private List<Book> OwnedBookList;
     private List<Book> BorrowedBookList;
+    private List<Book> RequestedBookList;
+    private List<Book> AcceptedBookList;
 
     public User(){
         this.UserName = "Test Username";
@@ -114,6 +116,34 @@ public class User {
         ArrayList<Book> convertedBookList = new ArrayList<>();
         if (BorrowedBookList != null){
             for (Book book : BorrowedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public void setRequestedBookList(ArrayList<Book> bookList){
+        this.RequestedBookList = bookList;
+    }
+
+    public ArrayList<Book> getRequestedBookList() {
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (RequestedBookList != null){
+            for (Book book : RequestedBookList) {
+                convertedBookList.add(book);
+            }
+        }
+        return convertedBookList;
+    }
+
+    public void setAcceptedBookList(ArrayList<Book> bookList){
+        this.AcceptedBookList = bookList;
+    }
+
+    public ArrayList<Book> getAcceptedBookList() {
+        ArrayList<Book> convertedBookList = new ArrayList<>();
+        if (AcceptedBookList != null){
+            for (Book book : AcceptedBookList) {
                 convertedBookList.add(book);
             }
         }

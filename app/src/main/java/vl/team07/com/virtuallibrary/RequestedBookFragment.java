@@ -13,9 +13,7 @@ package vl.team07.com.virtuallibrary;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,62 +24,70 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-public class BorrowedBookFragment extends android.support.v4.app.Fragment {
+public class RequestedBookFragment extends android.support.v4.app.Fragment {
 
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
-    private ArrayList<Book> borrowedBookList;
-
-    SharedPreferences preferences;
+    private ArrayList<Book> requestedBookList;
     private DatabaseHandler databaseHandler;
+    SharedPreferences preferences;
 
 
-    public BorrowedBookFragment() {
+    private final String BOOK_PARENT = "Books";
+    private final String BOOK_AVAILABLE = BookStatus.AVAILABLE.toString();
+    private final String BOOK_BORROWED = BookStatus.BORROWED.toString();
+
+    public RequestedBookFragment() {
         // Required empty public constructor
     }
 
-
-    /**
-     * Create BorrowedBookFragment,
-     * retrieve all book borrowed by user from firebase when fragment is created*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View BorrowedBookView = inflater.inflate(R.layout.fragment_borrowed_book, container, false);
 
-        recyclerView = (RecyclerView) BorrowedBookView.findViewById(R.id.BorrowedBookRecyclerView);
+        View RequestedBookView = inflater.inflate(R.layout.fragment_all_book, container, false);
+
+        recyclerView = (RecyclerView) RequestedBookView.findViewById(R.id.AllBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        borrowedBookList = new ArrayList<>();
-        adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
+        requestedBookList = new ArrayList<>();
+
+        adapter = new BookRecyclerViewAdapter(getContext(), requestedBookList);
         recyclerView.setAdapter(adapter);
 
-
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(BorrowedBookView.getContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(RequestedBookView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
-        databaseHandler.displayBorrowedBooks(current_userName, adapter, borrowedBookList);
+        databaseHandler.displayRequestedBooks(current_userName, adapter, requestedBookList);
 
 
+
+        /**
+         *Sets the onClickListener for each item in the Recycle View
+         * and opens a book detail activity depending on if the clicked book
+         * is owned by the current user or is owned by someone else.
+         *
+         * Initially created by tianxin3 and further developed by pling
+         *
+         * @see RequestedBookDetailsActivity
+         * @see NonOwnerBookDetailsActivity
+         */
         adapter.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
 
-                Book clickedBook = borrowedBookList.get(position);
+                Book clickedBook = requestedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
+                Intent intent = new Intent(context, RequestedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
                 String pickUpLocation = clickedBook.getPickupLocation();
                 String description = clickedBook.getDescription();
-                String owner = clickedBook.getOwner();
 
                 Bundle extras = new Bundle();
                 extras.putString("TITLE", title);
@@ -89,15 +95,20 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 extras.putString("ISBN", isbn);
                 extras.putString("PICKUPLOCATION", pickUpLocation);
                 extras.putString("DESCRIPTION", description);
-                extras.putString("OWNER", owner);
                 intent.putExtras(extras);
                 context.startActivity(intent);
             }
         });
 
 
-        return BorrowedBookView;
+        return RequestedBookView;
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+    }
+
 
 
 }

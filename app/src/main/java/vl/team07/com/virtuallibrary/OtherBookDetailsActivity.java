@@ -153,7 +153,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
-                Book requestedBook = new Book(title, author, isbn, owner, BookStatus.AVAILABLE, description, "");
+                Book requestedBook = new Book(title, author, isbn, owner, BookStatus.REQUESTED, description, "");
 
                 CharSequence text = "Request Sent";
                 int duration = Toast.LENGTH_SHORT;
@@ -161,7 +161,7 @@ public class OtherBookDetailsActivity extends AppCompatActivity {
                 String current_userName = preferences.getString("current_userName", "n/a");
 
                 DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
-                dh.sendRequest(requestedBook.getISBN(), current_userName);
+                dh.sendRequest(requestedBook, current_userName);
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();

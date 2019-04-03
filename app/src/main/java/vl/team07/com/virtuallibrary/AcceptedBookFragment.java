@@ -1,11 +1,11 @@
 /*
- * Class Name
+ * Copyright <2019-1-23> <Ronghui Shao>
  *
- * Date of Initiation
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * Copyright @ 2019 Team 07, CMPUT 301, University of Alberta - All Rights Reserved.
- * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at the University of Alberta.
- * You can find a copy of the license in the github wiki for this project.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package vl.team07.com.virtuallibrary;
@@ -26,44 +26,38 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-public class BorrowedBookFragment extends android.support.v4.app.Fragment {
+public class AcceptedBookFragment extends android.support.v4.app.Fragment {
 
 
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
-    private ArrayList<Book> borrowedBookList;
+    private ArrayList<Book> acceptedBookList;
 
     SharedPreferences preferences;
     private DatabaseHandler databaseHandler;
 
 
-    public BorrowedBookFragment() {
+    public AcceptedBookFragment() {
         // Required empty public constructor
     }
 
-
-    /**
-     * Create BorrowedBookFragment,
-     * retrieve all book borrowed by user from firebase when fragment is created*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View BorrowedBookView = inflater.inflate(R.layout.fragment_borrowed_book, container, false);
+        View AcceptedBookView = inflater.inflate(R.layout.fragment_accepted_book, container, false);
 
-        recyclerView = (RecyclerView) BorrowedBookView.findViewById(R.id.BorrowedBookRecyclerView);
+        recyclerView = (RecyclerView) AcceptedBookView.findViewById(R.id.AcceptedBookRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        borrowedBookList = new ArrayList<>();
-        adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
+        acceptedBookList = new ArrayList<>();
+        adapter = new BookRecyclerViewAdapter(getContext(), acceptedBookList);
         recyclerView.setAdapter(adapter);
 
-
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(BorrowedBookView.getContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(AcceptedBookView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
 
         databaseHandler = DatabaseHandler.getInstance(getActivity());
-        databaseHandler.displayBorrowedBooks(current_userName, adapter, borrowedBookList);
+        databaseHandler.displayAcceptedBooks(current_userName, adapter, acceptedBookList);
 
 
         adapter.setClickListener(new View.OnClickListener() {
@@ -72,10 +66,10 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
                 int position = recyclerView.indexOfChild(v);
                 System.out.println("POSITION: "+position);
 
-                Book clickedBook = borrowedBookList.get(position);
+                Book clickedBook = acceptedBookList.get(position);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, BorrowedBookDetailsActivity.class);
+                Intent intent = new Intent(context, AcceptedBookDetailsActivity.class);
                 String title = clickedBook.getTitle();
                 String author = clickedBook.getAuthor();
                 String isbn = clickedBook.getISBN();
@@ -96,8 +90,7 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         });
 
 
-        return BorrowedBookView;
+        return AcceptedBookView;
     }
-
 
 }

@@ -13,7 +13,9 @@ package vl.team07.com.virtuallibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,9 +40,14 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
     String author;
     String isbn;
     String description;
+    String pickupLocation;
+    String owner;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference =  database.getReference();
+
+    SharedPreferences preferences;
+    private DatabaseHandler databaseHandler;
 
 
     @Override
@@ -51,6 +58,15 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
         //TODO intent extras from accepted recycler view
 
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+        title = extras.getString("TITLE");
+        author = extras.getString("AUTHOR");
+        isbn = extras.getString("ISBN");
+        pickupLocation = extras.getString("PICKUPLOCATION");
+        description = extras.getString("DESCRIPTION");
+        owner = extras.getString("OWNER");
         //Getting text views from activity
         final TextView bookTitleTextView = findViewById(R.id.BookTitleTextView);
         final TextView authorTextView = findViewById(R.id.AuthorTextView);
@@ -68,7 +84,7 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button locationButton = findViewById(R.id.locationButton);
-        final Button recieveBook = findViewById(R.id.recieveButton);
+        final Button ScanButton = findViewById(R.id.ScanButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
@@ -112,6 +128,21 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        ScanButton.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Book book = new Book(title, author, isbn, owner, BookStatus.BORROWED, description, "");
+                book.setPickupLocation(pickupLocation);
+
+
+                preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String current_userName = preferences.getString("current_userName", "n/a");
+
+                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+                dh.receiveAcceptedBooks(book, current_userName);
             }
         });
 

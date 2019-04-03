@@ -13,11 +13,8 @@ package vl.team07.com.virtuallibrary;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,7 +66,7 @@ public class MyBookFragment extends android.support.v4.app.Fragment {
          *
          * Initially created by tianxin3 and further developed by pling
          *
-         * @see OwnerBookDetailsActivity
+         * @see RequestedBookDetailsActivity
          *
          */
         adapter.setClickListener(new View.OnClickListener() {
