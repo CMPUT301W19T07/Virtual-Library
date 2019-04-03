@@ -129,23 +129,25 @@ public class ConfirmRequest extends AppCompatActivity {
         if(pickupLocation.equals("To Be Determined")){
             Toast.makeText(this, "Please Choose a Pickup Location Before Accepting", Toast.LENGTH_LONG).show();
         }
-        preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
-        String current_userName = preferences.getString("current_userName", "n/a");
+        else {
+            preferences = PreferenceManager.getDefaultSharedPreferences(ConfirmRequest.this);
+            String current_userName = preferences.getString("current_userName", "n/a");
 
-        DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
+            DatabaseHandler dh = DatabaseHandler.getInstance(ConfirmRequest.this);
 
-        // Updating the pickup location in the database
-        //dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
-        //Updating the pickup location of the book manually so acceptRequest has the updated copy
-        //book.setPickupLocation(String.valueOf(latLng.latitude) + " " + String.valueOf(latLng.longitude));
+            // Updating the pickup location in the database
+            //dh.updatePickUpLocation(latLng.latitude, latLng.longitude, book);
+            //Updating the pickup location of the book manually so acceptRequest has the updated copy
+            //book.setPickupLocation(String.valueOf(latLng.latitude) + " " + String.valueOf(latLng.longitude));
 
-        book.setStatus(BookStatus.ACCEPTED);
+            book.setStatus(BookStatus.ACCEPTED);
 
-        dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
+            dh.acceptRequest(book, request.getRequesterUsername(), current_userName);
 
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
 
     public void RejectRequest(View view){
