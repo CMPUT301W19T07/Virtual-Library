@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ import android.view.accessibility.AccessibilityManager.TouchExplorationStateChan
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,8 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> availableBookList;
+
+    EditText searchBar;
 
     SharedPreferences preferences;
 
@@ -68,7 +72,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         recyclerView.setAdapter(adapter);
 
         Button searchWithTermsButton = SearchView.findViewById(R.id.SearchTermsButton);
-
+        searchBar = SearchView.findViewById(R.id.SearchEditText);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
@@ -114,8 +118,12 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         searchWithTermsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText searchBar = SearchView.findViewById(R.id.SearchEditText);
+
+                String ISBN;
+
+
                 String searchTerms = searchBar.getText().toString();
+
 
                 preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
                 String current_userName = preferences.getString("current_userName", "n/a");
@@ -133,6 +141,24 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         return SearchView;
     }
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        String ISBN;
+        if(MainActivity.SCAN_ISBN != null) {
+
+
+            ISBN = MainActivity.SCAN_ISBN;
+            MainActivity.SCAN_ISBN = null;
+
+
+            searchBar.setText(ISBN);
+        }
+    }
+
 
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){

@@ -791,6 +791,12 @@ public class DatabaseHandler {
                         for(String word: searchTerms.split("\\s+")){
                             if (book.getDescription().toLowerCase().contains(word.toLowerCase())){
                                 availableBookList.add(book);
+                            }else if(book.getTitle().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }else if(book.getAuthor().toLowerCase().contains(word.toLowerCase())){
+                                availableBookList.add(book);
+                            }else if(book.getISBN().contains(word)){
+                                availableBookList.add(book);
                             }
 
                         }
