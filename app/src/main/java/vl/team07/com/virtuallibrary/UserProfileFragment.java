@@ -36,7 +36,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
     private TextView nameText, usernameText, ageText, nationalityText, contactInfoText, addressText;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    Button signOut;
+    Button signOut, editDetails;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -66,6 +66,8 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         addressText = (TextView) UserProfileView.findViewById(R.id.addressText);
 
         signOut = UserProfileView.findViewById(R.id.signOutBtn);
+        editDetails = UserProfileView.findViewById(R.id.button5);
+
 
         setUserInfo();
 
@@ -87,9 +89,29 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        editDetails.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseUser = firebaseAuth.getCurrentUser();
+                String logEmail = firebaseUser.getEmail();
+                DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
+
+                databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
+                    @Override
+                    public void onCallBack(User user) {
+                        
+                    }
+                });
+            }
+        });
+
+
         return UserProfileView;
 
     }
+
+
 
 
     // Temp use to test
