@@ -15,8 +15,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,6 +77,7 @@ public class MyBookDetailsActivity extends AppCompatActivity {
 
         //Getting text views from activity
         final TextView bookTitleTextView = findViewById(R.id.BookTitleTextView);
+        findViewById(R.id.BookTitleTextView).setSelected(true);
         final TextView authorTextView = findViewById(R.id.AuthorTextView);
         final TextView ISBNTextView = findViewById(R.id.ISBNTextView);
         final TextView DescriptionTextView = findViewById(R.id.DescriptionTextView);

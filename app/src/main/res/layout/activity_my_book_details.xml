@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dashboard_black_24dp" />
 
+
     <TextView
         android:id="@+id/BookTitleTextView"
         android:layout_width="wrap_content"
@@ -37,9 +38,17 @@
         android:textColor="@color/black"
         android:textSize="18dp"
         android:maxEms="20"
-        android:singleLine="false"
+
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+
+
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toEndOf="@+id/bookCover"
         app:layout_constraintTop_toTopOf="@+id/bookCover" />
 
