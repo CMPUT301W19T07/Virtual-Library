@@ -77,6 +77,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager());
 
         tabViewPagerAdapter.addFragment(new MyBookFragment(), "My Books");
+        tabViewPagerAdapter.addFragment(new RequestedBookFragment(),"Requested Books");
+        tabViewPagerAdapter.addFragment(new AcceptedBookFragment(),"Accepted Books");
         tabViewPagerAdapter.addFragment(new BorrowedBookFragment(),"Borrowed Books");
 
 

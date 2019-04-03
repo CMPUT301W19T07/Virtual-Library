@@ -829,5 +829,23 @@ public class DatabaseHandler {
             }
         });
     }
+
+    public void SearchUserName(String searchedUsername, UserRecyclerViewAdapter adapter, ArrayList<User> searchedUserList){
+        adapter.notifyDataSetChanged();
+        DatabaseReference userRef = databaseReference.child("Users").child(searchedUsername);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                searchedUserList.add(user);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     
 }

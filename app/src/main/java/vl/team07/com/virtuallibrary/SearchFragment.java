@@ -41,6 +41,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private BookRecyclerViewAdapter adapter;
     private ArrayList<Book> availableBookList;
+    private ArrayList<User> searchedUserList;
 
     SharedPreferences preferences;
 
@@ -117,17 +118,29 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 EditText searchBar = SearchView.findViewById(R.id.SearchEditText);
                 String searchTerms = searchBar.getText().toString();
 
-                preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
-                String current_userName = preferences.getString("current_userName", "n/a");
-                System.out.println("Current user's username: " + current_userName);
+                if(searchTerms.charAt(0) == '@'){
+                    UserRecyclerViewAdapter userAdapter = new UserRecyclerViewAdapter(getContext(), searchedUserList);
+                    recyclerView.setAdapter(userAdapter);
 
-                DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
-                dh.getBooksWithTerms(current_userName, adapter, availableBookList, searchTerms);
+                    String searchedUserName = searchTerms.replace("@", "");
 
-                //hides keyboard after pressing button
-                InputMethodManager inputManager = (InputMethodManager)
-                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+                    dh.SearchUserName(searchedUserName, userAdapter, searchedUserList);
+
+                }
+                else {
+                    preferences = PreferenceManager.getDefaultSharedPreferences(SearchView.getContext());
+                    String current_userName = preferences.getString("current_userName", "n/a");
+                    System.out.println("Current user's username: " + current_userName);
+
+                    DatabaseHandler dh = DatabaseHandler.getInstance(getActivity());
+                    dh.getBooksWithTerms(current_userName, adapter, availableBookList, searchTerms);
+
+                    //hides keyboard after pressing button
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow((null == getActivity().getCurrentFocus()) ? null : getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             }
         });
 
