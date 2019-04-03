@@ -17,5 +17,11 @@ import org.json.JSONObject;
  */
 
 public interface AsyncResponse {
+
+
+    /**
+     * CallBack Response: use for retrieve data from Google Books API AsyncTask executed and apply
+     * JSONObject in activity or fragment we executed the task
+     * @param output*/
     void processFinish(JSONObject output);
 }

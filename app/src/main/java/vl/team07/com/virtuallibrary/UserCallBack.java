@@ -16,5 +16,9 @@ package vl.team07.com.virtuallibrary;
 
 public interface UserCallBack {
 
+    /**
+     * CallBack: Applied in DatabaseHandler when load user from firebase and add the matched user to CallBack,
+     * then we can access this user in another activity or fragment
+     * @param user*/
     void onCallBack(User user);
 }

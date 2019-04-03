@@ -26,6 +26,11 @@ import java.util.Locale;
 /**
  * Created by MTX on 2019-03-06.
  */
+
+/**
+ * BookRecyclerViewAdapter: custom adapter for RecyclerView, used for adapt all single book to RecyclerView
+ * by fix it with cardView
+ * */
 public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.BookHolder>{
 
     public class BookHolder extends RecyclerView.ViewHolder{
@@ -43,6 +48,9 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
             BookImage = itemView.findViewById(R.id.BookImage);
         }
 
+        /**
+         * fill book info to cardview
+         * @param book*/
         public void setDetails(Book book){
             BookTitle.setText(book.getTitle());
             BookAuthor.setText(String.format(Locale.CANADA, "Author: %s", book.getAuthor()));
@@ -74,6 +82,9 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         View view = LayoutInflater.from(context).inflate(R.layout.book_card_view, viewGroup,false);
         BookHolder bookHolder = new BookHolder(view);
 
+
+        /**
+         * return book index in the RecyclerView when click it*/
         bookHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +106,8 @@ public class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerVi
         return books.size();
     }
 
+    /**
+     * set click listener, used for single item click*/
     public void setClickListener(View.OnClickListener onClickListener){
         this.onClickListener = onClickListener;
     }

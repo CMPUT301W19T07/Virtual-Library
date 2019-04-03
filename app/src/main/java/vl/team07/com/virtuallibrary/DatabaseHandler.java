@@ -787,6 +787,12 @@ public class DatabaseHandler {
         });
     }
 
+    /**
+    * load all borrowed books by given user from firebase
+     * @param current_userName
+     * @param adapter
+     * @param borrowedBookList
+     * @see BorrowedBookFragment*/
     public void displayBorrowedBooks(String current_userName, BookRecyclerViewAdapter adapter, ArrayList<Book> borrowedBookList){
         DatabaseReference userRef = databaseReference.child("Users");
         userRef.child(current_userName).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -852,6 +858,14 @@ public class DatabaseHandler {
         });
     }
 
+    /**
+     * get book from firebase by provide search terms and add to provide booklist if it existed
+     * @param current_userName
+     * @param adapter
+     * @param availableBookList
+     * @param searchTerms
+     * @see SearchFragment
+     * */
     public void getBooksWithTerms(String current_userName ,BookRecyclerViewAdapter adapter, ArrayList<Book> availableBookList,
                                   String searchTerms){
         DatabaseReference bookRef = databaseReference.child("Books");
@@ -895,7 +909,11 @@ public class DatabaseHandler {
         });
     }
 
-
+    /**
+     * Load book from firebase by its ISBN, add it into BookCallBack to access it when method is called
+     * in another activity/fragment
+     * @param ISBN
+     * @param bookCallBack*/
     public void loadBookByISBN(String ISBN, BookCallBack bookCallBack){
 
 
@@ -916,6 +934,11 @@ public class DatabaseHandler {
         });
     }
 
+    /**
+     * load User from firebase by given email, add it into UserCallBack which can be
+     * accessed when method is calling in another activity/fragment
+     * @param logEmail
+     * @param userCallBack*/
     public void loadUserInfo(String logEmail, UserCallBack userCallBack){
 
         DatabaseReference userRef = databaseReference.child("Users");

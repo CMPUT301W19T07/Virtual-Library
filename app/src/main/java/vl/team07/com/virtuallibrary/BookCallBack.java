@@ -16,6 +16,10 @@ package vl.team07.com.virtuallibrary;
 
 public interface BookCallBack {
 
+    /**
+     * CallBack: Applied in DatabaseHandler when load book from firebase and add the matched book to CallBack,
+     * then we can access this book in another activity or fragment
+     * @param book*/
     void onCallback(Book book);
 
 }

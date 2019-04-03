@@ -101,6 +101,14 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
         // Required empty public constructor
     }
 
+
+    /**
+     * Create "AddBookFragmentView", set the related layout for the view.
+     * Connect to Firebase
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -170,16 +178,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 is.close();
 
 
-
-//
-//                InputStream is = new URL(urlOfImage).openStream();
-//                /*
-//                    decodeStream(InputStream is)
-//                        Decode an input stream into a bitmap.
-//                 */
-//                logo = BitmapFactory.decodeStream(is);
-
-
             }catch(Exception e){ // Catch the download exception
                 e.printStackTrace();
             }
@@ -212,7 +210,12 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
 
         }
     }
-    
+
+
+    /**
+     * Check if Scanner run, if it is, retrieve data from Google Books by ISBN and fill it to fragment automatically.
+     * After add button click, create new Book and set all details by info filled recently. Then upload Book to firebase
+     * */
     public void onStart() {
         super.onStart();
 
@@ -289,33 +292,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 book.setISBN(ISBN);
                 book.setStatus(BookStatus.AVAILABLE);
                 book.setOwner(current_userName);
-
-
-
-//                if (bmp != null) {
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    bmp.compress(CompressFormat.PNG, 100, stream);
-//                    byte[] byteArray = stream.toByteArray();
-//
-//                    book = new Book();
-//                    book.setTitle(title);
-//                    book.setAuthor(author);
-//                    book.setDescription(description);
-//                    book.setISBN(ISBN);
-//                    book.setStatus(BookStatus.AVAILABLE);
-//                    book.setOwner(current_userName);
-//                    //book.setImage(byteArray);
-//
-//
-//                } else {
-//                    book = new Book();
-//                    book.setTitle(title);
-//                    book.setAuthor(author);
-//                    book.setDescription(description);
-//                    book.setISBN(ISBN);
-//                    book.setStatus(BookStatus.AVAILABLE);
-//                    book.setOwner(current_userName);
-//                }
 
                 System.out.println("current username is: " + current_userName);
                 dh = DatabaseHandler.getInstance(getActivity());

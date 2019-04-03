@@ -41,6 +41,10 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         // Required empty public constructor
     }
 
+
+    /**
+     * Create BorrowedBookFragment,
+     * retrieve all book borrowed by user from firebase when fragment is created*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         borrowedBookList = new ArrayList<>();
         adapter = new BookRecyclerViewAdapter(getContext(), borrowedBookList);
         recyclerView.setAdapter(adapter);
+
+
 
         preferences = PreferenceManager.getDefaultSharedPreferences(BorrowedBookView.getContext());
         String current_userName = preferences.getString("current_userName", "n/a");
@@ -87,27 +93,9 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
             }
         });
 
-//        TempList();
-
 
         return BorrowedBookView;
     }
 
 
-    public void TempList(){
-
-        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
-
-        Book testBook;
-        testBook = new Book("Second Book", "Second Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-        borrowedBookList.add(testBook);
-        testBook = new Book("Forth Book", "Forth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-        borrowedBookList.add(testBook);
-        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-        borrowedBookList.add(testBook);
-        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-        borrowedBookList.add(testBook);
-        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
-        borrowedBookList.add(testBook);
-    }
 }
