@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -138,6 +139,7 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
         final Button locationButton = findViewById(R.id.locationButton);
         final Button ScanButton = findViewById(R.id.ScanButton);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
+        final ImageView bookCover = findViewById(R.id.bookCover);
 
         bookTitleTextView.setText(title);
         authorTextView.setText(author);
@@ -148,6 +150,9 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
         Book testBook = new Book(title, author, isbn, "Test user1", BookStatus.AVAILABLE, "Description", "SSN", null);
         Review dummyReview = new Review(user1.getUserName());
 
+        DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+
+        dh.retrieveImageFromFirebase(isbn, bookCover);
 
         DatabaseReference reviewReference = databaseReference.child("Reviews");
         reviewReference.child(isbn).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -199,7 +204,7 @@ public class AcceptedBookDetailsActivity extends AppCompatActivity {
                 preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String current_userName = preferences.getString("current_userName", "n/a");
 
-                DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
+
                 dh.receiveAcceptedBooks(book, current_userName);
 
                 dh.createToast("You have received the book");

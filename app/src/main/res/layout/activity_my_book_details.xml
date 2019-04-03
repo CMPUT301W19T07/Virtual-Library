@@ -33,18 +33,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="125dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="18dp"
-        android:maxEms="20"
-
-        android:singleLine="true"
         android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+
+        android:maxEms="20"
         android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18dp"
 
 
         android:textStyle="bold"
@@ -58,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/BookTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/BookTitleTextView" />
 
@@ -68,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/AuthorTextView"
         app:layout_constraintTop_toBottomOf="@+id/AuthorTextView" />
 
@@ -91,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Description"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/bookCover"
@@ -102,6 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Reviews"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
@@ -208,7 +209,7 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:text="View all Reviews"
-        android:textColor="@android:color/tertiary_text_light"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/User3Comment"

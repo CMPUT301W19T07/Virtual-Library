@@ -23,7 +23,8 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
-        android:text="@string/book_title" />
+        android:text="@string/book_title"
+        android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/enterTitleView"
@@ -41,9 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="120dp"
-        android:text="@string/book_author" />
+        android:layout_marginRight="24dp"
+        android:text="@string/book_author"
+        android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/enterAuthorView"
@@ -61,9 +63,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="216dp"
-        android:text="@string/book_ISBN" />
+        android:layout_marginRight="24dp"
+        android:text="@string/book_ISBN"
+        android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/enterISBNView"
@@ -81,9 +84,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="312dp"
-        android:text="@string/book_description" />
+        android:layout_marginRight="24dp"
+        android:text="@string/book_description"
+        android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/enterDescriptionView"

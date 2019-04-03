@@ -33,7 +33,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/bookCover"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/BookTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/BookTitleTextView" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/AuthorTextView"
         app:layout_constraintTop_toBottomOf="@+id/AuthorTextView" />
 
@@ -77,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Description"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/bookCover"
@@ -88,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Reviews"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/DescriptionTextView"
@@ -195,7 +197,7 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:text="View all Reviews"
-        android:textColor="@android:color/tertiary_text_light"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/User3Comment"
@@ -205,14 +207,11 @@
         android:id="@+id/RequestButton"
         android:layout_width="111dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:text="@string/Request_Button"
         android:textColor="@color/iconWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.729"
-        app:layout_constraintStart_toEndOf="@+id/User1Rating"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionTextView" />
 </android.support.constraint.ConstraintLayout>

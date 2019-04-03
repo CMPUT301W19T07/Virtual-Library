@@ -23,6 +23,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Comment"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +46,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Rating"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CommentEditText" />
 

@@ -4,5 +4,9 @@
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#FF4081</color>
     <color name="iconWhite">#FDFEFE</color>
-    <color name="black">#000000</color>>
+    <color name="black">#000000</color>
+    <color name="maroon">#451E3E</color>
+    <color name="DarkMaroon">#651E3E</color>
+    <color name="LightMaroon">#851E3E</color>
+    <color name="VeryDarkMaroon">#251E3E</color>
 </resources>

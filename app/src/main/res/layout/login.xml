@@ -25,6 +25,7 @@
         android:layout_marginEnd="64dp"
         android:text="@string/Welcome"
         android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         android:text="@string/app_name"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,13 +92,13 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
-        android:text="Or Sign Up"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="72dp"
+        android:text="OR"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logInButton" />
 
@@ -105,15 +107,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="64dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:background="@android:drawable/screen_background_light_transparent"
         android:onClick="signUp"
         android:text="Sign Up Now"
-        android:textColor="@color/iconWhite"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/logInButton" />
 
     <ProgressBar
         android:id="@+id/progressBar"
