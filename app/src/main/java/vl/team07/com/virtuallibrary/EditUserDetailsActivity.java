@@ -10,6 +10,7 @@
 
 package vl.team07.com.virtuallibrary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -27,6 +28,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class EditUserDetailsActivity extends AppCompatActivity {
 
     private ImageView imageView;
@@ -34,57 +40,64 @@ public class EditUserDetailsActivity extends AppCompatActivity {
     private Button acceptChanges;
     SharedPreferences preferences;
     SharedPreferences.Editor edit;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_details);
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-
-        String fullName = extras.getString("NAME");
-        String userName = extras.getString("USERNAME");
-        String age = extras.getString("AGE");
-        String nationality = extras.getString("NATIONALITY");
-        String eMail = extras.getString("EMAIL");
-        String address = extras.getString("ADDRESS");
 
         EditText nameText = findViewById(R.id.nameText);
-        TextView username = findViewById(R.id.usernameText);
         EditText Age = findViewById(R.id.ageText);
         EditText Nationality = findViewById(R.id.nationalityText);
-        TextView Email = findViewById(R.id.userEmail);
-        TextView Address = findViewById(R.id.addressText);
         imageView = findViewById(R.id.imageView2);
         acceptChanges = findViewById(R.id.acceptChangesBtn);
 
-        nameText.setText(fullName);
-        username.setText(userName);
-        Age.setText(age);
-        Nationality.setText(nationality);
-        Email.setText(eMail);
-        Address.setText(address);
 
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseUser = firebaseAuth.getCurrentUser();
+//        String logEmail = firebaseUser.getEmail();
+        DatabaseHandler dh = DatabaseHandler.getInstance(getApplicationContext());
 
-        DatabaseHandler dh = DatabaseHandler.getInstance(this);
-        dh.retrieveUserImageFromFirebase(username.toString(), imageView);
+//        dh.loadUserInfo(logEmail, new UserCallBack() {
+//            @Override
+//            public void onCallBack(User user) {
+//                dh.retrieveUserImageFromFirebase(user.getUserName(), imageView);
+//            }
+//        });
+
 
         acceptChanges.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                User user = new User(username.toString(), nameText.toString(), Email.toString());
 
-                DatabaseHandler dh = DatabaseHandler.getInstance(EditUserDetailsActivity.this);
-                dh.addUser(user);
-                dh.uploadUserImageToFirebase(bmp, user);
-                Toast toast = Toast.makeText(EditUserDetailsActivity.this, "Changes made successfully!", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
-                toast.show();
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseUser = firebaseAuth.getCurrentUser();
+                String logEmail = firebaseUser.getEmail();
+                DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getApplicationContext());
 
-                edit.putString("current_userName", username.toString());
-                edit.commit();
+                databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
+                    @Override
+                    public void onCallBack(User user) {
+                        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+                        dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
+                        dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
+                        dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
+
+                        dh.uploadUserImageToFirebase(bmp, user);
+                        Toast toast = Toast.makeText(EditUserDetailsActivity.this, "Changes made successfully!", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
+                        toast.show();
+
+                        edit.putString("current_userName", user.getUserName());
+                        edit.commit();
+                    }
+                });
+
             }
         });
 

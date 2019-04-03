@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/ic_person_outline_black_24dp" />
+        android:src="@android:drawable/ic_menu_gallery" />
 
     <TextView
         android:id="@+id/nameText"
@@ -59,15 +59,6 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/contact_info" />
-
-    <TextView
-        android:id="@+id/addressText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/address" />
 
     <Button
         android:id="@+id/editDetails"

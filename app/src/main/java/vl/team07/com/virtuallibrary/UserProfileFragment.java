@@ -67,7 +67,6 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         ageText = (TextView) UserProfileView.findViewById(R.id.ageText);
         nationalityText = (TextView) UserProfileView.findViewById(R.id.nationalityText);
         contactInfoText = (TextView) UserProfileView.findViewById(R.id.contactInfoText);
-        addressText = (TextView) UserProfileView.findViewById(R.id.addressText);
         imageView = UserProfileView.findViewById(R.id.imageView2);
 
         signOut = UserProfileView.findViewById(R.id.signOutBtn);
@@ -85,28 +84,9 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
         editDetails.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth = FirebaseAuth.getInstance();
-                firebaseUser = firebaseAuth.getCurrentUser();
-                String logEmail = firebaseUser.getEmail();
-                DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
-
-                databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
-                    @Override
-                    public void onCallBack(User user) {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, EditUserDetailsActivity.class);
-                        Bundle extras = new Bundle();
-                        extras.putString("NAME", user.getName());
-                        extras.putString("USERNAME", user.getUserName());
-                        extras.putString("AGE", String.valueOf(user.getAge()));
-                        extras.putString("NATIONALITY", user.getNationality());
-                        extras.putString("EMAIL", user.getEmail());
-                        extras.putString("ADDRESS", "randomAddress");
-
-                        intent.putExtras(extras);
-                        context.startActivity(intent);
-                    }
-                });
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EditUserDetailsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -134,25 +114,40 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
 
 
     // Temp use to test
-    public void setUserInfo(){
+    public void setUserInfo() {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String logEmail = firebaseUser.getEmail();
 
+        DatabaseHandler databaseHandler = DatabaseHandler.getInstance(getContext());
 
-        // User should be replaced by load from firebase
-        User user = new User("Test username", "Test name", "0", "Test email", 18, "Canada", 0, "Edmonton");
+        databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
+            @Override
+            public void onCallBack(User user) {
 
-        nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
-        usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
-        ageText.setText(String.format(Locale.CANADA, "Age: %d", user.getAge()));
-        nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
-        contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
-        addressText.setText(String.format(Locale.CANADA, "Address: %s", user.getAddress()));
+                nameText.setText(String.format(Locale.CANADA, "Name: %s", user.getName()));
+                usernameText.setText(String.format(Locale.CANADA, "Username: %s", user.getUserName()));
+                contactInfoText.setText(String.format(Locale.CANADA, "Contact Info: %s", firebaseUser.getEmail()));
+
+                databaseHandler.retrieveUserImageFromFirebase(user.getUserName(), imageView);
+
+                if (user.getAge() != 0) {
+                    ageText.setText(String.format(Locale.CANADA, "Age: %d", user.getAge()));
+                } else {
+                    ageText.setText(String.format(Locale.CANADA, "Age: Not shown."));
+                }
+
+                if (user.getNationality() != null) {
+                    nationalityText.setText(String.format(Locale.CANADA, "Nationality: %s", user.getNationality()));
+                } else {
+                    nationalityText.setText(String.format(Locale.CANADA, "Nationality: Not shown."));
+                }
+
+            }
+        });
+
 
     }
-
-
 }
