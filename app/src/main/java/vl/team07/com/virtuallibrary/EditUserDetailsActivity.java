@@ -68,6 +68,9 @@ public class EditUserDetailsActivity extends AppCompatActivity {
 //        });
 
 
+        Bitmap bmp_old = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+
         acceptChanges.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,16 +84,26 @@ public class EditUserDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onCallBack(User user) {
                         Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                        databaseHandler.uploadUserImageToFirebase(bmp, user);
+
+                        if(bmp_old != bmp){
+                            databaseHandler.uploadUserImageToFirebase(bmp, user);
+                        }
 
                         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-                        dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
-                        dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
-                        dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
+                        if(!nameText.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("name").setValue(nameText.getText().toString());
+                        }
+                        if(!Nationality.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("nationality").setValue(Nationality.getText().toString());
+                        }
+                        if(!Age.getText().toString().isEmpty()){
+                            dbRef.child("Users").child(user.getUserName()).child("age").setValue(Integer.parseInt(Age.getText().toString()));
+                        }
 
                         Toast toast = Toast.makeText(EditUserDetailsActivity.this, "Changes made successfully!", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 600);
                         toast.show();
+
                     }
                 });
 
