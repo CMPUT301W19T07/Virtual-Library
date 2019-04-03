@@ -534,10 +534,10 @@ public class DatabaseHandler {
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
                             Uri imageURI = task.getResult();
-                            DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference()
-                                    .child("Books").child(String.valueOf(book.getISBN()));
-
-                            bookRef.child("image").setValue(imageURI.toString());
+//                            DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference()
+//                                    .child("Books").child(String.valueOf(book.getISBN()));
+//
+//                            bookRef.child("image").setValue(imageURI.toString());
                         }
                         else {
                             createToast("Failed!");
