@@ -565,6 +565,86 @@ public class DatabaseHandler {
     }
 
     /**
+     * This method retrieves the use profile picture from the firebase storage.
+     * @param userName
+     * @param userPicture
+     */
+
+    public void retrieveUserImageFromFirebase(String userName, ImageView userPicture) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.
+                getReferenceFromUrl("gs://virtuallibrary-12090.appspot.com/").
+                child("imagesUser/"+ userName + ".png");
+
+
+        try {
+            final File localFile = File.createTempFile("imagesU", "png");
+            myDbStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    userPicture.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        } catch (IOException e ) {}
+    }
+
+    /**
+     * Storing the user profile image in Firebase storage
+     * @param bmp
+     * @param user
+     */
+
+    public void uploadUserImageToFirebase (Bitmap bmp, User user) {
+        myDbStorage = FirebaseStorage.getInstance();
+        myDbStorageRef = myDbStorage.getReference();
+
+        final StorageReference ImagesRef = myDbStorageRef.child("imagesUser/"+user.getUserName()+".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        final UploadTask uploadTask = ImagesRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                createToast("Failed to add image");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.i("problem", task.getException().toString());
+                        }
+
+                        return ImagesRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri imageURI = task.getResult();
+                        }
+                        else {
+                            createToast("Failed!");
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    /**
      * Simple method to generate Toast in Android
      * @param toastText
      */
