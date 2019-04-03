@@ -100,7 +100,7 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
                 databaseHandler.loadUserInfo(logEmail, new UserCallBack() {
                     @Override
                     public void onCallBack(User user) {
-                        
+
                     }
                 });
             }
