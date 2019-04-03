@@ -49,13 +49,14 @@ public class SignUpTest extends ActivityTestRule<SignUp>{
 
         solo.assertCurrentActivity("Wrong Activity", SignUp.class);
 
-        solo.enterText((EditText) solo.getView(R.id.userName), "Craig Miller");
-        solo.enterText((EditText) solo.getView(R.id.Name), "Name");
-        solo.enterText((EditText) solo.getView(R.id.Email), "cjmiller@ualberta.ca");
+        solo.enterText((EditText) solo.getView(R.id.userName), "darrenTestYoung");
+        solo.enterText((EditText) solo.getView(R.id.Name), "Darren Young (Test)");
+        solo.enterText((EditText) solo.getView(R.id.Email), "dyoung@mit.com");
+        solo.enterText((EditText) solo.getView(R.id.passWordSU), "dyoung123");
 
         solo.clickOnButton("Sign Up");
 
-        solo.assertCurrentActivity("Wrong Activity", LogIn.class);
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     @After

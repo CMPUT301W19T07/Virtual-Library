@@ -56,18 +56,6 @@ public class EditUserDetailsActivity extends AppCompatActivity {
         acceptChanges = findViewById(R.id.acceptChangesBtn);
 
 
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        firebaseUser = firebaseAuth.getCurrentUser();
-//        String logEmail = firebaseUser.getEmail();
-
-//        dh.loadUserInfo(logEmail, new UserCallBack() {
-//            @Override
-//            public void onCallBack(User user) {
-//                dh.retrieveUserImageFromFirebase(user.getUserName(), imageView);
-//            }
-//        });
-
-
         Bitmap bmp_old = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
 
@@ -109,7 +97,6 @@ public class EditUserDetailsActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         /**
