@@ -31,7 +31,13 @@ import java.util.ArrayList;
 
 public class RequestedBookDetailsActivity extends AppCompatActivity {
     ArrayList<Review> reviewList = new ArrayList<Review>();
+    /**
+     * The Title.
+     */
     String title;
+    /**
+     * The Author.
+     */
     String author;
     String isbn;
 
@@ -78,7 +84,7 @@ public class RequestedBookDetailsActivity extends AppCompatActivity {
         final TextView Reviewer2Rating = findViewById(R.id.User2Rating);
         final TextView Reviewer3Rating = findViewById(R.id.User3Rating);
         final Button ViewCommentsButton = findViewById(R.id.ViewAllComments);
-
+        final Button EditButton = findViewById(R.id.EditButton);
 
 
         User user1 = new User("Test user1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
@@ -131,9 +137,28 @@ public class RequestedBookDetailsActivity extends AppCompatActivity {
         });
 
 
-
+        EditButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Allows the user to display the books data and edit it
+             */
+            @Override
+            public void onClick(View v){
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EditBookDetailsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("TITLE", title);
+                extras.putString("AUTHOR", author);
+                extras.putString("ISBN", isbn);
+                extras.putString("DESCRIPTION", description);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+            }
+        });
 
         ViewCommentsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Shows the list of reviews attached to the book
+             */
             @Override
             public void onClick(View v){
                 Context context = v.getContext();
@@ -147,6 +172,32 @@ public class RequestedBookDetailsActivity extends AppCompatActivity {
                 context.startActivity(intent);
             }
         });
+
+
+    }
+
+    /**
+     * Temp list of test data
+     */
+    public void TempList(){
+        User user1 = new User("Testusername1", "Test name1", "0", "Test email", 0, "Canada", 0, "");
+        Book testBook = new Book(title, author, isbn, "Testusername1", BookStatus.AVAILABLE, "Description","SSN",null);
+        Review testReview1 = new Review(user1.getUserName());
+        testReview1.setRating(4.9);
+        testReview1.setComment("This is reviewer 1's comment");
+        reviewList.add(testReview1);
+
+        User user2 = new User("Testusername2", "Test name2", "0", "Test email", 0, "Canada", 0, "");
+        Review testReview2 = new Review(user2.getUserName());
+        testReview2.setRating(4.4);
+        testReview2.setComment("This is reviewer 2's comment");
+        reviewList.add(testReview2);
+
+        User user3 = new User("Testusername3", "Test name3", "0", "Test email", 0, "Canada", 0, "");
+        Review testReview3 = new Review(user3.getUserName());
+        testReview3.setRating(4.7);
+        testReview3.setComment("This is reviewer 3's comment");
+        reviewList.add(testReview3);
 
     }
 }

@@ -15,7 +15,13 @@ import android.media.Image;
 import android.widget.ImageView;
 
 /**
+ *
+ * The type Book. This is used to store all the information about a given book.
+ *
  * Created by MTX on 2019-02-24.
+ *
+ * @version 1.0
+ * @since 1.0
  */
 
 public class Book {

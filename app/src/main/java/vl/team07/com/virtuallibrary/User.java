@@ -14,9 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains data about the user
+ *
  * Created by MTX on 2019-02-24.
+ *
+ * @version 1.0
+ * @since 1.0
  */
-
 public class User {
 
     private String UserName;
@@ -62,36 +66,106 @@ public class User {
         this.BorrowedBookList = new ArrayList<Book>();
     }
 
+    /**
+     * Set user name.
+     *
+     * @param inputUserName the input user name
+     */
     public void setUserName(String inputUserName){this.UserName = inputUserName;}
 
+    /**
+     * Set name.
+     *
+     * @param inputName the input name
+     */
     public void setName(String inputName){this.Name = inputName;}
 
     public void setPassword(String inputPassword){this.Password = inputPassword;}
 
+    /**
+     * Set email.
+     *
+     * @param inputEmail the input email
+     */
     public void setEmail(String inputEmail){this.Email = inputEmail;}
 
+    /**
+     * Set age.
+     *
+     * @param inputAge the input age
+     */
     public void setAge(int inputAge){this.Age = inputAge;}
 
+    /**
+     * Set nationality.
+     *
+     * @param inputNationality the input nationality
+     */
     public void setNationality(String inputNationality){this.Nationality = inputNationality;}
 
+    /**
+     * Set contact info.
+     *
+     * @param inputContactInfo the input contact info
+     */
     public void setContactInfo(int inputContactInfo){this.ContactInfo = inputContactInfo;}
 
+    /**
+     * Set address.
+     *
+     * @param inputAddress the input address
+     */
     public void setAddress(String inputAddress){this.Address = inputAddress;}
 
+    /**
+     * Get user name string.
+     *
+     * @return the string
+     */
     public String getUserName(){return this.UserName;}
 
+    /**
+     * Get name string.
+     *
+     * @return the string
+     */
     public String getName(){return this.Name;}
 
     public String getPassword(){return this.Password;}
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){return this.Email;}
 
+    /**
+     * Get age int.
+     *
+     * @return the int
+     */
     public int getAge(){return this.Age;}
 
+    /**
+     * Get nationality string.
+     *
+     * @return the string
+     */
     public String getNationality(){return this.Nationality;}
 
+    /**
+     * Get contact info int.
+     *
+     * @return the int
+     */
     public int getContactInfo(){return this.ContactInfo;}
 
+    /**
+     * Get address string.
+     *
+     * @return the string
+     */
     public String getAddress(){return this.Address;}
 
     public void setOwnedBookList(ArrayList<Book> bookList){

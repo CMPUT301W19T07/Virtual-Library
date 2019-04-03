@@ -32,6 +32,12 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+/**
+ * The type Request activity.
+ * Shows a display of the requests
+ * @version 1.0
+ * @since 1.0
+ */
 public class RequestActivity extends AppCompatActivity {
 
     private ListView RequestListView;
@@ -63,6 +69,8 @@ public class RequestActivity extends AppCompatActivity {
         TempList();
 //        saveInFile();
 //        loadFromFile();
+
+
 
 
         Intent intent = getIntent();

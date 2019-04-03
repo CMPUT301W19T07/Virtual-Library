@@ -22,11 +22,24 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * The type Request list adapter.
+ * A recyclerview adapter for Requests
+ * @version 1.0
+ * @since 1.0
+ */
 public class RequestListAdapter extends ArrayAdapter<Request> {
 
     private int resourceLayout;
     private Context mContext;
 
+    /**
+     * Instantiates a new Request list adapter.
+     *
+     * @param context  the context
+     * @param resource the resource
+     * @param items    the items
+     */
     public RequestListAdapter(Context context, int resource, List<Request> items) {
         super(context, resource, items);
         this.resourceLayout = resource;
@@ -34,7 +47,9 @@ public class RequestListAdapter extends ArrayAdapter<Request> {
     }
 
 
-
+    /**
+     * Shows the details of a request
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

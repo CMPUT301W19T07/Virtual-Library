@@ -25,7 +25,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-
+/**
+ * Holds the data of a given book that is borrowed
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class BorrowedBookFragment extends android.support.v4.app.Fragment {
 
 
@@ -40,11 +45,9 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
     public BorrowedBookFragment() {
         // Required empty public constructor
     }
-
-
     /**
-     * Create BorrowedBookFragment,
-     * retrieve all book borrowed by user from firebase when fragment is created*/
+     * Creates the display for borrowed books
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +70,9 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
 
 
         adapter.setClickListener(new View.OnClickListener() {
+            /**
+             * Sends the book's data over to the display page once click
+             */
             @Override
             public void onClick(View v) {
                 int position = recyclerView.indexOfChild(v);
@@ -99,5 +105,23 @@ public class BorrowedBookFragment extends android.support.v4.app.Fragment {
         return BorrowedBookView;
     }
 
+    /**
+     * Contains test data
+     */
+    public void TempList(){
 
+        User user = new User("Test user", "Test name", "0", "Test email", 0, "Canada", 0, "");
+
+        Book testBook;
+        testBook = new Book("Second Book", "Second Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
+        borrowedBookList.add(testBook);
+        testBook = new Book("Forth Book", "Forth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
+        borrowedBookList.add(testBook);
+        testBook = new Book("Sixth Book", "Sixth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
+        borrowedBookList.add(testBook);
+        testBook = new Book("Eighth Book", "Eighth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
+        borrowedBookList.add(testBook);
+        testBook = new Book("Tenth Book", "Tenth Author", "1234567890", "TestUser", BookStatus.BORROWED, "Description","SSN",null);
+        borrowedBookList.add(testBook);
+    }
 }
