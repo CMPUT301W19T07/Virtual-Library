@@ -191,7 +191,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                 Runs on the UI thread after doInBackground(Params...).
          */
         protected void onPostExecute(Bitmap result){
-            System.out.println("BITTTTMAP: " + result);
             imageView.setImageBitmap(result);
         }
     }
@@ -229,7 +228,6 @@ public class AddBookFragment extends android.support.v4.app.Fragment {
                         description = output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getString("description");
                         String URL =  output.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
 
-                        System.out.println("UUUURL: " + URL);
 
                         new DownLoadImageTask(imageView).execute(URL);
                         if(title!=null){
